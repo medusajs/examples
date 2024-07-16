@@ -5,7 +5,7 @@ This directory holds the code for the [Marketplace recipe example](https://docs.
 You can either:
 
 - [install and use it as a Medusa application](#installation);
-- or copy its source files into an existing Medusa application.
+- or [copy its source files into an existing Medusa application](#copy-into-existing-medusa-application).
 
 ## Installation
 
