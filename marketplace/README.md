@@ -54,14 +54,10 @@ If you have an existing Medusa application, copy the content of the following di
 Then, add the Marketplace Module to `medusa-config.js`:
 
 ```js
-import { MARKETPLACE_MODULE } from './src/modules/marketplace'
-
-// ...
-
 module.exports = defineConfig({
   // ...
   modules: {
-    [MARKETPLACE_MODULE]: {
+    marketplaceModuleService: {
       resolve: "./modules/marketplace",
       definition: {
         isQueryable: true
