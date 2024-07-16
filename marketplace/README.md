@@ -16,20 +16,27 @@ git clone https://github.com/medusajs/examples.git
 cd examples/marketplace
 ```
 
-2. Install dependencies:
+2. Rename the `.env.template` file to `.env`, and set the following environment variables:
+
+```bash
+DATABASE_URL=
+POSTGRES_URL=
+```
+
+3. Install dependencies:
 
 ```bash
 yarn # or npm install
 ```
 
-3. Run migrations and seed the database:
+4. Run migrations and seed the database:
 
 ```bash
 npx medusa migrations run
 yarn seed # or npm run seed
 ```
 
-4. Start the Medusa application:
+5. Start the Medusa application:
 
 ```bash
 yarn dev # or npm run dev

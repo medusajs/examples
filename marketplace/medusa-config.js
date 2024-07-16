@@ -1,5 +1,4 @@
 import { loadEnv, defineConfig } from '@medusajs/utils'
-import { MARKETPLACE_MODULE } from './src/modules/marketplace'
 
 loadEnv(process.env.NODE_ENV, process.cwd())
 
@@ -15,7 +14,7 @@ module.exports = defineConfig({
     }
   },
   modules: {
-    [MARKETPLACE_MODULE]: {
+    "marketplaceModuleService": {
       resolve: "./modules/marketplace",
       definition: {
         isQueryable: true
