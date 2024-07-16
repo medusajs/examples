@@ -1,59 +1,52 @@
-import { createWorkflow, transform } from "@medusajs/workflows-sdk"
-import { OrderDTO } from "@medusajs/types"
-import retrieveCartStep from "./steps/retrieve-cart"
+import { createWorkflow } from "@medusajs/workflows-sdk"
+import { 
+  useRemoteQueryStep,
+  createRemoteLinkStep,
+  completeCartWorkflow
+} from "@medusajs/core-flows"
+import { CartDTO } from "@medusajs/types"
 import groupVendorItemsStep from "./steps/group-vendor-items"
-import createParentOrderStep from "./steps/create-parent-order"
-import createVendorOrdersStep, { VendorOrder } from "./steps/create-vendor-orders"
+import createVendorOrdersStep from "./steps/create-vendor-orders"
 
 type WorkflowInput = {
   cart_id: string
 }
 
-type WorkflowOutput = {
-  parent_order: OrderDTO
-  vendor_orders: VendorOrder[]
-}
-
-const createVendorOrdersWorkflow = createWorkflow<
-  WorkflowInput, WorkflowOutput
->(
+const createVendorOrdersWorkflow = createWorkflow(
   "create-vendor-order",
-  (input) => {
-    const { cart } = retrieveCartStep(input)
+  (input: WorkflowInput) => {
+    const cart = useRemoteQueryStep({
+      entry_point: "cart",
+      fields: ['items.*'],
+      variables: { id: input.cart_id },
+      list: false,
+      throw_if_key_not_found: true,
+    }) as CartDTO
 
-    const { order } = createParentOrderStep(input)
-
-    const { vendorsItems } = groupVendorItemsStep(
-      transform({
-        cart
-      },
-      (data) => data
-      )
-    )
-
-    const { orders } = createVendorOrdersStep(
-      transform({
-        order,
-        vendorsItems
-      },
-      (data) => {
-        return {
-          parentOrder: data.order,
-          vendorsItems: data.vendorsItems
-        }
+    const order = completeCartWorkflow.runAsStep({
+      input: {
+        id: cart.id
       }
-      )
-    )
-
-    return transform({
-      order,
-      orders
-    },
-    (data) => ({
-      parent_order: data.order,
-      vendor_orders: data.orders
     })
-    )
+
+    const { vendorsItems } = groupVendorItemsStep({
+      cart
+    })
+
+    const { 
+      orders: vendorOrders, 
+      linkDefs
+    } = createVendorOrdersStep({
+      parentOrder: order,
+      vendorsItems
+    })
+
+    createRemoteLinkStep(linkDefs)
+
+    return {
+      parent_order: order,
+      vendor_orders: vendorOrders
+    }
   }
 )
 
