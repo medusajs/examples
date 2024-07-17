@@ -117,12 +117,13 @@ const createVendorOrdersStep = createStep(
           const items = vendorsItems[vendorId]
           const vendor = vendors.find(v => v.id === vendorId)!
 
-          const {result: childOrder} = await createOrdersWorkflow
-            .run({
-              input: prepareOrderData(items, parentOrder),
-              context,
-              container
-            }) as unknown as { result: VendorOrder }
+          const {result: childOrder} = await createOrdersWorkflow(
+            container
+          )
+          .run({
+            input: prepareOrderData(items, parentOrder),
+            context,
+          }) as unknown as { result: VendorOrder }
 
           childOrder.vendor = vendor
           createdOrders.push(childOrder)
@@ -139,7 +140,7 @@ const createVendorOrdersStep = createStep(
       )
     } catch (e) {
       await Promise.all(createdOrders.map((createdOrder) => {
-        return cancelOrderWorkflow.run({
+        return cancelOrderWorkflow(container).run({
           input: {
             order_id: createdOrder.id,
           },
@@ -160,7 +161,7 @@ const createVendorOrdersStep = createStep(
   },
   async ({ created_orders }, { container, context }) => {  
     await Promise.all(created_orders.map((createdOrder) => {
-      return cancelOrderWorkflow.run({
+      return cancelOrderWorkflow(container).run({
         input: {
           order_id: createdOrder.id,
         },
