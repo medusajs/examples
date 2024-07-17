@@ -63,12 +63,13 @@ const createSubscriptionOrderStep = createStep(
   "create-subscription-order",
   async ({ 
     subscription, cart, payment_collection
-  }: StepInput, { container }) => {
+  }: StepInput, { container, context }) => {
     const linkDefs: LinkDefinition[] = []
 
     const { result: order } = await createOrdersWorkflow(container)
       .run({
-        input: getOrderData(cart)
+        input: getOrderData(cart),
+        context
       })
 
     linkDefs.push({
