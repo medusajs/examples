@@ -32,7 +32,7 @@ yarn # or npm install
 4. Run migrations and seed the database:
 
 ```bash
-npx medusa migrations run
+npx medusa migrations run && npx medusa links sync
 yarn seed # or npm run seed
 ```
 
@@ -58,10 +58,7 @@ module.exports = defineConfig({
   // ...
   modules: {
     marketplaceModuleService: {
-      resolve: "./modules/marketplace",
-      definition: {
-        isQueryable: true
-      }
+      resolve: "./modules/marketplace"
     }
   }
 })
@@ -70,7 +67,7 @@ module.exports = defineConfig({
 And run the migrations before starting the Medusa application:
 
 ```bash
-npx medusa migrations run
+npx medusa migrations run && npx medusa links sync
 ```
 
 ## More Resources
