@@ -19,7 +19,16 @@ const createVendorAdminStep = createStep(
       adminData
     )
 
-    return new StepResponse(vendorAdmin)
+    return new StepResponse(
+      vendorAdmin,
+      vendorAdmin
+    )
+  },
+  async (vendorAdmin, { container }) => {
+    const marketplaceModuleService: MarketplaceModuleService = 
+      container.resolve(MARKETPLACE_MODULE)
+
+    marketplaceModuleService.deleteVendorAdmins(vendorAdmin.id)
   }
 )
 
