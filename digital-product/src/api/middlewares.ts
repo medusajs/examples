@@ -1,5 +1,5 @@
 import { 
-  MiddlewaresConfig, 
+  defineMiddlewares, 
 } from "@medusajs/medusa"
 import { 
   validateAndTransformBody
@@ -9,7 +9,7 @@ import multer from "multer"
 
 const upload = multer({ storage: multer.memoryStorage() })
 
-export const config: MiddlewaresConfig = {
+export default defineMiddlewares({
   routes: [
     {
       matcher: "/admin/digital-products",
@@ -26,4 +26,4 @@ export const config: MiddlewaresConfig = {
       ]
     }
   ],
-}
+})
