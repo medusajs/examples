@@ -1,8 +1,8 @@
-import { MiddlewaresConfig, authenticate } from "@medusajs/medusa"
+import { defineMiddlewares, authenticate } from "@medusajs/medusa"
 import { validateAndTransformBody } from "@medusajs/medusa/dist/api/utils/validate-body"
 import { AdminCreateProduct } from "@medusajs/medusa/dist/api/admin/products/validators"
 
-export const config: MiddlewaresConfig = {
+export default defineMiddlewares({
   routes: [
     {
       matcher: "/vendors",
@@ -29,3 +29,4 @@ export const config: MiddlewaresConfig = {
     }
   ],
 }
+)
