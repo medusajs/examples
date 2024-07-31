@@ -1,7 +1,8 @@
 import {
   createWorkflow,
   transform,
-  when
+  when,
+  WorkflowResponse
 } from "@medusajs/workflows-sdk"
 import {
   completeCartWorkflow,
@@ -72,10 +73,10 @@ const createDigitalProductOrderWorkflow = createWorkflow(
       return digital_product_order
     })
 
-    return {
+    return new WorkflowResponse({
       order,
       digital_product_order
-    }
+    })
   }
 )
 

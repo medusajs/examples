@@ -1,6 +1,7 @@
 import { 
   createWorkflow,
-  transform
+  transform,
+  WorkflowResponse
 } from "@medusajs/workflows-sdk"
 import {
   CreateProductWorkflowInputDTO
@@ -65,12 +66,12 @@ const createDigitalProductWorkflow = createWorkflow(
       }
     }])
 
-    return {
+    return new WorkflowResponse({
       digital_product: {
         ...digital_product,
         medias: digital_product_medias
       }
-    }
+    })
   }
 )
 
