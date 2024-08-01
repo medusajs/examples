@@ -1,4 +1,7 @@
-import { createWorkflow } from "@medusajs/workflows-sdk"
+import { 
+  createWorkflow,
+  WorkflowResponse
+} from "@medusajs/workflows-sdk"
 import { 
   useRemoteQueryStep,
   createRemoteLinkStep,
@@ -43,10 +46,10 @@ const createVendorOrdersWorkflow = createWorkflow(
 
     createRemoteLinkStep(linkDefs)
 
-    return {
+    return new WorkflowResponse({
       parent_order: order,
       vendor_orders: vendorOrders
-    }
+    })
   }
 )
 

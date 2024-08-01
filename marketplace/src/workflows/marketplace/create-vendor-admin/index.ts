@@ -1,4 +1,7 @@
-import { createWorkflow } from "@medusajs/workflows-sdk"
+import { 
+  createWorkflow,
+  WorkflowResponse
+} from "@medusajs/workflows-sdk"
 import { 
   setAuthAppMetadataStep,
 } from "@medusajs/core-flows"
@@ -21,11 +24,9 @@ type CreateVendorAdminWorkflowOutput = {
   email: string
 }
 
-const createVendorAdminWorkflow = createWorkflow<
-  CreateVendorAdminWorkflowInput, CreateVendorAdminWorkflowOutput
->(
+const createVendorAdminWorkflow = createWorkflow(
   "create-vendor-admin",
-  function (input) {
+  function (input: CreateVendorAdminWorkflowInput) {
     const vendorAdmin = createVendorAdminStep({
       admin: input.admin,
     })
@@ -36,7 +37,7 @@ const createVendorAdminWorkflow = createWorkflow<
       value: vendorAdmin.id,
     })
 
-    return vendorAdmin
+    return new WorkflowResponse(vendorAdmin)
   }
 )
 
