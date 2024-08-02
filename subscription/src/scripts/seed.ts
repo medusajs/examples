@@ -106,6 +106,34 @@ export default async function seedDemoData({ container }: ExecArgs) {
   });
   logger.info("Finished seeding tax regions.");
 
+  logger.info("Seeding stock location data...");
+  const { result: stockLocationResult } = await createStockLocationsWorkflow(
+    container
+  ).run({
+    input: {
+      locations: [
+        {
+          name: "European Warehouse",
+          address: {
+            city: "Copenhagen",
+            country_code: "DK",
+            address_1: "",
+          },
+        },
+      ],
+    },
+  });
+  const stockLocation = stockLocationResult[0];
+
+  await remoteLink.create({
+    [Modules.STOCK_LOCATION]: {
+      stock_location_id: stockLocation.id,
+    },
+    [Modules.FULFILLMENT]: {
+      fulfillment_provider_id: "manual_manual",
+    },
+  });
+
   logger.info("Seeding fulfillment data...");
   const { result: shippingProfileResult } =
     await createShippingProfilesWorkflow(container).run({
@@ -122,7 +150,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
 
   const fulfillmentSet = await fulfillmentModuleService.createFulfillmentSets({
     name: "European Warehouse delivery",
-    type: "delivery",
+    type: "shipping",
     service_zones: [
       {
         name: "Europe",
@@ -158,6 +186,15 @@ export default async function seedDemoData({ container }: ExecArgs) {
         ],
       },
     ],
+  });
+
+  await remoteLink.create({
+    [Modules.STOCK_LOCATION]: {
+      stock_location_id: stockLocation.id,
+    },
+    [Modules.FULFILLMENT]: {
+      fulfillment_set_id: fulfillmentSet.id,
+    },
   });
 
   await createShippingOptionsWorkflow(container).run({
@@ -242,38 +279,10 @@ export default async function seedDemoData({ container }: ExecArgs) {
   });
   logger.info("Finished seeding fulfillment data.");
 
-  logger.info("Seeding stock location data...");
-  const { result: stockLocationResult } = await createStockLocationsWorkflow(
-    container
-  ).run({
-    input: {
-      locations: [
-        {
-          name: "European Warehouse",
-          address: {
-            city: "Copenhagen",
-            country_code: "DK",
-            address_1: "",
-          },
-        },
-      ],
-    },
-  });
-  const stockLocation = stockLocationResult[0];
-
   await linkSalesChannelsToStockLocationWorkflow(container).run({
     input: {
       id: stockLocation.id,
       add: [defaultSalesChannel[0].id],
-    },
-  });
-
-  await remoteLink.create({
-    [Modules.STOCK_LOCATION]: {
-      stock_location_id: stockLocation.id,
-    },
-    [Modules.FULFILLMENT]: {
-      fulfillment_set_id: fulfillmentSet.id,
     },
   });
   logger.info("Finished seeding stock location data.");
