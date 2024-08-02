@@ -21,6 +21,21 @@ module.exports = defineConfig({
   modules: {
     digitalProductModuleService: {
       resolve: "./modules/digital-product"
-    }
+    },
+    [Modules.FULFILLMENT]: {
+      resolve: "@medusajs/fulfillment",
+      options: {
+        providers: [
+          {
+            resolve: "@medusajs/fulfillment-manual",
+            id: "manual",
+          },
+          {
+            resolve: "./modules/digital-product-fulfillment",
+            id: "digital"
+          }
+        ],
+      },
+    },
   }
 })

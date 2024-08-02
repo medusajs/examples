@@ -7,7 +7,9 @@ import {
 import {
   completeCartWorkflow,
   useRemoteQueryStep,
-  createRemoteLinkStep
+  createRemoteLinkStep,
+  createOrderFulfillmentWorkflow,
+  emitEventStep
 } from "@medusajs/core-flows"
 import {
   Modules
@@ -69,6 +71,27 @@ const createDigitalProductOrderWorkflow = createWorkflow(
           order_id: order.id
         }
       }])
+
+      createOrderFulfillmentWorkflow.runAsStep({
+        input: {
+          order_id: order.id,
+          items: transform({
+            itemsWithDigitalProducts
+          }, (data) => {
+            return data.itemsWithDigitalProducts.map((item) => ({
+              id: item.id,
+              quantity: item.quantity
+            }))
+          })
+        }
+      })
+  
+      emitEventStep({
+        eventName: "digital_product_order.created",
+        data: {
+          id: digital_product_order.id
+        }
+      })
 
       return digital_product_order
     })
