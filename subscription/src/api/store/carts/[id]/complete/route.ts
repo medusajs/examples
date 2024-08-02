@@ -26,7 +26,7 @@ export const POST = async (
     }
   })
   
-  const { metadata } = await remoteQuery(query)
+  const { metadata } = (await remoteQuery(query))[0]
 
   if (!metadata?.subscription_interval || !metadata.subscription_period) {
     throw new MedusaError(
