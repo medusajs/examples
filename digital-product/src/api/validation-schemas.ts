@@ -11,5 +11,5 @@ export const createDigitalProductsSchema = z.object({
     file_id: z.string(),
     mime_type: z.string()
   })),
-  product: AdminCreateProduct
+  product: AdminCreateProduct()
 })
