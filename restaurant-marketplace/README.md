@@ -16,11 +16,10 @@ git clone https://github.com/medusajs/examples.git
 cd examples/restaurant-marketplace
 ```
 
-2. Rename the `.env.template` file to `.env`, and set the following environment variables:
+2. Rename the `.env.template` file to `.env`, and set the following environment variable:
 
 ```bash
 DATABASE_URL=
-POSTGRES_URL=
 ```
 
 3. Install dependencies:
