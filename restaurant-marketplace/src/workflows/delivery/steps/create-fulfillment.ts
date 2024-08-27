@@ -33,6 +33,6 @@ export const createFulfillmentStep = createStep(
       ModuleRegistrationName.FULFILLMENT
     );
 
-    return fulfillmentModuleService.softDeleteFulfillmentSets([id]);
+    return fulfillmentModuleService.cancelFulfillment(id);
   }
 );
