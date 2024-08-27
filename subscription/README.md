@@ -16,11 +16,10 @@ git clone https://github.com/medusajs/examples.git
 cd examples/subscription
 ```
 
-2. Rename the `.env.template` file to `.env`, and set the following environment variables:
+2. Rename the `.env.template` file to `.env`, and set the following environment variable:
 
 ```bash
 DATABASE_URL=
-POSTGRES_URL=
 ```
 
 3. Install dependencies:
@@ -33,6 +32,7 @@ yarn # or npm install
 
 ```bash
 npx medusa migrations run
+npx medusa links sync
 yarn seed # or npm run seed
 ```
 
@@ -73,6 +73,7 @@ And run the migrations before starting the Medusa application:
 
 ```bash
 npx medusa migrations run
+npx medusa links sync
 ```
 
 ## More Resources
