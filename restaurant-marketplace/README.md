@@ -1,6 +1,6 @@
 # Medusa v2 Example: Restaurant Marketplace
 
-This directory holds the code for the Restaurant-Delivery Marketplace recipe example.
+This directory holds the code for the [Restaurant-Delivery Marketplace recipe example](https://docs.medusajs.com/v2/resources/recipes/marketplace/examples/restaurant-delivery).
 
 You can either:
 
@@ -28,11 +28,10 @@ DATABASE_URL=
 yarn # or npm install
 ```
 
-4. Run migrations and seed the database:
+4. Run migrations, sync links, and seed the database:
 
 ```bash
-npx medusa migrations run
-npx medusa links sync
+npx medusa db:migrate
 yarn seed # or npm run seed
 ```
 
@@ -67,11 +66,10 @@ module.exports = defineConfig({
 })
 ```
 
-And run the migrations before starting the Medusa application:
+Finally, run the migrations and sync links before starting the Medusa application:
 
 ```bash
-npx medusa migrations run
-npx medusa links sync
+npx medusa db:migrate
 ```
 
 ## More Resources
