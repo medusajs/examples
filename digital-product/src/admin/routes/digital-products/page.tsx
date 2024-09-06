@@ -1,4 +1,4 @@
-import { defineRouteConfig } from "@medusajs/admin-shared"
+import { defineRouteConfig } from "@medusajs/admin-sdk"
 import { PhotoSolid } from "@medusajs/icons"
 import { Container, Heading, Table, Button, Drawer } from "@medusajs/ui"
 import { useEffect, useMemo, useState } from "react"

@@ -1,4 +1,4 @@
-import { defineRouteConfig } from "@medusajs/admin-shared"
+import { defineRouteConfig } from "@medusajs/admin-sdk"
 import { ClockSolid } from "@medusajs/icons"
 import { Container, Heading, Table, Badge } from "@medusajs/ui"
 import { useEffect, useMemo, useState } from "react"

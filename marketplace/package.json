@@ -19,6 +19,7 @@
     "dev": "medusa develop"
   },
   "dependencies": {
+    "@medusajs/admin-sdk": "preview",
     "@medusajs/api-key": "preview",
     "@medusajs/auth": "preview",
     "@medusajs/auth-emailpass": "preview",
