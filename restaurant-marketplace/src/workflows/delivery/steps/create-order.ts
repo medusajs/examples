@@ -2,7 +2,7 @@ import { CreateOrderShippingMethodDTO } from "@medusajs/types";
 import {
   ModuleRegistrationName,
   Modules,
-  remoteQueryObjectFromString,
+  ContainerRegistrationKeys,
 } from "@medusajs/utils";
 import { StepResponse, createStep } from "@medusajs/workflows-sdk";
 import { DELIVERY_MODULE } from "../../../modules/delivery";
@@ -10,9 +10,9 @@ import { DELIVERY_MODULE } from "../../../modules/delivery";
 export const createOrderStep = createStep(
   "create-order-step",
   async function (deliveryId: string, { container }) {
-    const remoteQuery = container.resolve("remoteQuery");
+    const query = container.resolve(ContainerRegistrationKeys.QUERY);
 
-    const deliveryQuery = remoteQueryObjectFromString({
+    const { data: [delivery] } = await query.graph({
       entryPoint: "deliveries",
       variables: {
         filters: {
@@ -28,8 +28,6 @@ export const createOrderStep = createStep(
         "cart.shipping_methods.*"
       ],
     });
-
-    const delivery = await remoteQuery(deliveryQuery).then((res) => res[0]);
 
     const { cart } = delivery
 

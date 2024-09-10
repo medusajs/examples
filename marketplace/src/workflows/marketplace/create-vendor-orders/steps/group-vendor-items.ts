@@ -3,7 +3,7 @@ import {
   StepResponse,
 } from "@medusajs/workflows-sdk"
 import { CartDTO, CartLineItemDTO } from "@medusajs/types"
-import { remoteQueryObjectFromString } from "@medusajs/utils"
+import { ContainerRegistrationKeys } from "@medusajs/utils"
 
 type StepInput = {
   cart: CartDTO
@@ -12,12 +12,12 @@ type StepInput = {
 const groupVendorItemsStep = createStep(
   "group-vendor-items",
   async ({ cart }: StepInput, { container }) => {
-    const remoteQuery = container.resolve("remoteQuery")
+    const query = container.resolve(ContainerRegistrationKeys.QUERY)
 
     const vendorsItems: Record<string, CartLineItemDTO[]> = {}
 
     await Promise.all(cart.items?.map(async (item) => {
-      const query = remoteQueryObjectFromString({
+      const { data: [product] } = await query.graph({
         entryPoint: "product",
         fields: ["vendor.*"],
         variables: {
@@ -27,9 +27,7 @@ const groupVendorItemsStep = createStep(
         }
       })
 
-      const result = await remoteQuery(query)
-
-      const vendorId = result[0].vendor?.id
+      const vendorId = product.vendor?.id
 
       if (!vendorId) {
         return

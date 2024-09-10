@@ -1,5 +1,5 @@
 import { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/medusa";
-import { remoteQueryObjectFromString } from "@medusajs/utils"
+import { ContainerRegistrationKeys } from "@medusajs/utils"
 import { getOrdersListWorkflow } from "@medusajs/core-flows"
 import MarketplaceModuleService from "../../../modules/marketplace/service";
 import { MARKETPLACE_MODULE } from "../../../modules/marketplace";
@@ -8,7 +8,7 @@ export const GET = async (
   req: AuthenticatedMedusaRequest,
   res: MedusaResponse
 ) => {
-  const remoteQuery = req.scope.resolve("remoteQuery")
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
   const marketplaceModuleService: MarketplaceModuleService = 
     req.scope.resolve(MARKETPLACE_MODULE)
 
@@ -19,7 +19,7 @@ export const GET = async (
     }
   )
 
-  const query = remoteQueryObjectFromString({
+  const { data: [vendor] } = await query.graph({
     entryPoint: "vendor",
     fields: ["orders.*"],
     variables: {
@@ -28,8 +28,6 @@ export const GET = async (
       }
     }
   })
-
-  const result = await remoteQuery(query)
 
   const { result: orders } = await getOrdersListWorkflow(req.scope)
     .run({
@@ -52,7 +50,7 @@ export const GET = async (
         ],
         variables: {
           filters: {
-            id: result[0].orders.map((order) => order.id)
+            id: vendor.orders.map((order) => order.id)
           }
         }
       }

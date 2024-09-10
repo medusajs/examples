@@ -1,5 +1,6 @@
 import { 
   createWorkflow,
+  WorkflowResponse
 } from "@medusajs/workflows-sdk"
 import { 
   createRemoteLinkStep,
@@ -36,10 +37,10 @@ const createSubscriptionWorkflow = createWorkflow(
 
     createRemoteLinkStep(linkDefs)
 
-    return {
+    return new WorkflowResponse({
       subscription: subscription,
       order: order
-    }
+    })
   }
 )
 

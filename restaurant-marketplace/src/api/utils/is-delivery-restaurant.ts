@@ -4,7 +4,7 @@ import {
   MedusaResponse
 } from "@medusajs/medusa";
 import {
-  remoteQueryObjectFromString,
+  ContainerRegistrationKeys,
 } from "@medusajs/utils"
 import { RESTAURANT_MODULE } from "../../modules/restaurant";
 
@@ -13,7 +13,7 @@ export const isDeliveryRestaurant = async (
   res: MedusaResponse,
   next: MedusaNextFunction
 ) => {
-  const remoteQuery = req.scope.resolve("remoteQuery")
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
   const restaurantModuleService = req.scope.resolve(
     RESTAURANT_MODULE
   )
@@ -25,7 +25,7 @@ export const isDeliveryRestaurant = async (
     }
   )
 
-  const query = remoteQueryObjectFromString({
+  const { data: [delivery] } = await query.graph({
     entryPoint: "delivery",
     fields: [
       "restaurant.*"
@@ -37,9 +37,7 @@ export const isDeliveryRestaurant = async (
     }
   })
 
-  const result = await remoteQuery(query)
-
-  if (result[0].restaurant.id !== restaurantAdmin.restaurant.id) {
+  if (delivery.restaurant.id !== restaurantAdmin.restaurant.id) {
     return res.status(403).json({
       message: "unauthorized"
     })

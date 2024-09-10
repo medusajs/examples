@@ -1,5 +1,5 @@
 import { MedusaRequest, MedusaResponse } from "@medusajs/medusa";
-import { MedusaError, remoteQueryObjectFromString } from "@medusajs/utils";
+import { MedusaError, ContainerRegistrationKeys } from "@medusajs/utils";
 import { createRestaurantWorkflow } from "../../workflows/restaurant/workflows/create-restaurant";
 import { restaurantSchema } from "./validation-schemas";
 import { CreateRestaurant } from "../../modules/restaurant/types";
@@ -23,9 +23,9 @@ export async function POST(req: MedusaRequest, res: MedusaResponse) {
 export async function GET(req: MedusaRequest, res: MedusaResponse) {
   const { currency_code = "eur", ...queryFilters } = req.query;
 
-  const remoteQuery = req.scope.resolve("remoteQuery");
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
 
-  const restaurantsQuery = remoteQueryObjectFromString({
+  const { data: restaurants } = await query.graph({
     entryPoint: "restaurants",
     fields: [
       "id",
@@ -50,8 +50,6 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
       }
     },
   });
-
-  const restaurants = await remoteQuery(restaurantsQuery);
 
   return res.status(200).json({ restaurants });
 }

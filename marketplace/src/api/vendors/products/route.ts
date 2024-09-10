@@ -7,7 +7,7 @@ import {
 } from "@medusajs/types"
 import { 
   Modules, 
-  remoteQueryObjectFromString,
+  ContainerRegistrationKeys,
   ModuleRegistrationName
 } from "@medusajs/utils"
 import MarketplaceModuleService from "../../../modules/marketplace/service";
@@ -17,7 +17,7 @@ export const GET = async (
   req: AuthenticatedMedusaRequest,
   res: MedusaResponse
 ) => {
-  const remoteQuery = req.scope.resolve("remoteQuery")
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
   const marketplaceModuleService: MarketplaceModuleService = 
     req.scope.resolve(MARKETPLACE_MODULE)
 
@@ -28,20 +28,18 @@ export const GET = async (
     }
   )
 
-  const query = remoteQueryObjectFromString({
+  const { data: [vendor] } = await query.graph({
     entryPoint: "vendor",
     fields: ["products.*"],
     variables: {
       filters: {
-        id: [vendorAdmin.vendor.id]
-      }
-    }
+        id: [vendorAdmin.vendor.id],
+      },
+    },
   })
 
-  const result = await remoteQuery(query)
-
   res.json({
-    products: result[0].products
+    products: vendor.products
   })
 }
 
