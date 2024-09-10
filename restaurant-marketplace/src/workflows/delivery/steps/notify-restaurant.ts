@@ -1,6 +1,6 @@
 import {
   ModuleRegistrationName,
-  remoteQueryObjectFromString,
+  ContainerRegistrationKeys,
 } from "@medusajs/utils";
 import { createStep } from "@medusajs/workflows-sdk";
 
@@ -13,9 +13,9 @@ export const notifyRestaurantStep = createStep(
     maxRetries: 2,
   },
   async function (deliveryId: string, { container }) {
-    const remoteQuery = container.resolve("remoteQuery");
+    const query = container.resolve(ContainerRegistrationKeys.QUERY);
 
-    const deliveryQuery = remoteQueryObjectFromString({
+    const { data: [delivery] } = await query.graph({
       entryPoint: "deliveries",
       variables: {
         filters: {
@@ -23,9 +23,7 @@ export const notifyRestaurantStep = createStep(
         },
       },
       fields: ["id", "restaurant.id"],
-    });
-
-    const delivery = await remoteQuery(deliveryQuery).then((res) => res[0]);
+    })
 
     const eventBus = container.resolve(ModuleRegistrationName.EVENT_BUS);
 

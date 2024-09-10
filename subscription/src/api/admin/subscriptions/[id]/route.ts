@@ -2,15 +2,15 @@ import {
   AuthenticatedMedusaRequest, 
   MedusaResponse
 } from "@medusajs/medusa";
-import { remoteQueryObjectFromString } from "@medusajs/utils"
+import { ContainerRegistrationKeys } from "@medusajs/utils"
 
 export const GET = async (
   req: AuthenticatedMedusaRequest,
   res: MedusaResponse
 ) => {
-  const remoteQuery = req.scope.resolve("remoteQuery")
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
 
-  const query = remoteQueryObjectFromString({
+  const { data: [subscription] } = await query.graph({
     entryPoint: "subscription",
     fields: [
       "*",
@@ -25,9 +25,7 @@ export const GET = async (
     }
   })
 
-  const result = await remoteQuery(query)
-
   res.json({
-    subscription: result[0]
+    subscription
   })
 }

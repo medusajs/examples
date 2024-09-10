@@ -2,7 +2,7 @@ import {
   AuthenticatedMedusaRequest, 
   MedusaResponse
 } from "@medusajs/medusa"
-import { remoteQueryObjectFromString } from "@medusajs/utils"
+import { ContainerRegistrationKeys } from "@medusajs/utils"
 import { z } from "zod"
 import createDigitalProductWorkflow from "../../../workflows/create-digital-product"
 import { CreateDigitalProductMediaInput } from "../../../workflows/create-digital-product/steps/create-digital-product-medias"
@@ -15,34 +15,32 @@ export const GET = async (
   const { 
     fields, 
     limit = 20, 
-    offset = 0
+    offset = 0,
   } = req.validatedQuery || {}
-  const remoteQuery = req.scope.resolve("remoteQuery")
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
 
-  const query = remoteQueryObjectFromString({
+  const { 
+    data: digitalProducts,
+    metadata: { count, take, skip },
+  } = await query.graph({
     entryPoint: "digital_product",
     fields: [
       "*",
       "medias.*",
       "product_variant.*",
-      ...(fields || [])
+      ...(fields || []),
     ],
     variables: {
       skip: offset,
-      take: limit
-    }
+      take: limit,
+    },
   })
 
-  const { 
-    rows, 
-    metadata: { count, take, skip },
-  } = await remoteQuery(query)
-
   res.json({
-    digital_products: rows,
+    digital_products: digitalProducts,
     count,
     limit: take,
-    offset: skip
+    offset: skip,
   })
 }
 

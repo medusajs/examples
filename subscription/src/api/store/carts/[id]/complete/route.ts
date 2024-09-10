@@ -3,7 +3,7 @@ import {
   MedusaResponse
 } from "@medusajs/medusa"
 import { 
-  remoteQueryObjectFromString,
+  ContainerRegistrationKeys,
   MedusaError
 } from "@medusajs/utils"
 import createSubscriptionWorkflow from "../../../../../workflows/create-subscription"
@@ -12,9 +12,9 @@ export const POST = async (
   req: MedusaRequest,
   res: MedusaResponse
 ) => {
-  const remoteQuery = req.scope.resolve("remoteQuery")
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
 
-  const query = remoteQueryObjectFromString({
+  const { data: [cart] } = await query.graph({
     entryPoint: "cart",
     fields: [
       "metadata"
@@ -26,7 +26,7 @@ export const POST = async (
     }
   })
   
-  const { metadata } = (await remoteQuery(query))[0]
+  const { metadata } = cart
 
   if (!metadata?.subscription_interval || !metadata.subscription_period) {
     throw new MedusaError(

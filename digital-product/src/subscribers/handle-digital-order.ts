@@ -8,7 +8,7 @@ import {
 } from "@medusajs/types"
 import { 
   ModuleRegistrationName,
-  remoteQueryObjectFromString
+  ContainerRegistrationKeys
 } from "@medusajs/utils"
 import { MediaType } from "../modules/digital-product/types"
 
@@ -16,29 +16,27 @@ async function digitalProductOrderCreatedHandler({
   event: { data },
   container,
 }: SubscriberArgs<{ id: string }>) {
-  const remoteQuery = container.resolve("remoteQuery")
+  const query = container.resolve(ContainerRegistrationKeys.QUERY)
   const notificationModuleService: INotificationModuleService = container
     .resolve(ModuleRegistrationName.NOTIFICATION)
   const fileModuleService: IFileModuleService = container.resolve(
     ModuleRegistrationName.FILE
   )
 
-  const query = remoteQueryObjectFromString({
+  const { data: [digitalProductOrder] } = await query.graph({
     entryPoint: "digital_product_order",
     fields: [
       "*",
       "products.*",
       "products.medias.*",
-      "order.*"
+      "order.*",
     ],
     variables: {
       filters: {
-        id: data.id
-      }
-    }
+        id: data.id,
+      },
+    },
   })
-
-  const digitalProductOrder = (await remoteQuery(query))[0]
 
   const notificationData = await Promise.all(
     digitalProductOrder.products.map(async (product) => {

@@ -1,11 +1,11 @@
 import { 
   AuthenticatedMedusaRequest, 
-  MedusaResponse
+  MedusaResponse,
 } from "@medusajs/medusa"
 import { 
   ModuleRegistrationName,
-  remoteQueryObjectFromString,
-  MedusaError
+  ContainerRegistrationKeys,
+  MedusaError,
 } from "@medusajs/utils"
 
 export const POST = async (
@@ -15,9 +15,9 @@ export const POST = async (
   const fileModuleService = req.scope.resolve(
     ModuleRegistrationName.FILE
   )
-  const remoteQuery = req.scope.resolve("remoteQuery")
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
 
-  const customerQuery = remoteQueryObjectFromString({
+  const { data: [customer] } = await query.graph({
     entryPoint: "customer",
     fields: [
       "orders.digital_product_order.*",
@@ -25,28 +25,25 @@ export const POST = async (
     variables: {
       filters: {
         id: req.auth_context.actor_id,
-      }
-    }
+      },
+    },
   })
 
-  const customerResult = await remoteQuery(customerQuery)
-  const customerDigitalOrderIds = customerResult[0].orders
+  const customerDigitalOrderIds = customer.orders
     .filter((order) => order.digital_product_order !== undefined)
     .map((order) => order.digital_product_order.id)
 
-  const dpoQuery = remoteQueryObjectFromString({
+  const { data: dpoResult } = await query.graph({
     entryPoint: "digital_product_order",
     fields: [
-      "products.medias.*"
+      "products.medias.*",
     ],
     variables: {
       filters: {
-        id: customerDigitalOrderIds
-      }
-    }
+        id: customerDigitalOrderIds,
+      },
+    },
   })
-
-  const dpoResult = await remoteQuery(dpoQuery)
 
   if (!dpoResult.length) {
     throw new MedusaError(
@@ -75,6 +72,6 @@ export const POST = async (
   const fileData = await fileModuleService.retrieveFile(foundMedia.fileId)
 
   res.json({
-    url: fileData.url
+    url: fileData.url,
   })
 }
