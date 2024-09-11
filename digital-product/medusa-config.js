@@ -1,9 +1,4 @@
-import { 
-  loadEnv, 
-  defineConfig, 
-  ModuleRegistrationName, 
-  Modules
-} from '@medusajs/utils'
+const { loadEnv, defineConfig, Modules } = require('@medusajs/utils')
 
 loadEnv(process.env.NODE_ENV, process.cwd())
 
