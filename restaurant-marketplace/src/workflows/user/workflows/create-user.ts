@@ -25,11 +25,7 @@ export const createUserWorkflow = createWorkflow(
     const authUserInput = transform({ input, user }, (data) => ({
       authIdentityId: data.input.auth_identity_id,
       actorType: data.input.user.actor_type,
-      key:
-        data.input.user.actor_type === "restaurant"
-          ? "restaurant_id"
-          : "driver_id",
-      value: user.id,
+      value: data.user.id,
     }));
 
     setAuthAppMetadataStep(authUserInput);
