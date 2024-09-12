@@ -24,17 +24,15 @@ async function digitalProductOrderCreatedHandler({
   )
 
   const { data: [digitalProductOrder] } = await query.graph({
-    entryPoint: "digital_product_order",
+    entity: "digital_product_order",
     fields: [
       "*",
       "products.*",
       "products.medias.*",
       "order.*",
     ],
-    variables: {
-      filters: {
-        id: data.id,
-      },
+    filters: {
+      id: data.id,
     },
   })
 
