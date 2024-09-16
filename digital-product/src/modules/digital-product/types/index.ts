@@ -1,3 +1,5 @@
+import { OrderDTO } from "@medusajs/types"
+
 export enum MediaType {
   MAIN = "main",
   PREVIEW = "preview"
@@ -19,4 +21,11 @@ export type DigitalProductMediaData = {
   type: MediaType
   fileId: string
   mimeType: string
+}
+
+export type DigitalProductOrderData = {
+  id: string
+  status: OrderStatus
+  products?: DigitalProductData[]
+  order?: OrderDTO
 }
