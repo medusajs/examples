@@ -3,7 +3,7 @@ import {
   MedusaResponse
 } from "@medusajs/medusa";
 import {
-  ModuleRegistrationName
+  Modules
 } from "@medusajs/utils"
 import { 
   DIGITAL_PRODUCT_MODULE
@@ -16,7 +16,7 @@ export const GET = async (
   res: MedusaResponse
 ) => {
   const fileModuleService = req.scope.resolve(
-    ModuleRegistrationName.FILE
+    Modules.FILE
   )
 
   const digitalProductModuleService: DigitalProductModuleService = 

@@ -7,7 +7,7 @@ import {
   IFileModuleService
 } from "@medusajs/types"
 import { 
-  ModuleRegistrationName,
+  Modules,
   ContainerRegistrationKeys
 } from "@medusajs/utils"
 import { MediaType } from "../modules/digital-product/types"
@@ -18,9 +18,9 @@ async function digitalProductOrderCreatedHandler({
 }: SubscriberArgs<{ id: string }>) {
   const query = container.resolve(ContainerRegistrationKeys.QUERY)
   const notificationModuleService: INotificationModuleService = container
-    .resolve(ModuleRegistrationName.NOTIFICATION)
+    .resolve(Modules.NOTIFICATION)
   const fileModuleService: IFileModuleService = container.resolve(
-    ModuleRegistrationName.FILE
+    Modules.FILE
   )
 
   const { data: [digitalProductOrder] } = await query.graph({

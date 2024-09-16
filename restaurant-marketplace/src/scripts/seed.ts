@@ -23,8 +23,7 @@ import {
 import {
   ContainerRegistrationKeys,
   Modules,
-  ProductStatus,
-  ModuleRegistrationName
+  ProductStatus
 } from "@medusajs/utils";
 
 export default async function seedDemoData({ container }: ExecArgs) {
@@ -33,12 +32,12 @@ export default async function seedDemoData({ container }: ExecArgs) {
     ContainerRegistrationKeys.REMOTE_LINK
   );
   const fulfillmentModuleService: IFulfillmentModuleService = container.resolve(
-    ModuleRegistrationName.FULFILLMENT
+    Modules.FULFILLMENT
   );
   const salesChannelModuleService: ISalesChannelModuleService =
-    container.resolve(ModuleRegistrationName.SALES_CHANNEL);
+    container.resolve(Modules.SALES_CHANNEL);
   const storeModuleService: IStoreModuleService = container.resolve(
-    ModuleRegistrationName.STORE
+    Modules.STORE
   );
 
   const countries = ["gb", "de", "dk", "se", "fr", "es", "it"];

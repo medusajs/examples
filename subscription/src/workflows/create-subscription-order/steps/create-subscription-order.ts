@@ -6,8 +6,7 @@ import {
   LinkDefinition
 } from "@medusajs/types"
 import { 
-  Modules,
-  ModuleRegistrationName
+  Modules
 } from "@medusajs/utils"
 import { createOrdersWorkflow } from "@medusajs/core-flows"
 import { SubscriptionData } from "../../../modules/subscription/types"
@@ -98,7 +97,7 @@ const createSubscriptionOrderStep = createStep(
   },
   async ({ order }, { container }) => {
     const orderModuleService: IOrderModuleService = container.resolve(
-      ModuleRegistrationName.ORDER
+      Modules.ORDER
     )
 
     await orderModuleService.cancel(order.id)

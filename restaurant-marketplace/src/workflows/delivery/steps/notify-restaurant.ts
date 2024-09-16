@@ -1,5 +1,5 @@
 import {
-  ModuleRegistrationName,
+  Modules,
   ContainerRegistrationKeys,
 } from "@medusajs/utils";
 import { createStep } from "@medusajs/workflows-sdk";
@@ -25,7 +25,7 @@ export const notifyRestaurantStep = createStep(
       fields: ["id", "restaurant.id"],
     })
 
-    const eventBus = container.resolve(ModuleRegistrationName.EVENT_BUS);
+    const eventBus = container.resolve(Modules.EVENT_BUS);
 
     await eventBus.emit({
       name: "notify.restaurant",

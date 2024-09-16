@@ -3,7 +3,7 @@ import {
   MedusaResponse
 } from "@medusajs/medusa";
 import {
-  ModuleRegistrationName,
+  Modules,
 } from "@medusajs/utils";
 import { 
   handleDeliveryWorkflowId
@@ -31,7 +31,7 @@ export const GET = async (
   res.writeHead(200, headers);
 
   const workflowEngine = req.scope.resolve(
-    ModuleRegistrationName.WORKFLOW_ENGINE
+    Modules.WORKFLOW_ENGINE
   );
 
   const workflowSubHandler = (data: any) => {
