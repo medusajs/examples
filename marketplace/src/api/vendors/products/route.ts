@@ -7,8 +7,7 @@ import {
 } from "@medusajs/types"
 import { 
   Modules, 
-  ContainerRegistrationKeys,
-  ModuleRegistrationName
+  ContainerRegistrationKeys
 } from "@medusajs/utils"
 import MarketplaceModuleService from "../../../modules/marketplace/service";
 import { MARKETPLACE_MODULE } from "../../../modules/marketplace";
@@ -53,9 +52,9 @@ export const POST = async (
   const marketplaceModuleService: MarketplaceModuleService = 
     req.scope.resolve(MARKETPLACE_MODULE)
   const productModuleService: IProductModuleService = req.scope
-    .resolve(ModuleRegistrationName.PRODUCT)
+    .resolve(Modules.PRODUCT)
   const salesChannelModuleService: ISalesChannelModuleService = req.scope
-    .resolve(ModuleRegistrationName.SALES_CHANNEL)
+    .resolve(Modules.SALES_CHANNEL)
   // Retrieve default sales channel to make the product available in.
   // Alternatively, you can link sales channels to vendors and allow vendors
   // to manage sales channels

@@ -1,6 +1,5 @@
 import { CreateOrderShippingMethodDTO } from "@medusajs/types";
 import {
-  ModuleRegistrationName,
   Modules,
   ContainerRegistrationKeys,
 } from "@medusajs/utils";
@@ -31,7 +30,7 @@ export const createOrderStep = createStep(
 
     const { cart } = delivery
 
-    const orderModuleService = container.resolve(ModuleRegistrationName.ORDER);
+    const orderModuleService = container.resolve(Modules.ORDER);
 
     const order = await orderModuleService.createOrders({
       currency_code: cart.currency_code,
@@ -63,7 +62,7 @@ export const createOrderStep = createStep(
     });
   },
   async ({ orderId }, { container }) => {
-    const orderService = container.resolve(ModuleRegistrationName.ORDER);
+    const orderService = container.resolve(Modules.ORDER);
 
     await orderService.softDeleteOrders([orderId]);
   }

@@ -40,7 +40,7 @@ import type {
   SubscriberConfig,
 } from "@medusajs/medusa"
 import { IProductModuleService } from "@medusajs/types"
-import { ModuleRegistrationName } from "@medusajs/utils"
+import { Modules } from "@medusajs/utils"
 
 export default async function productCreateHandler({
   event: { data },
@@ -49,7 +49,7 @@ export default async function productCreateHandler({
   const productId = data.id
 
   const productModuleService: IProductModuleService =
-    container.resolve(ModuleRegistrationName.PRODUCT)
+    container.resolve(Modules.PRODUCT)
 
   const product = await productModuleService.retrieve(productId)
 

@@ -13,13 +13,13 @@ import {
   ExecArgs,
   IProductModuleService
 } from "@medusajs/types"
-import { ModuleRegistrationName } from "@medusajs/utils"
+import { Modules } from "@medusajs/utils"
 
 export default async function myScript ({
   container
 }: ExecArgs) {
   const productModuleService: IProductModuleService = 
-    container.resolve(ModuleRegistrationName.PRODUCT)
+    container.resolve(Modules.PRODUCT)
 
   const [, count] = await productModuleService.listAndCount()
 
