@@ -19,14 +19,14 @@ export const GET = async (
     data: subscriptions,
     metadata: { count, take, skip },
   } = await query.graph({
-    entryPoint: "subscription",
+    entity: "subscription",
     fields: [
       "*",
       "orders.*",
       "customer.*",
       ...(req.validatedQuery?.fields.split(",") || [])
     ],
-    variables: {
+    pagination: {
       skip: offset,
       take: limit,
       order: {

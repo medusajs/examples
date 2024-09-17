@@ -26,14 +26,12 @@ export const isDeliveryRestaurant = async (
   )
 
   const { data: [delivery] } = await query.graph({
-    entryPoint: "delivery",
+    entity: "delivery",
     fields: [
       "restaurant.*"
     ],
-    variables: {
-      filters: {
-        id: req.params.id
-      }
+    filters: {
+      id: req.params.id
     }
   })
 

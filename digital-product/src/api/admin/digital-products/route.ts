@@ -23,14 +23,14 @@ export const GET = async (
     data: digitalProducts,
     metadata: { count, take, skip },
   } = await query.graph({
-    entryPoint: "digital_product",
+    entity: "digital_product",
     fields: [
       "*",
       "medias.*",
       "product_variant.*",
       ...(fields || []),
     ],
-    variables: {
+    pagination: {
       skip: offset,
       take: limit,
     },

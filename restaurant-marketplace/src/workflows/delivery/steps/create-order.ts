@@ -12,12 +12,7 @@ export const createOrderStep = createStep(
     const query = container.resolve(ContainerRegistrationKeys.QUERY);
 
     const { data: [delivery] } = await query.graph({
-      entryPoint: "deliveries",
-      variables: {
-        filters: {
-          id: deliveryId,
-        },
-      },
+      entity: "deliveries",
       fields: [
         "id", 
         "cart.*",
@@ -26,6 +21,9 @@ export const createOrderStep = createStep(
         "cart.items.*",
         "cart.shipping_methods.*"
       ],
+      filters: {
+        id: deliveryId,
+      },
     });
 
     const { cart } = delivery

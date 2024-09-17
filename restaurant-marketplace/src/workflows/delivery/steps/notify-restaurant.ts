@@ -16,13 +16,11 @@ export const notifyRestaurantStep = createStep(
     const query = container.resolve(ContainerRegistrationKeys.QUERY);
 
     const { data: [delivery] } = await query.graph({
-      entryPoint: "deliveries",
-      variables: {
-        filters: {
-          id: deliveryId,
-        },
-      },
+      entity: "deliveries",
       fields: ["id", "restaurant.id"],
+      filters: {
+        id: deliveryId,
+      },
     })
 
     const eventBus = container.resolve(Modules.EVENT_BUS);

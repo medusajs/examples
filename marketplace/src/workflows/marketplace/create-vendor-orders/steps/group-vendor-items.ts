@@ -18,12 +18,10 @@ const groupVendorItemsStep = createStep(
 
     await Promise.all(cart.items?.map(async (item) => {
       const { data: [product] } = await query.graph({
-        entryPoint: "product",
+        entity: "product",
         fields: ["vendor.*"],
-        variables: {
-          filters: {
-            id: [item.product_id]
-          }
+        filters: {
+          id: [item.product_id]
         }
       })
 
