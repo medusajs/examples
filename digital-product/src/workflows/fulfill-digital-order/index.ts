@@ -42,7 +42,7 @@ export const fulfillDigitalOrderWorkflow = createWorkflow(
       input: {
         order_id: digitalProductOrder.order.id,
         fulfillment_id: digitalProductOrder.order.fulfillments[0].id,
-        items: digitalProductOrder.order.fulfillments[0].items
+        items: digitalProductOrder.order.items
       }
     })
 
