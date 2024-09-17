@@ -3,7 +3,7 @@ import {
   MedusaResponse,
 } from "@medusajs/medusa"
 import { 
-  ModuleRegistrationName,
+  Modules,
   ContainerRegistrationKeys,
   MedusaError,
 } from "@medusajs/utils"
@@ -13,19 +13,17 @@ export const POST = async (
   res: MedusaResponse
 ) => {
   const fileModuleService = req.scope.resolve(
-    ModuleRegistrationName.FILE
+    Modules.FILE
   )
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
 
   const { data: [customer] } = await query.graph({
-    entryPoint: "customer",
+    entity: "customer",
     fields: [
       "orders.digital_product_order.*",
     ],
-    variables: {
-      filters: {
-        id: req.auth_context.actor_id,
-      },
+    filters: {
+      id: req.auth_context.actor_id,
     },
   })
 
@@ -34,14 +32,12 @@ export const POST = async (
     .map((order) => order.digital_product_order.id)
 
   const { data: dpoResult } = await query.graph({
-    entryPoint: "digital_product_order",
+    entity: "digital_product_order",
     fields: [
       "products.medias.*",
     ],
-    variables: {
-      filters: {
-        id: customerDigitalOrderIds,
-      },
+    filters: {
+      id: customerDigitalOrderIds,
     },
   })
 

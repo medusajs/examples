@@ -1,5 +1,6 @@
 import { MedusaRequest, MedusaResponse } from "@medusajs/medusa";
 import { MedusaError, ContainerRegistrationKeys } from "@medusajs/utils";
+import { QueryContext } from "@medusajs/utils"
 import { createRestaurantWorkflow } from "../../workflows/restaurant/workflows/create-restaurant";
 import { restaurantSchema } from "./validation-schemas";
 import { CreateRestaurant } from "../../modules/restaurant/types";
@@ -26,7 +27,7 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
 
   const { data: restaurants } = await query.graph({
-    entryPoint: "restaurants",
+    entity: "restaurants",
     fields: [
       "id",
       "handle",
@@ -41,11 +42,13 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
       "products.variants.*",
       "products.variants.calculated_price.*"
     ],
-    variables: {
-      filters: queryFilters,
-      "products.variants.calculated_price": {
-        context: {
-          currency_code
+    filters: queryFilters,
+    context: {
+      products: {
+        variants: {
+          calculated_price: QueryContext({
+            currency_code
+          })
         }
       }
     },

@@ -15,14 +15,12 @@ export const POST = async (
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
 
   const { data: [cart] } = await query.graph({
-    entryPoint: "cart",
+    entity: "cart",
     fields: [
       "metadata"
     ],
-    variables: {
-      filters: {
-        id: [req.params.id]
-      }
+    filters: {
+      id: [req.params.id]
     }
   })
   

@@ -13,15 +13,13 @@ export const GET = async (
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
 
   const { data: [customer] } = await query.graph({
-    entryPoint: "customer",
+    entity: "customer",
     fields: [
       "orders.digital_product_order.products.*",
       "orders.digital_product_order.products.medias.*",
     ],
-    variables: {
-      filters: {
-        id: req.auth_context.actor_id,
-      },
+    filters: {
+      id: req.auth_context.actor_id,
     },
   })
 

@@ -1,5 +1,5 @@
 import {
-  ModuleRegistrationName,
+  Modules,
   TransactionHandlerType,
 } from "@medusajs/utils";
 import { StepResponse, createStep } from "@medusajs/workflows-sdk";
@@ -18,7 +18,7 @@ export const setStepFailedStep = createStep(
     { container }
   ) {
     const engineService = container.resolve(
-      ModuleRegistrationName.WORKFLOW_ENGINE
+      Modules.WORKFLOW_ENGINE
     );
 
     await engineService.setStepFailure({

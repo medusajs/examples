@@ -1,19 +1,18 @@
 import { MedusaRequest, MedusaResponse } from "@medusajs/medusa";
-import { RemoteQueryFunction } from "@medusajs/modules-sdk";
+import { QueryContext } from "@medusajs/utils"
 import {
   ContainerRegistrationKeys,
-  remoteQueryObjectFromString,
 } from "@medusajs/utils";
 
 export async function GET(req: MedusaRequest, res: MedusaResponse) {
-  const remoteQuery: RemoteQueryFunction = req.scope.resolve(
-    ContainerRegistrationKeys.REMOTE_QUERY
+  const query = req.scope.resolve(
+    ContainerRegistrationKeys.QUERY
   );
 
   const restaurantId = req.params.id;
 
-  const restaurantQuery = remoteQueryObjectFromString({
-    entryPoint: "restaurants",
+  const { data: [restaurant] } = await query.graph({
+    entity: "restaurants",
     fields: [
       "*",
       "products.*",
@@ -27,19 +26,19 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
       "deliveries.order.*",
       "deliveries.order.items.*",
     ],
-    variables: {
-      filters: {
-        id: restaurantId
-      },
-      "products.variants.calculated_price": {
-        context: {
-          currency_code: "eur"
+    filters: {
+      id: restaurantId
+    },
+    context: {
+      products: {
+        variants: {
+          calculated_price: QueryContext({
+            currency_code: "eur"
+          })
         }
       }
     },
   });
-
-  const restaurant = await remoteQuery(restaurantQuery).then((r) => r[0]);
 
   return res.status(200).json({ restaurant });
 }

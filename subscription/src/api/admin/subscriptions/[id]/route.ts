@@ -11,17 +11,15 @@ export const GET = async (
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
 
   const { data: [subscription] } = await query.graph({
-    entryPoint: "subscription",
+    entity: "subscription",
     fields: [
       "*",
       "orders.*",
       "customer.*",
       ...(req.validatedQuery?.fields.split(",") || [])
     ],
-    variables: {
-      filters: {
-        id: [req.params.id]
-      }
+    filters: {
+      id: [req.params.id]
     }
   })
 

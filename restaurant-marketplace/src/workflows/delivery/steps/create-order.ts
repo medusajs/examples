@@ -1,6 +1,5 @@
 import { CreateOrderShippingMethodDTO } from "@medusajs/types";
 import {
-  ModuleRegistrationName,
   Modules,
   ContainerRegistrationKeys,
 } from "@medusajs/utils";
@@ -13,12 +12,7 @@ export const createOrderStep = createStep(
     const query = container.resolve(ContainerRegistrationKeys.QUERY);
 
     const { data: [delivery] } = await query.graph({
-      entryPoint: "deliveries",
-      variables: {
-        filters: {
-          id: deliveryId,
-        },
-      },
+      entity: "deliveries",
       fields: [
         "id", 
         "cart.*",
@@ -27,11 +21,14 @@ export const createOrderStep = createStep(
         "cart.items.*",
         "cart.shipping_methods.*"
       ],
+      filters: {
+        id: deliveryId,
+      },
     });
 
     const { cart } = delivery
 
-    const orderModuleService = container.resolve(ModuleRegistrationName.ORDER);
+    const orderModuleService = container.resolve(Modules.ORDER);
 
     const order = await orderModuleService.createOrders({
       currency_code: cart.currency_code,
@@ -63,7 +60,7 @@ export const createOrderStep = createStep(
     });
   },
   async ({ orderId }, { container }) => {
-    const orderService = container.resolve(ModuleRegistrationName.ORDER);
+    const orderService = container.resolve(Modules.ORDER);
 
     await orderService.softDeleteOrders([orderId]);
   }
