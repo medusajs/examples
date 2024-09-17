@@ -97,8 +97,8 @@
           ],
           "mappedType": "enum"
         },
-        "file_id": {
-          "name": "file_id",
+        "fileId": {
+          "name": "fileId",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,
@@ -106,8 +106,8 @@
           "nullable": false,
           "mappedType": "text"
         },
-        "mime_type": {
-          "name": "mime_type",
+        "mimeType": {
+          "name": "mimeType",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,
