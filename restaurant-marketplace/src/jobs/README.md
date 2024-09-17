@@ -11,10 +11,10 @@ import {
   IProductModuleService,
   MedusaContainer
 } from "@medusajs/types";
-import { ModuleRegistrationName } from "@medusajs/utils";
+import { Modules } from "@medusajs/utils";
 
 export default async function myCustomJob(container: MedusaContainer) {
-  const productService: IProductModuleService = container.resolve(ModuleRegistrationName.PRODUCT)
+  const productService: IProductModuleService = container.resolve(Modules.PRODUCT)
 
   const products = await productService.listAndCountProducts();
 

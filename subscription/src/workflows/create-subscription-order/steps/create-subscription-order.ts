@@ -2,14 +2,13 @@ import { createStep, StepResponse } from "@medusajs/workflows-sdk"
 import { 
   CartWorkflowDTO,
   PaymentCollectionDTO,
-  IOrderModuleService
+  IOrderModuleService,
+  LinkDefinition
 } from "@medusajs/types"
 import { 
-  Modules,
-  ModuleRegistrationName
+  Modules
 } from "@medusajs/utils"
 import { createOrdersWorkflow } from "@medusajs/core-flows"
-import { LinkDefinition } from "@medusajs/modules-sdk"
 import { SubscriptionData } from "../../../modules/subscription/types"
 import { SUBSCRIPTION_MODULE } from "../../../modules/subscription"
 
@@ -98,7 +97,7 @@ const createSubscriptionOrderStep = createStep(
   },
   async ({ order }, { container }) => {
     const orderModuleService: IOrderModuleService = container.resolve(
-      ModuleRegistrationName.ORDER
+      Modules.ORDER
     )
 
     await orderModuleService.cancel(order.id)

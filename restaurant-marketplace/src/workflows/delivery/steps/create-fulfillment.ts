@@ -1,12 +1,12 @@
 import { OrderDTO } from "@medusajs/types";
-import { ModuleRegistrationName } from "@medusajs/utils";
+import { Modules } from "@medusajs/utils";
 import { StepResponse, createStep } from "@medusajs/workflows-sdk";
 
 export const createFulfillmentStep = createStep(
   "create-fulfillment-step",
   async function (order: OrderDTO, { container }) {
     const fulfillmentModuleService = container.resolve(
-      ModuleRegistrationName.FULFILLMENT
+      Modules.FULFILLMENT
     );
 
     const items = order.items?.map((lineItem) => ({
@@ -30,7 +30,7 @@ export const createFulfillmentStep = createStep(
   },
   function (id: string, { container }) {
     const fulfillmentModuleService = container.resolve(
-      ModuleRegistrationName.FULFILLMENT
+      Modules.FULFILLMENT
     );
 
     return fulfillmentModuleService.cancelFulfillment(id);

@@ -3,7 +3,7 @@ import {
   MedusaResponse,
 } from "@medusajs/medusa"
 import { 
-  ModuleRegistrationName,
+  Modules,
   ContainerRegistrationKeys,
   MedusaError,
 } from "@medusajs/utils"
@@ -13,7 +13,7 @@ export const POST = async (
   res: MedusaResponse
 ) => {
   const fileModuleService = req.scope.resolve(
-    ModuleRegistrationName.FILE
+    Modules.FILE
   )
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
 

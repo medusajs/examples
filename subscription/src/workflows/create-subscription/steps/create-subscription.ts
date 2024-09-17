@@ -1,6 +1,6 @@
 import { createStep, StepResponse } from "@medusajs/workflows-sdk"
 import { Modules } from "@medusajs/utils"
-import { LinkDefinition } from "@medusajs/modules-sdk"
+import { LinkDefinition } from "@medusajs/types"
 import { SubscriptionInterval } from "../../../modules/subscription/types"
 import SubscriptionModuleService from "../../../modules/subscription/service"
 import { SUBSCRIPTION_MODULE } from "../../../modules/subscription"
