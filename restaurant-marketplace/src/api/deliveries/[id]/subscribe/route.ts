@@ -5,10 +5,8 @@ import {
 import {
   Modules,
 } from "@medusajs/utils";
-import { 
-  handleDeliveryWorkflowId
-} from "../../../../../workflows/delivery/workflows/handle-delivery";
-import { DELIVERY_MODULE } from "../../../../../modules/delivery";
+import { DELIVERY_MODULE } from "../../../../modules/delivery";
+import { handleDeliveryWorkflowId } from "../../../../workflows/delivery/workflows/handle-delivery";
 
 export const GET = async (
   req: MedusaRequest,
