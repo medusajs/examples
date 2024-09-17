@@ -1,6 +1,6 @@
 import { MedusaRequest, MedusaResponse } from "@medusajs/medusa";
 import { MedusaError, ContainerRegistrationKeys } from "@medusajs/utils";
-import { QueryContext } from "@medusajs/modules-sdk"
+import { QueryContext } from "@medusajs/utils"
 import { createRestaurantWorkflow } from "../../workflows/restaurant/workflows/create-restaurant";
 import { restaurantSchema } from "./validation-schemas";
 import { CreateRestaurant } from "../../modules/restaurant/types";
@@ -46,7 +46,7 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
     context: {
       products: {
         variants: {
-          calculated_price: new QueryContext({
+          calculated_price: QueryContext({
             currency_code
           })
         }

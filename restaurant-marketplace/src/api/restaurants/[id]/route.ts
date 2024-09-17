@@ -1,5 +1,5 @@
 import { MedusaRequest, MedusaResponse } from "@medusajs/medusa";
-import { QueryContext } from "@medusajs/modules-sdk"
+import { QueryContext } from "@medusajs/utils"
 import {
   ContainerRegistrationKeys,
 } from "@medusajs/utils";
@@ -32,7 +32,7 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
     context: {
       products: {
         variants: {
-          calculated_price: new QueryContext({
+          calculated_price: QueryContext({
             currency_code: "eur"
           })
         }
