@@ -4,7 +4,6 @@ import {
 } from "@medusajs/workflows-sdk"
 import {
   useRemoteQueryStep,
-  createOrderShipmentWorkflow
 } from "@medusajs/core-flows"
 import { sendDigitalOrderNotificationStep } from "./steps/send-digital-order-notification"
 
@@ -21,9 +20,7 @@ export const fulfillDigitalOrderWorkflow = createWorkflow(
         "*",
         "products.*",
         "products.medias.*",
-        "order.*",
-        "order.fulfillments.*",
-        "order.fulfillments.items.*"
+        "order.*"
       ],
       variables: {
         filters: {
@@ -36,14 +33,6 @@ export const fulfillDigitalOrderWorkflow = createWorkflow(
 
     sendDigitalOrderNotificationStep({
       digital_product_order: digitalProductOrder
-    })
-
-    createOrderShipmentWorkflow.runAsStep({
-      input: {
-        order_id: digitalProductOrder.order.id,
-        fulfillment_id: digitalProductOrder.order.fulfillments[0].id,
-        items: digitalProductOrder.order.items
-      }
     })
 
     return new WorkflowResponse(
