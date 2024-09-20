@@ -1,11 +1,11 @@
 import { Migration } from '@mikro-orm/migrations';
 
-export class Migration20240718112104 extends Migration {
+export class Migration20240917093019 extends Migration {
 
   async up(): Promise<void> {
     this.addSql('create table if not exists "digital_product" ("id" text not null, "name" text not null, "created_at" timestamptz not null default now(), "updated_at" timestamptz not null default now(), "deleted_at" timestamptz null, constraint "digital_product_pkey" primary key ("id"));');
 
-    this.addSql('create table if not exists "digital_product_media" ("id" text not null, "type" text check ("type" in (\'main\', \'preview\')) not null, "file_id" text not null, "mime_type" text not null, "digital_product_id" text not null, "created_at" timestamptz not null default now(), "updated_at" timestamptz not null default now(), "deleted_at" timestamptz null, constraint "digital_product_media_pkey" primary key ("id"));');
+    this.addSql('create table if not exists "digital_product_media" ("id" text not null, "type" text check ("type" in (\'main\', \'preview\')) not null, "fileId" text not null, "mimeType" text not null, "digital_product_id" text not null, "created_at" timestamptz not null default now(), "updated_at" timestamptz not null default now(), "deleted_at" timestamptz null, constraint "digital_product_media_pkey" primary key ("id"));');
     this.addSql('CREATE INDEX IF NOT EXISTS "IDX_digital_product_media_digital_product_id" ON "digital_product_media" (digital_product_id) WHERE deleted_at IS NULL;');
 
     this.addSql('create table if not exists "digital_product_order" ("id" text not null, "status" text check ("status" in (\'pending\', \'sent\')) not null, "created_at" timestamptz not null default now(), "updated_at" timestamptz not null default now(), "deleted_at" timestamptz null, constraint "digital_product_order_pkey" primary key ("id"));');
