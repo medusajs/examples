@@ -6,6 +6,7 @@ import {
   CartLineItemDTO, 
   OrderDTO,
   LinkDefinition,
+  InferTypeOf
 } from "@medusajs/types"
 import { Modules } from "@medusajs/utils"
 import { 
@@ -14,10 +15,10 @@ import {
 } from "@medusajs/core-flows"
 import MarketplaceModuleService from "../../../../modules/marketplace/service"
 import { MARKETPLACE_MODULE } from "../../../../modules/marketplace"
-import { VendorData } from "../../../../modules/marketplace/types"
+import Vendor from "../../../../modules/marketplace/models/vendor"
 
 export type VendorOrder = (OrderDTO & {
-  vendor: VendorData
+  vendor: InferTypeOf<typeof Vendor>
 })
 
 type StepInput = {

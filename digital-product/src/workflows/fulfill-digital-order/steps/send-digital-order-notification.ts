@@ -7,10 +7,10 @@ import {
   IFileModuleService
 } from "@medusajs/types"
 import { ModuleRegistrationName } from "@medusajs/utils"
-import { DigitalProductOrderData, MediaType } from "../../../modules/digital-product/types"
+import { DigitalProductOrder, MediaType } from "../../../modules/digital-product/types"
 
 type SendDigitalOrderNotificationStepInput = {
-  digital_product_order: DigitalProductOrderData
+  digital_product_order: DigitalProductOrder
 }
 
 export const sendDigitalOrderNotificationStep = createStep(

@@ -4,16 +4,18 @@ import {
 } from "@medusajs/workflows-sdk"
 import { 
   OrderLineItemDTO,
-  ProductVariantDTO
+  ProductVariantDTO,
+  InferTypeOf
 } from "@medusajs/types"
-import { DigitalProductData, OrderStatus } from "../../../modules/digital-product/types"
+import { OrderStatus } from "../../../modules/digital-product/types"
 import DigitalProductModuleService from "../../../modules/digital-product/service"
 import { DIGITAL_PRODUCT_MODULE } from "../../../modules/digital-product"
+import DigitalProduct from "../../../modules/digital-product/models/digital-product"
 
 type StepInput = {
   items: (OrderLineItemDTO & {
     variant: ProductVariantDTO & {
-      digital_product: DigitalProductData
+      digital_product: InferTypeOf<typeof DigitalProduct>
     }
   })[]
 }

@@ -1,10 +1,6 @@
-import {
-  CartLineItemDTO,
-  OrderLineItemDTO,
-  CartDTO,
-  OrderDTO,
-} from "@medusajs/types";
+import { InferTypeOf } from "@medusajs/types";
 import DeliveryModuleService from "../service";
+import { Delivery } from "../models/delivery";
 
 export enum DeliveryStatus {
   PENDING = "pending",
@@ -17,25 +13,9 @@ export enum DeliveryStatus {
   DELIVERED = "delivered",
 }
 
-export interface Delivery {
-  id: string;
-  transaction_id: string;
-  driver_id?: string;
-  delivered_at?: Date;
-  delivery_status: DeliveryStatus;
-  created_at: Date;
-  updated_at: Date;
-  eta?: Date;
-  items: DeliveryItem[];
-  cart?: CartDTO;
-  order?: OrderDTO;
-}
+export type Delivery = InferTypeOf<typeof Delivery>
 
-export type DeliveryItem = (CartLineItemDTO | OrderLineItemDTO) & {
-  quantity: number;
-}
-
-export interface UpdateDelivery extends Partial<Delivery> {
+export type UpdateDelivery = Partial<Delivery> & {
   id: string;
 }
 

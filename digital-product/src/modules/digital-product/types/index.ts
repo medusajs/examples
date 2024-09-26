@@ -1,4 +1,5 @@
-import { OrderDTO } from "@medusajs/types"
+import { OrderDTO, InferTypeOf } from "@medusajs/types"
+import DigitalProductOrder from "../models/digital-product-order"
 
 export enum MediaType {
   MAIN = "main",
@@ -10,22 +11,6 @@ export enum OrderStatus {
   SENT = "sent"
 }
 
-export type DigitalProductData = {
-  id: string
-  name: string
-  medias?: DigitalProductMediaData[]
-}
-
-export type DigitalProductMediaData = {
-  id: string
-  type: MediaType
-  fileId: string
-  mimeType: string
-}
-
-export type DigitalProductOrderData = {
-  id: string
-  status: OrderStatus
-  products?: DigitalProductData[]
+export type DigitalProductOrder = InferTypeOf<typeof DigitalProductOrder> & {
   order?: OrderDTO
 }

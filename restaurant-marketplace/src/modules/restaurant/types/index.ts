@@ -1,14 +1,10 @@
+import { InferTypeOf } from "@medusajs/types";
 import RestaurantModuleService from "../service";
+import { Restaurant } from "../models/restaurant";
 
-export interface CreateRestaurant {
-  name: string;
-  handle: string;
-  address: string;
-  phone: string;
-  email: string;
-  image_url?: string;
-  is_open?: boolean;
-}
+export type CreateRestaurant = Omit<
+  InferTypeOf<typeof Restaurant>, "id" | "admins"
+>
 
 declare module "@medusajs/types" {
   export interface ModuleImplementations {
