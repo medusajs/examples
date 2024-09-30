@@ -1,13 +1,13 @@
 import { 
   createWorkflow,
   WorkflowResponse
-} from "@medusajs/workflows-sdk"
+} from "@medusajs/framework/workflows-sdk"
 import { 
   useRemoteQueryStep,
   createRemoteLinkStep,
   completeCartWorkflow
-} from "@medusajs/core-flows"
-import { CartDTO } from "@medusajs/types"
+} from "@medusajs/medusa/core-flows"
+import { CartDTO } from "@medusajs/framework/types"
 import groupVendorItemsStep from "./steps/group-vendor-items"
 import createVendorOrdersStep from "./steps/create-vendor-orders"
 

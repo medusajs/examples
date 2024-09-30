@@ -1,10 +1,10 @@
 import {
   createWorkflow,
   WorkflowResponse
-} from "@medusajs/workflows-sdk"
+} from "@medusajs/framework/workflows-sdk"
 import {
   useRemoteQueryStep,
-} from "@medusajs/core-flows"
+} from "@medusajs/medusa/core-flows"
 import { sendDigitalOrderNotificationStep } from "./steps/send-digital-order-notification"
 
 type FulfillDigitalOrderWorkflowInput = {

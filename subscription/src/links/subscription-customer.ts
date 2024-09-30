@@ -1,6 +1,6 @@
-import { defineLink } from "@medusajs/utils"
+import { defineLink } from "@medusajs/framework/utils"
 import SubscriptionModule from "../modules/subscription"
-import CustomerModule from "@medusajs/customer"
+import CustomerModule from "@medusajs/medusa/customer"
 
 export default defineLink(
   {

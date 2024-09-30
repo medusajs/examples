@@ -1,7 +1,7 @@
 import { 
   authenticate, 
   defineMiddlewares, 
-} from "@medusajs/medusa";
+} from "@medusajs/framework/medusa";
 import { isDeliveryRestaurant } from "../../utils/is-delivery-restaurant";
 import { isDeliveryDriver } from "../../utils/is-delivery-driver";
 

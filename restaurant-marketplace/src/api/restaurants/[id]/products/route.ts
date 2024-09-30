@@ -5,7 +5,7 @@ import {
 import { z } from "zod";
 import { 
   deleteProductsWorkflow
-} from "@medusajs/core-flows";
+} from "@medusajs/medusa/core-flows";
 import { createRestaurantProductsWorkflow } from "../../../../workflows/restaurant/workflows/create-restaurant-products";
 
 const createSchema = z.object({

@@ -1,9 +1,9 @@
 import { 
   createStep,
   StepResponse,
-} from "@medusajs/workflows-sdk"
-import { CartDTO, CartLineItemDTO } from "@medusajs/types"
-import { ContainerRegistrationKeys } from "@medusajs/utils"
+} from "@medusajs/framework/workflows-sdk"
+import { CartDTO, CartLineItemDTO } from "@medusajs/framework/types"
+import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
 
 type StepInput = {
   cart: CartDTO

@@ -1,7 +1,7 @@
 import {
   createStep,
   StepResponse
-} from "@medusajs/workflows-sdk"
+} from "@medusajs/framework/workflows-sdk"
 import DigitalProductModuleService from "../../../modules/digital-product/service"
 import { DIGITAL_PRODUCT_MODULE } from "../../../modules/digital-product"
 import { MediaType } from "../../../modules/digital-product/types"

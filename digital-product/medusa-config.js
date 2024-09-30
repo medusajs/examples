@@ -1,4 +1,4 @@
-const { loadEnv, defineConfig, Modules } = require('@medusajs/utils')
+const { loadEnv, defineConfig, Modules } = require('@medusajs/framework/utils')
 
 loadEnv(process.env.NODE_ENV, process.cwd())
 
@@ -18,11 +18,11 @@ module.exports = defineConfig({
       resolve: "./modules/digital-product"
     },
     [Modules.FULFILLMENT]: {
-      resolve: "@medusajs/fulfillment",
+      resolve: "@medusajs/medusa/fulfillment",
       options: {
         providers: [
           {
-            resolve: "@medusajs/fulfillment-manual",
+            resolve: "@medusajs/medusa/fulfillment-manual",
             id: "manual",
           },
           {
@@ -33,11 +33,11 @@ module.exports = defineConfig({
       },
     },
     [Modules.NOTIFICATION]: {
-      resolve: "@medusajs/notification",
+      resolve: "@medusajs/medusa/notification",
       options: {
         providers: [
           {
-            resolve: "@medusajs/notification-local",
+            resolve: "@medusajs/medusa/notification-local",
             id: "local",
             options: {
               name: "Local Notification Provider",

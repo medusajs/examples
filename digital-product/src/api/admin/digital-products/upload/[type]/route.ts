@@ -2,8 +2,8 @@ import {
   AuthenticatedMedusaRequest,
   MedusaResponse,
 } from "@medusajs/medusa"
-import { uploadFilesWorkflow } from "@medusajs/core-flows"
-import { MedusaError } from "@medusajs/utils"
+import { uploadFilesWorkflow } from "@medusajs/medusa/core-flows"
+import { MedusaError } from "@medusajs/framework/utils"
 
 export const POST = async (
   req: AuthenticatedMedusaRequest,

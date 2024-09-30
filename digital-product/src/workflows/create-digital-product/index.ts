@@ -2,17 +2,17 @@ import {
   createWorkflow,
   transform,
   WorkflowResponse
-} from "@medusajs/workflows-sdk"
+} from "@medusajs/framework/workflows-sdk"
 import {
   CreateProductWorkflowInputDTO
-} from "@medusajs/types"
+} from "@medusajs/framework/types"
 import { 
   createProductsWorkflow,
   createRemoteLinkStep
-} from "@medusajs/core-flows"
+} from "@medusajs/medusa/core-flows"
 import { 
   Modules
-} from "@medusajs/utils"
+} from "@medusajs/framework/utils"
 import createDigitalProductStep, { 
   CreateDigitalProductStepInput
 } from "./steps/create-digital-product"

@@ -1,6 +1,9 @@
 import { MedusaRequest, MedusaResponse } from "@medusajs/medusa";
-import { MedusaError, ContainerRegistrationKeys } from "@medusajs/utils";
-import { QueryContext } from "@medusajs/utils"
+import { 
+  MedusaError, 
+  ContainerRegistrationKeys,
+  QueryContext
+} from "@medusajs/framework/utils";
 import { createRestaurantWorkflow } from "../../workflows/restaurant/workflows/create-restaurant";
 import { restaurantSchema } from "./validation-schemas";
 import { CreateRestaurant } from "../../modules/restaurant/types";

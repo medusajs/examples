@@ -1,4 +1,4 @@
-import { model } from "@medusajs/utils"
+import { model } from "@medusajs/framework/utils"
 import { OrderStatus } from "../types"
 import DigitalProduct from "./digital-product"
 

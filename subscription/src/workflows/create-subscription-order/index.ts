@@ -1,22 +1,22 @@
-import { createWorkflow } from "@medusajs/workflows-sdk"
+import { createWorkflow } from "@medusajs/framework/workflows-sdk"
 import { 
   useRemoteQueryStep,
   createPaymentSessionsWorkflow,
   createRemoteLinkStep,
   capturePaymentStep
-} from "@medusajs/core-flows"
+} from "@medusajs/medusa/core-flows"
 import { 
   CartWorkflowDTO
-} from "@medusajs/types"
+} from "@medusajs/framework/types"
 import { 
   SubscriptionData
 } from "../../modules/subscription/types"
 import { 
   authorizePaymentSessionStep
-} from "@medusajs/core-flows/dist/payment/steps/authorize-payment-session"
+} from "@medusajs/medusa/core-flows/dist/payment/steps/authorize-payment-session"
 import { 
   createPaymentCollectionsStep
-} from "@medusajs/core-flows/dist/definition/cart/steps/create-payment-collection"
+} from "@medusajs/medusa/core-flows/dist/cart/steps/create-payment-collection"
 import createSubscriptionOrderStep from "./steps/create-subscription-order"
 import updateSubscriptionStep from "./steps/update-subscription"
 

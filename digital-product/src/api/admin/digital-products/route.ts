@@ -2,7 +2,7 @@ import {
   AuthenticatedMedusaRequest, 
   MedusaResponse
 } from "@medusajs/medusa"
-import { ContainerRegistrationKeys } from "@medusajs/utils"
+import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
 import { z } from "zod"
 import createDigitalProductWorkflow from "../../../workflows/create-digital-product"
 import { CreateDigitalProductMediaInput } from "../../../workflows/create-digital-product/steps/create-digital-product-medias"

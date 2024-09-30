@@ -1,7 +1,7 @@
 import { 
   OrderDTO,
   CustomerDTO
-} from "@medusajs/types"
+} from "@medusajs/framework/types"
 
 export enum SubscriptionStatus {
   ACTIVE = "active",

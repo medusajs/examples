@@ -1,4 +1,4 @@
-import { ProductVariantDTO } from "@medusajs/types"
+import { ProductVariantDTO } from "@medusajs/framework/types"
 
 export enum MediaType {
   MAIN = "main",

@@ -1,5 +1,5 @@
 import { MedusaRequest, MedusaResponse } from "@medusajs/medusa";
-import { MedusaError } from "@medusajs/utils";
+import { MedusaError } from "@medusajs/framework/utils";
 import { DeliveryStatus } from "../../../../modules/delivery/types";
 import { updateDeliveryWorkflow } from "../../../../workflows/delivery/workflows/update-delivery";
 import { awaitPickUpStepId } from "../../../../workflows/delivery/steps/await-pick-up";

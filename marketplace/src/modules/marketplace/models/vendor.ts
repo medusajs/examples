@@ -1,4 +1,4 @@
-import { model } from "@medusajs/utils"
+import { model } from "@medusajs/framework/utils"
 import VendorAdmin from "./vendor-admin"
 
 const Vendor = model.define("vendor", {

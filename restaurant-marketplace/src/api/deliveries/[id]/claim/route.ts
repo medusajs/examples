@@ -1,4 +1,4 @@
-import { AuthenticatedMedusaRequest, MedusaRequest, MedusaResponse } from "@medusajs/medusa";
+import { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/medusa";
 import { claimDeliveryWorkflow } from "../../../../workflows/delivery/workflows/claim-delivery";
 
 export async function POST(req: AuthenticatedMedusaRequest, res: MedusaResponse) {

@@ -1,18 +1,18 @@
 import { 
   createStep,
   StepResponse,
-} from "@medusajs/workflows-sdk"
+} from "@medusajs/framework/workflows-sdk"
 import { 
   CartLineItemDTO, 
   OrderDTO,
   LinkDefinition,
   InferTypeOf
-} from "@medusajs/types"
-import { Modules } from "@medusajs/utils"
+} from "@medusajs/framework/types"
+import { Modules } from "@medusajs/framework/utils"
 import { 
   createOrdersWorkflow,
   cancelOrderWorkflow
-} from "@medusajs/core-flows"
+} from "@medusajs/medusa/core-flows"
 import MarketplaceModuleService from "../../../../modules/marketplace/service"
 import { MARKETPLACE_MODULE } from "../../../../modules/marketplace"
 import Vendor from "../../../../modules/marketplace/models/vendor"

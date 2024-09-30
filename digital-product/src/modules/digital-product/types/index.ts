@@ -1,4 +1,4 @@
-import { OrderDTO, InferTypeOf } from "@medusajs/types"
+import { OrderDTO, InferTypeOf } from "@medusajs/framework/types"
 import DigitalProductOrder from "../models/digital-product-order"
 
 export enum MediaType {

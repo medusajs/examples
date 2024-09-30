@@ -1,4 +1,4 @@
-import { InferTypeOf } from "@medusajs/types"
+import { InferTypeOf } from "@medusajs/framework/types"
 import Subscription from "../models/subscription"
 
 export enum SubscriptionStatus {

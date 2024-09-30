@@ -1,4 +1,4 @@
-import { MedusaService } from "@medusajs/utils"
+import { MedusaService } from "@medusajs/framework/utils"
 import Subscription from "./models/subscription";
 import { 
   CreateSubscriptionData, 
