@@ -2,7 +2,7 @@ import {
   AuthenticatedMedusaRequest, 
   MedusaResponse
 } from "@medusajs/medusa";
-import { ContainerRegistrationKeys } from "@medusajs/utils"
+import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
 
 export const GET = async (
   req: AuthenticatedMedusaRequest,

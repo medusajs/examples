@@ -1,12 +1,12 @@
 import {
   createStep,
   StepResponse
-} from "@medusajs/workflows-sdk"
+} from "@medusajs/framework/workflows-sdk"
 import { 
   INotificationModuleService,
   IFileModuleService
-} from "@medusajs/types"
-import { ModuleRegistrationName } from "@medusajs/utils"
+} from "@medusajs/framework/types"
+import { ModuleRegistrationName } from "@medusajs/framework/utils"
 import { DigitalProductOrder, MediaType } from "../../../modules/digital-product/types"
 
 type SendDigitalOrderNotificationStepInput = {

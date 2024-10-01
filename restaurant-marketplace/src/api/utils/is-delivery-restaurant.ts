@@ -5,7 +5,7 @@ import {
 } from "@medusajs/medusa";
 import {
   ContainerRegistrationKeys,
-} from "@medusajs/utils"
+} from "@medusajs/framework/utils"
 import { RESTAURANT_MODULE } from "../../modules/restaurant";
 
 export const isDeliveryRestaurant = async (

@@ -1,14 +1,14 @@
 import { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/medusa";
-import { createProductsWorkflow } from "@medusajs/core-flows"
+import { createProductsWorkflow } from "@medusajs/medusa/core-flows"
 import { 
   CreateProductWorkflowInputDTO,
   IProductModuleService,
   ISalesChannelModuleService
-} from "@medusajs/types"
+} from "@medusajs/framework/types"
 import { 
   Modules, 
   ContainerRegistrationKeys
-} from "@medusajs/utils"
+} from "@medusajs/framework/utils"
 import MarketplaceModuleService from "../../../modules/marketplace/service";
 import { MARKETPLACE_MODULE } from "../../../modules/marketplace";
 

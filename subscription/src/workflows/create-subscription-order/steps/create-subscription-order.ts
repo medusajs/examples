@@ -1,14 +1,14 @@
-import { createStep, StepResponse } from "@medusajs/workflows-sdk"
+import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 import { 
   CartWorkflowDTO,
   PaymentCollectionDTO,
   IOrderModuleService,
   LinkDefinition
-} from "@medusajs/types"
+} from "@medusajs/framework/types"
 import { 
   Modules
-} from "@medusajs/utils"
-import { createOrdersWorkflow } from "@medusajs/core-flows"
+} from "@medusajs/framework/utils"
+import { createOrdersWorkflow } from "@medusajs/medusa/core-flows"
 import { SubscriptionData } from "../../../modules/subscription/types"
 import { SUBSCRIPTION_MODULE } from "../../../modules/subscription"
 

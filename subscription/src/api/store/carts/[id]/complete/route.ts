@@ -5,7 +5,7 @@ import {
 import { 
   ContainerRegistrationKeys,
   MedusaError
-} from "@medusajs/utils"
+} from "@medusajs/framework/utils"
 import createSubscriptionWorkflow from "../../../../../workflows/create-subscription"
 
 export const POST = async (

@@ -1,11 +1,11 @@
 import { 
   createWorkflow,
   WorkflowResponse
-} from "@medusajs/workflows-sdk"
+} from "@medusajs/framework/workflows-sdk"
 import { 
   createRemoteLinkStep,
   completeCartWorkflow
-} from "@medusajs/core-flows"
+} from "@medusajs/medusa/core-flows"
 import { 
   SubscriptionInterval
 } from "../../modules/subscription/types"

@@ -1,5 +1,5 @@
 import { MedusaRequest, MedusaResponse } from "@medusajs/medusa";
-import { MedusaError } from "@medusajs/utils";
+import { MedusaError } from "@medusajs/framework/utils";
 import { DeliveryStatus } from "../../../../modules/delivery/types";
 import { notifyRestaurantStepId } from "../../../../workflows/delivery/steps/notify-restaurant";
 import { updateDeliveryWorkflow } from "../../../../workflows/delivery/workflows/update-delivery";

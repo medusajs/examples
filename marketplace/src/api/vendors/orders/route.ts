@@ -1,6 +1,6 @@
 import { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/medusa";
-import { ContainerRegistrationKeys } from "@medusajs/utils"
-import { getOrdersListWorkflow } from "@medusajs/core-flows"
+import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
+import { getOrdersListWorkflow } from "@medusajs/medusa/core-flows"
 import MarketplaceModuleService from "../../../modules/marketplace/service";
 import { MARKETPLACE_MODULE } from "../../../modules/marketplace";
 

@@ -1,4 +1,4 @@
-import { model } from "@medusajs/utils"
+import { model } from "@medusajs/framework/utils"
 import { SubscriptionInterval, SubscriptionStatus } from "../types"
 
 const Subscription = model.define("subscription", {

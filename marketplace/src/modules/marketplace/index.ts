@@ -1,4 +1,4 @@
-import { Module } from "@medusajs/utils"
+import { Module } from "@medusajs/framework/utils"
 import MarketplaceModuleService from "./service"
 
 export const MARKETPLACE_MODULE = "marketplaceModuleService"

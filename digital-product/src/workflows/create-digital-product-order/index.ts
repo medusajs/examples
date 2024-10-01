@@ -3,17 +3,17 @@ import {
   transform,
   when,
   WorkflowResponse
-} from "@medusajs/workflows-sdk"
+} from "@medusajs/framework/workflows-sdk"
 import {
   completeCartWorkflow,
   useRemoteQueryStep,
   createRemoteLinkStep,
   createOrderFulfillmentWorkflow,
   emitEventStep
-} from "@medusajs/core-flows"
+} from "@medusajs/medusa/core-flows"
 import {
   Modules
-} from "@medusajs/utils"
+} from "@medusajs/framework/utils"
 import createDigitalProductOrderStep from "./steps/create-digital-product-order"
 import { DIGITAL_PRODUCT_MODULE } from "../../modules/digital-product"
 

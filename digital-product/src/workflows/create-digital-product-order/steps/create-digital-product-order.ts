@@ -1,12 +1,12 @@
 import {
   createStep,
   StepResponse
-} from "@medusajs/workflows-sdk"
+} from "@medusajs/framework/workflows-sdk"
 import { 
   OrderLineItemDTO,
   ProductVariantDTO,
   InferTypeOf
-} from "@medusajs/types"
+} from "@medusajs/framework/types"
 import { OrderStatus } from "../../../modules/digital-product/types"
 import DigitalProductModuleService from "../../../modules/digital-product/service"
 import { DIGITAL_PRODUCT_MODULE } from "../../../modules/digital-product"

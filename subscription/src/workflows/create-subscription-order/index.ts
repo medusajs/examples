@@ -1,22 +1,20 @@
-import { createWorkflow } from "@medusajs/workflows-sdk"
+import { createWorkflow, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
 import { 
   useRemoteQueryStep,
   createPaymentSessionsWorkflow,
   createRemoteLinkStep,
   capturePaymentStep
-} from "@medusajs/core-flows"
+} from "@medusajs/medusa/core-flows"
 import { 
   CartWorkflowDTO
-} from "@medusajs/types"
+} from "@medusajs/framework/types"
 import { 
   SubscriptionData
 } from "../../modules/subscription/types"
 import { 
-  authorizePaymentSessionStep
-} from "@medusajs/core-flows/dist/payment/steps/authorize-payment-session"
-import { 
+  authorizePaymentSessionStep,
   createPaymentCollectionsStep
-} from "@medusajs/core-flows/dist/definition/cart/steps/create-payment-collection"
+} from "@medusajs/medusa/core-flows"
 import createSubscriptionOrderStep from "./steps/create-subscription-order"
 import updateSubscriptionStep from "./steps/update-subscription"
 
@@ -92,9 +90,9 @@ const createSubscriptionOrderWorkflow = createWorkflow(
       subscription_id: input.subscription.id
     })
 
-    return {
+    return new WorkflowResponse({
       order
-    }
+    })
   }
 )
 

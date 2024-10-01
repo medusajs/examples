@@ -3,7 +3,7 @@ import {
 } from "@medusajs/medusa"
 import { 
   validateAndTransformBody
-} from "@medusajs/medusa/dist/api/utils/validate-body"
+} from "@medusajs/medusa/api/utils/validate-body"
 import { createDigitalProductsSchema } from "./validation-schemas"
 import multer from "multer"
 

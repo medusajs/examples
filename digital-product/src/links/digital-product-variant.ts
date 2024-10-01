@@ -1,6 +1,6 @@
 import DigitalProductModule from "../modules/digital-product"
-import ProductModule from "@medusajs/product"
-import { defineLink } from "@medusajs/utils"
+import ProductModule from "@medusajs/medusa/product"
+import { defineLink } from "@medusajs/framework/utils"
 
 export default defineLink(
   DigitalProductModule.linkable.digitalProduct,

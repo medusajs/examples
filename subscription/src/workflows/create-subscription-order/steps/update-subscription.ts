@@ -1,7 +1,7 @@
 import { 
   createStep, 
   StepResponse
-} from "@medusajs/workflows-sdk"
+} from "@medusajs/framework/workflows-sdk"
 import { 
   SUBSCRIPTION_MODULE
 } from "../../../modules/subscription"

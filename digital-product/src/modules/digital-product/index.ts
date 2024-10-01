@@ -1,5 +1,5 @@
 import DigitalProductModuleService from "./service"
-import { Module } from "@medusajs/utils"
+import { Module } from "@medusajs/framework/utils"
 
 export const DIGITAL_PRODUCT_MODULE = "digitalProductModuleService"
 

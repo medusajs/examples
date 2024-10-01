@@ -1,4 +1,4 @@
-import { MedusaContainer } from "@medusajs/types";
+import { MedusaContainer } from "@medusajs/framework/types";
 import SubscriptionModuleService from "../modules/subscription/service";
 import { SUBSCRIPTION_MODULE } from "../modules/subscription";
 import moment from "moment";

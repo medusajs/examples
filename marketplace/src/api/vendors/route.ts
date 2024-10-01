@@ -2,7 +2,7 @@ import {
   AuthenticatedMedusaRequest, 
   MedusaResponse
 } from "@medusajs/medusa"
-import { MedusaError } from "@medusajs/utils"
+import { MedusaError } from "@medusajs/framework/utils"
 import { z } from "zod"
 import MarketplaceModuleService from "../../modules/marketplace/service";
 import createVendorAdminWorkflow from "../../workflows/marketplace/create-vendor-admin";

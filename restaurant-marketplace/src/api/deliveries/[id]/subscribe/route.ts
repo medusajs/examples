@@ -4,7 +4,7 @@ import {
 } from "@medusajs/medusa";
 import {
   Modules,
-} from "@medusajs/utils";
+} from "@medusajs/framework/utils";
 import { DELIVERY_MODULE } from "../../../../modules/delivery";
 import { handleDeliveryWorkflowId } from "../../../../workflows/delivery/workflows/handle-delivery";
 

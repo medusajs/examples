@@ -1,8 +1,8 @@
 import { MedusaRequest, MedusaResponse } from "@medusajs/medusa";
-import { QueryContext } from "@medusajs/utils"
-import {
-  ContainerRegistrationKeys,
-} from "@medusajs/utils";
+import { 
+  QueryContext,
+  ContainerRegistrationKeys
+} from "@medusajs/framework/utils"
 
 export async function GET(req: MedusaRequest, res: MedusaResponse) {
   const query = req.scope.resolve(

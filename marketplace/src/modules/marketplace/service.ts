@@ -1,4 +1,4 @@
-import { MedusaService } from "@medusajs/utils"
+import { MedusaService } from "@medusajs/framework/utils"
 import Vendor from "./models/vendor"
 import VendorAdmin from "./models/vendor-admin"
 

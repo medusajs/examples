@@ -1,10 +1,10 @@
 import { 
   createWorkflow,
   WorkflowResponse
-} from "@medusajs/workflows-sdk"
+} from "@medusajs/framework/workflows-sdk"
 import { 
   setAuthAppMetadataStep,
-} from "@medusajs/core-flows"
+} from "@medusajs/medusa/core-flows"
 import createVendorAdminStep from "./steps/create-vendor-admin"
 
 export type CreateVendorAdminWorkflowInput = {
