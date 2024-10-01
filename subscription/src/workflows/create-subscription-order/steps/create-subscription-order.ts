@@ -8,7 +8,7 @@ import {
 import { 
   Modules
 } from "@medusajs/framework/utils"
-import { createOrdersWorkflow } from "@medusajs/framework/core-flows"
+import { createOrdersWorkflow } from "@medusajs/medusa/core-flows"
 import { SubscriptionData } from "../../../modules/subscription/types"
 import { SUBSCRIPTION_MODULE } from "../../../modules/subscription"
 

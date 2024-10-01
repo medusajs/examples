@@ -1,7 +1,7 @@
 import { MedusaRequest, MedusaResponse } from "@medusajs/medusa";
 import { 
   AdminCreateProduct,
-} from "@medusajs/medusa/dist/api/admin/products/validators"
+} from "@medusajs/medusa/api/admin/products/validators"
 import { z } from "zod";
 import { 
   deleteProductsWorkflow

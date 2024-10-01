@@ -5,7 +5,7 @@ import {
 import { 
   createRemoteLinkStep,
   completeCartWorkflow
-} from "@medusajs/framework/core-flows"
+} from "@medusajs/medusa/core-flows"
 import { 
   SubscriptionInterval
 } from "../../modules/subscription/types"
