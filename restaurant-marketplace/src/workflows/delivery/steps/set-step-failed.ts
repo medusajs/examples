@@ -1,8 +1,8 @@
 import {
   Modules,
   TransactionHandlerType,
-} from "@medusajs/utils";
-import { StepResponse, createStep } from "@medusajs/workflows-sdk";
+} from "@medusajs/framework/utils";
+import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk";
 import { Delivery } from "../../../modules/delivery/types";
 import { handleDeliveryWorkflowId } from "../../delivery/workflows/handle-delivery";
 

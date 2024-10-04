@@ -2,7 +2,7 @@ import {
   createWorkflow,
   WorkflowResponse,
   when
-} from "@medusajs/workflows-sdk";
+} from "@medusajs/framework/workflows-sdk";
 import { setStepSuccessStep } from "../steps/set-step-success";
 import { setStepFailedStep } from "../steps/set-step-failed";
 import { updateDeliveryStep } from "../steps/update-delivery";

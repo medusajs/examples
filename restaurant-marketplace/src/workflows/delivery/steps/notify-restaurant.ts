@@ -1,8 +1,8 @@
 import {
   Modules,
   ContainerRegistrationKeys,
-} from "@medusajs/utils";
-import { createStep } from "@medusajs/workflows-sdk";
+} from "@medusajs/framework/utils";
+import { createStep } from "@medusajs/framework/workflows-sdk";
 
 export const notifyRestaurantStepId = "notify-restaurant-step";
 export const notifyRestaurantStep = createStep(

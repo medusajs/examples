@@ -1,9 +1,9 @@
-import { setAuthAppMetadataStep } from "@medusajs/core-flows";
+import { setAuthAppMetadataStep } from "@medusajs/medusa/core-flows";
 import {
   createWorkflow,
   transform,
   WorkflowResponse,
-} from "@medusajs/workflows-sdk";
+} from "@medusajs/framework/workflows-sdk";
 import { 
   CreateDriverInput, 
   CreateRestaurantAdminInput, 

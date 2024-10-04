@@ -1,7 +1,7 @@
 import {
   AuthenticatedMedusaRequest,
   MedusaResponse
-} from "@medusajs/medusa"
+} from "@medusajs/framework"
 import { 
   deleteRestaurantAdminWorkflow
 } from "../../../../../workflows/restaurant/workflows/delete-restaurant-admin"

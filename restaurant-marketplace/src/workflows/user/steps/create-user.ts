@@ -1,5 +1,5 @@
-import { MedusaError } from "@medusajs/utils";
-import { createStep, StepResponse } from "@medusajs/workflows-sdk";
+import { MedusaError } from "@medusajs/framework/utils";
+import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk";
 import { RESTAURANT_MODULE } from "../../../modules/restaurant";
 import { DELIVERY_MODULE } from "../../../modules/delivery";
 

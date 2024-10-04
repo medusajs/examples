@@ -1,7 +1,7 @@
 import {
   AuthenticatedMedusaRequest,
   MedusaResponse
-} from "@medusajs/medusa"
+} from "@medusajs/framework"
 import { deleteVendorAdminWorkflow } from "../../../../workflows/marketplace/delete-vendor-admin"
 
 export const DELETE = async (

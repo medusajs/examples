@@ -1,7 +1,7 @@
 import { 
   AuthenticatedMedusaRequest, 
   MedusaResponse
-} from "@medusajs/medusa"
+} from "@medusajs/framework"
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
 import { z } from "zod"
 import createDigitalProductWorkflow from "../../../workflows/create-digital-product"

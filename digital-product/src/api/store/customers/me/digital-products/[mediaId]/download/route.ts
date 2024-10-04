@@ -1,12 +1,12 @@
 import { 
   AuthenticatedMedusaRequest, 
   MedusaResponse,
-} from "@medusajs/medusa"
+} from "@medusajs/framework"
 import { 
   Modules,
   ContainerRegistrationKeys,
   MedusaError,
-} from "@medusajs/utils"
+} from "@medusajs/framework/utils"
 
 export const POST = async (
   req: AuthenticatedMedusaRequest,

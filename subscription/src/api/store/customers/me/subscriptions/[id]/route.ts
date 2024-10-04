@@ -1,7 +1,7 @@
 import { 
   AuthenticatedMedusaRequest, 
   MedusaResponse
-} from "@medusajs/medusa";
+} from "@medusajs/framework";
 import SubscriptionModuleService from "../../../../../../modules/subscription/service";
 import { 
   SUBSCRIPTION_MODULE

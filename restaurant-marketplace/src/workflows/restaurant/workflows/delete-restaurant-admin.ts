@@ -1,14 +1,14 @@
-import { MedusaError } from "@medusajs/utils"
+import { MedusaError } from "@medusajs/framework/utils"
 import {
   WorkflowData,
   WorkflowResponse,
   createWorkflow,
   transform,
-} from "@medusajs/workflows-sdk"
+} from "@medusajs/framework/workflows-sdk"
 import { 
   setAuthAppMetadataStep,
   useRemoteQueryStep
-} from "@medusajs/core-flows"
+} from "@medusajs/medusa/core-flows"
 import { deleteRestaurantAdminStep } from "../steps/delete-restaurant-admin"
 
 export type DeleteRestaurantAdminWorkflow = {

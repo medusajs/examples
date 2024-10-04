@@ -2,7 +2,7 @@ import {
   AuthenticatedMedusaRequest, 
   MedusaNextFunction, 
   MedusaResponse
-} from "@medusajs/medusa";
+} from "@medusajs/framework";
 import {
   ContainerRegistrationKeys,
 } from "@medusajs/framework/utils"

@@ -1,7 +1,7 @@
 import {
   createWorkflow,
   WorkflowResponse,
-} from "@medusajs/workflows-sdk";
+} from "@medusajs/framework/workflows-sdk";
 import { DeliveryStatus } from "../../../modules/delivery/types";
 import { awaitDriverClaimStepId } from "../steps/await-driver-claim";
 import { setStepSuccessStep } from "../steps/set-step-success";

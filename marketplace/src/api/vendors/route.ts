@@ -1,7 +1,7 @@
 import { 
   AuthenticatedMedusaRequest, 
   MedusaResponse
-} from "@medusajs/medusa"
+} from "@medusajs/framework"
 import { MedusaError } from "@medusajs/framework/utils"
 import { z } from "zod"
 import MarketplaceModuleService from "../../modules/marketplace/service";

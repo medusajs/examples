@@ -1,7 +1,7 @@
 import {
   createWorkflow,
   WorkflowResponse,
-} from "@medusajs/workflows-sdk";
+} from "@medusajs/framework/workflows-sdk";
 import { createRestaurantStep } from "../steps/create-restaurant";
 import { CreateRestaurant } from "../../../modules/restaurant/types";
 

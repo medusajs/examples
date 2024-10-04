@@ -1,4 +1,4 @@
-import { createStep, StepResponse } from "@medusajs/workflows-sdk";
+import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk";
 import { DELIVERY_MODULE } from "../../../modules/delivery";
 import { UpdateDelivery } from "../../../modules/delivery/types";
 

@@ -1,4 +1,4 @@
-import { MedusaRequest, MedusaResponse } from "@medusajs/medusa";
+import { MedusaRequest, MedusaResponse } from "@medusajs/framework";
 import zod from "zod";
 import { createDeliveryWorkflow } from "../../../workflows/delivery/workflows/create-delivery";
 import { handleDeliveryWorkflow } from "../../../workflows/delivery/workflows/handle-delivery";

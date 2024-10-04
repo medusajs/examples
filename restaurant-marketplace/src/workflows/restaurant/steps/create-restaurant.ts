@@ -1,4 +1,4 @@
-import { StepResponse, createStep } from "@medusajs/workflows-sdk";
+import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk";
 import { RESTAURANT_MODULE } from "../../../modules/restaurant";
 import { CreateRestaurant } from "../../../modules/restaurant/types";
 

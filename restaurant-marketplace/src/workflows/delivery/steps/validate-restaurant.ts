@@ -1,6 +1,6 @@
 import { 
   createStep
-} from "@medusajs/workflows-sdk"
+} from "@medusajs/framework/workflows-sdk"
 import { RESTAURANT_MODULE } from "../../../modules/restaurant"
 
 type ValidateRestaurantStepInput = {

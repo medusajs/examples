@@ -12,7 +12,7 @@ import {
   linkSalesChannelsToStockLocationWorkflow,
   updateStoresWorkflow,
 } from "@medusajs/medusa/core-flows";
-import { Logger } from "@medusajs/medusa";
+import { Logger } from "@medusajs/framework/types";
 import { RemoteLink } from "@medusajs/framework/modules-sdk";
 import {
   ExecArgs,

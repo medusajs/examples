@@ -1,4 +1,4 @@
-import { StepResponse, createStep } from "@medusajs/workflows-sdk";
+import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk";
 import { DELIVERY_MODULE } from "../../../modules/delivery";
 
 export const createDeliveryStep = createStep(

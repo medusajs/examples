@@ -1,4 +1,4 @@
-import { MedusaRequest, MedusaResponse } from "@medusajs/medusa";
+import { MedusaRequest, MedusaResponse } from "@medusajs/framework";
 import { 
   AdminCreateProduct,
 } from "@medusajs/medusa/api/admin/products/validators"

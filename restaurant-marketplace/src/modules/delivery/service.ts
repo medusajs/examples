@@ -1,4 +1,4 @@
-import { MedusaService } from "@medusajs/utils";
+import { MedusaService } from "@medusajs/framework/utils";
 import { Delivery } from "./models/delivery";
 import { Driver } from "./models/driver";
 

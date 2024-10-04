@@ -1,5 +1,8 @@
-import { defineMiddlewares, authenticate } from "@medusajs/medusa"
-import { validateAndTransformBody } from "@medusajs/medusa/api/utils/validate-body"
+import { 
+  defineMiddlewares, 
+  authenticate, 
+  validateAndTransformBody
+} from "@medusajs/framework"
 import { AdminCreateProduct } from "@medusajs/medusa/api/admin/products/validators"
 
 export default defineMiddlewares({

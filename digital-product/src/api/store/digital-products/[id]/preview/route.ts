@@ -1,10 +1,10 @@
 import { 
   MedusaRequest, 
   MedusaResponse
-} from "@medusajs/medusa";
+} from "@medusajs/framework";
 import {
   Modules
-} from "@medusajs/utils"
+} from "@medusajs/framework/utils"
 import { 
   DIGITAL_PRODUCT_MODULE
 } from "../../../../../modules/digital-product";

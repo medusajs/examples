@@ -5,7 +5,7 @@ import {
 } from "@medusajs/ui"
 import { useEffect, useState } from "react"
 import { useParams, Link } from "react-router-dom"
-import { SubscriptionData } from "../../../types"
+import { SubscriptionData } from "../../../types/index.js"
 
 const SubscriptionPage = () => {
   const { id } = useParams()
@@ -36,7 +36,7 @@ const SubscriptionPage = () => {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {subscription.orders.map((order) => (
+            {subscription.orders?.map((order) => (
               <Table.Row key={order.id}>
                 <Table.Cell>{order.id}</Table.Cell>
                 <Table.Cell>{(new Date(order.created_at)).toDateString()}</Table.Cell>

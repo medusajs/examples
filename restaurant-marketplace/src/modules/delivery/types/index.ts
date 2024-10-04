@@ -1,4 +1,4 @@
-import { InferTypeOf } from "@medusajs/types";
+import { InferTypeOf } from "@medusajs/framework/types";
 import DeliveryModuleService from "../service";
 import { Delivery } from "../models/delivery";
 
@@ -15,11 +15,12 @@ export enum DeliveryStatus {
 
 export type Delivery = InferTypeOf<typeof Delivery>
 
-export type UpdateDelivery = Partial<Delivery> & {
+export type UpdateDelivery = Partial<Omit<Delivery, "driver">> & {
   id: string;
+  driver_id?: string
 }
 
-declare module "@medusajs/types" {
+declare module "@medusajs/framework/types" {
   export interface ModuleImplementations {
     deliveryModuleService: DeliveryModuleService;
   }

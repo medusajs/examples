@@ -1,4 +1,5 @@
 import { AbstractFulfillmentProviderService } from "@medusajs/framework/utils"
+import { FulfillmentOption } from "@medusajs/framework/types"
 
 class DigitalProductFulfillmentService extends AbstractFulfillmentProviderService {
   static identifier = "digital"
@@ -7,7 +8,7 @@ class DigitalProductFulfillmentService extends AbstractFulfillmentProviderServic
     super()
   }
 
-  async getFulfillmentOptions(): Promise<Record<string, unknown>[]> {
+  async getFulfillmentOptions(): Promise<FulfillmentOption[]> {
     return [
       {
         id: "digital-fulfillment",

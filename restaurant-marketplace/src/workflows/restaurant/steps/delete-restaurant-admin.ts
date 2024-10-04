@@ -1,7 +1,7 @@
 import {
   createStep,
   StepResponse
-} from "@medusajs/workflows-sdk"
+} from "@medusajs/framework/workflows-sdk"
 import { RESTAURANT_MODULE } from "../../../modules/restaurant"
 import { DeleteRestaurantAdminWorkflow } from "../workflows/delete-restaurant-admin"
 

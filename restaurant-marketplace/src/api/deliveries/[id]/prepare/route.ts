@@ -1,4 +1,4 @@
-import { MedusaRequest, MedusaResponse } from "@medusajs/medusa";
+import { MedusaRequest, MedusaResponse } from "@medusajs/framework";
 import { MedusaError } from "@medusajs/framework/utils";
 import { DeliveryStatus } from "../../../../modules/delivery/types";
 import { updateDeliveryWorkflow } from "../../../../workflows/delivery/workflows/update-delivery";

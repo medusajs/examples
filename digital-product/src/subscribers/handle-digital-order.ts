@@ -1,7 +1,7 @@
 import type {
   SubscriberArgs,
   SubscriberConfig,
-} from "@medusajs/medusa"
+} from "@medusajs/framework"
 import { fulfillDigitalOrderWorkflow } from "../workflows/fulfill-digital-order"
 
 async function digitalProductOrderCreatedHandler({

@@ -11,20 +11,20 @@ import {
   linkSalesChannelsToApiKeyWorkflow,
   linkSalesChannelsToStockLocationWorkflow,
   updateStoresWorkflow,
-} from "@medusajs/core-flows";
-import { Logger } from "@medusajs/medusa";
-import { RemoteLink } from "@medusajs/modules-sdk";
+} from "@medusajs/medusa/core-flows";
+import { Logger } from "@medusajs/framework/types";
+import { RemoteLink } from "@medusajs/framework/modules-sdk";
 import {
   ExecArgs,
   IFulfillmentModuleService,
   ISalesChannelModuleService,
   IStoreModuleService,
-} from "@medusajs/types";
+} from "@medusajs/framework/types";
 import {
   ContainerRegistrationKeys,
   Modules,
   ProductStatus
-} from "@medusajs/utils";
+} from "@medusajs/framework/utils";
 
 export default async function seedDemoData({ container }: ExecArgs) {
   const logger: Logger = container.resolve(ContainerRegistrationKeys.LOGGER);

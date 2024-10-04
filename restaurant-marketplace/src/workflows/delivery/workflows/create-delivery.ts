@@ -1,11 +1,10 @@
 import {
-  WorkflowData,
   WorkflowResponse,
   createWorkflow,
   transform,
-} from "@medusajs/workflows-sdk";
-import { Modules } from "@medusajs/utils"
-import { createRemoteLinkStep } from "@medusajs/core-flows"
+} from "@medusajs/framework/workflows-sdk";
+import { Modules } from "@medusajs/framework/utils"
+import { createRemoteLinkStep } from "@medusajs/medusa/core-flows"
 import { DELIVERY_MODULE } from "../../../modules/delivery";
 import { RESTAURANT_MODULE } from "../../../modules/restaurant";
 import { validateRestaurantStep } from "../steps/validate-restaurant";

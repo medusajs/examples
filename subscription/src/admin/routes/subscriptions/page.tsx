@@ -96,7 +96,7 @@ const SubscriptionsPage = () => {
                 </Link>
               </Table.Cell>
               <Table.Cell>
-                <Link to={`/orders/${subscription.metadata.main_order_id}`}>
+                <Link to={`/orders/${subscription.metadata?.main_order_id}`}>
                   View Order
                 </Link>
               </Table.Cell>

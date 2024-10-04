@@ -26,7 +26,7 @@ For example, create the file `src/modules/hello.index.ts` with the following con
 
 ```ts title="src/modules/hello.index.ts" highlights={[["4", "", "The main service of the module."]]}
 import HelloModuleService from "./service"
-import { Module } from "@medusajs/utils"
+import { Module } from "@medusajs/framework/utils"
 
 export const HELLO_MODULE = "helloModuleService"
 

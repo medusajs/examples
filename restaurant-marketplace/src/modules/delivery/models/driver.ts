@@ -1,4 +1,4 @@
-import { model } from "@medusajs/utils";
+import { model } from "@medusajs/framework/utils";
 import { Delivery } from "./delivery";
 
 export const Driver = model.define("driver", {

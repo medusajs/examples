@@ -1,4 +1,4 @@
-import { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/medusa";
+import { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework";
 import { createProductsWorkflow } from "@medusajs/medusa/core-flows"
 import { 
   CreateProductWorkflowInputDTO,

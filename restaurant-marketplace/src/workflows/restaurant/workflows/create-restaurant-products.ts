@@ -1,14 +1,14 @@
 import { 
   createProductsWorkflow,
   createRemoteLinkStep
-} from "@medusajs/core-flows";
-import { CreateProductDTO } from "@medusajs/types";
-import { Modules } from "@medusajs/utils"
+} from "@medusajs/medusa/core-flows";
+import { CreateProductDTO } from "@medusajs/framework/types";
+import { Modules } from "@medusajs/framework/utils"
 import {
   WorkflowResponse,
   createWorkflow,
   transform,
-} from "@medusajs/workflows-sdk";
+} from "@medusajs/framework/workflows-sdk";
 import { RESTAURANT_MODULE } from "../../../modules/restaurant";
 
 type WorkflowInput = {

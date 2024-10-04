@@ -2,7 +2,7 @@ import {
   AuthenticatedMedusaRequest, 
   MedusaNextFunction, 
   MedusaResponse
-} from "@medusajs/medusa";
+} from "@medusajs/framework";
 import { DELIVERY_MODULE } from "../../modules/delivery";
 
 export const isDeliveryDriver = async (

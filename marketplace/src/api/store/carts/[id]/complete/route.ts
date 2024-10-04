@@ -1,7 +1,7 @@
 import { 
   AuthenticatedMedusaRequest, 
   MedusaResponse
-} from "@medusajs/medusa";
+} from "@medusajs/framework";
 import createVendorOrdersWorkflow from "../../../../../workflows/marketplace/create-vendor-orders";
 
 export const POST = async (

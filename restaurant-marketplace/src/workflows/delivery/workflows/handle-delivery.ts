@@ -1,8 +1,8 @@
 import {
   WorkflowResponse,
   createWorkflow,
-} from "@medusajs/workflows-sdk";
-import { createRemoteLinkStep } from "@medusajs/core-flows"
+} from "@medusajs/framework/workflows-sdk";
+import { createRemoteLinkStep } from "@medusajs/medusa/core-flows"
 import { setTransactionIdStep } from "../steps/set-transaction-id";
 import { notifyRestaurantStep } from "../steps/notify-restaurant";
 import { awaitDriverClaimStep } from "../steps/await-driver-claim";

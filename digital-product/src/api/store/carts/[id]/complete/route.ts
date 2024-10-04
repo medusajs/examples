@@ -1,4 +1,4 @@
-import { MedusaRequest, MedusaResponse } from "@medusajs/medusa";
+import { MedusaRequest, MedusaResponse } from "@medusajs/framework";
 import createDigitalProductOrderWorkflow from "../../../../../workflows/create-digital-product-order";
 
 export const POST = async (
