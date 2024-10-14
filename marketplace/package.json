@@ -22,7 +22,7 @@
     "test:unit": "TEST_TYPE=unit NODE_OPTIONS=--experimental-vm-modules jest --silent --runInBand --forceExit"
   },
   "dependencies": {
-   "@medusajs/admin-sdk": "rc",
+    "@medusajs/admin-sdk": "rc",
     "@medusajs/framework": "rc",
     "@medusajs/medusa": "rc",
     "@medusajs/medusa-cli": "rc",
