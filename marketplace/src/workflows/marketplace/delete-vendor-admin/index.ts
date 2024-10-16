@@ -16,7 +16,7 @@ export type DeleteVendorAdminWorkflow = {
 }
 
 export const deleteVendorAdminWorkflow = createWorkflow(
-  "delete-restaurant-admin",
+  "delete-vendor-admin",
   (
     input: WorkflowData<DeleteVendorAdminWorkflow>
   ): WorkflowResponse<string> => {
