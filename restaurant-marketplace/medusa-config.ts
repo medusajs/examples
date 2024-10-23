@@ -15,10 +15,10 @@ module.exports = defineConfig({
   },
   modules: [
     {
-      resolve: "./modules/restaurant",
+      resolve: "./src/modules/restaurant",
     },
     {
-      resolve: "./modules/delivery"
+      resolve: "./src/modules/delivery"
     },
     // Recommended
     // {

@@ -15,7 +15,7 @@ module.exports = defineConfig({
   },
   modules: [
     {
-      resolve: "./modules/digital-product"
+      resolve: "./src/modules/digital-product"
     },
     {
       resolve: "@medusajs/fulfillment",
@@ -26,7 +26,7 @@ module.exports = defineConfig({
             id: "manual",
           },
           {
-            resolve: "./modules/digital-product-fulfillment",
+            resolve: "./src/modules/digital-product-fulfillment",
             id: "digital"
           }
         ],
