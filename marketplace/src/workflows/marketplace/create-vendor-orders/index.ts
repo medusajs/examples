@@ -27,7 +27,7 @@ const createVendorOrdersWorkflow = createWorkflow(
       throw_if_key_not_found: true,
     }) as CartDTO
 
-    const orderId = completeCartWorkflow.runAsStep({
+    const { id: orderId } = completeCartWorkflow.runAsStep({
       input: {
         id: cart.id
       }
@@ -39,7 +39,7 @@ const createVendorOrdersWorkflow = createWorkflow(
     
     const order = getOrderDetailWorkflow.runAsStep({
       input: {
-        order_id: orderId.id,
+        order_id: orderId,
         fields: [
           "region_id",
           "customer_id",
