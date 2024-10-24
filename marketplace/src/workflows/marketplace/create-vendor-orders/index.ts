@@ -5,7 +5,8 @@ import {
 import { 
   useRemoteQueryStep,
   createRemoteLinkStep,
-  completeCartWorkflow
+  completeCartWorkflow,
+  getOrderDetailWorkflow
 } from "@medusajs/medusa/core-flows"
 import { CartDTO } from "@medusajs/framework/types"
 import groupVendorItemsStep from "./steps/group-vendor-items"
@@ -26,7 +27,7 @@ const createVendorOrdersWorkflow = createWorkflow(
       throw_if_key_not_found: true,
     }) as CartDTO
 
-    const order = completeCartWorkflow.runAsStep({
+    const orderId = completeCartWorkflow.runAsStep({
       input: {
         id: cart.id
       }
@@ -34,6 +35,22 @@ const createVendorOrdersWorkflow = createWorkflow(
 
     const { vendorsItems } = groupVendorItemsStep({
       cart
+    })
+    
+    const order = getOrderDetailWorkflow.runAsStep({
+      input: {
+        order_id: orderId.id,
+        fields: [
+          "region_id",
+          "customer_id",
+          "sales_channel_id",
+          "email",
+          "currency_code",
+          "shipping_address.*",
+          "billing_address.*",
+          "shipping_methods.*",
+        ]
+      }
     })
 
     const { 
