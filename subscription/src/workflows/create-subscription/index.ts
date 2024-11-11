@@ -4,7 +4,8 @@ import {
 } from "@medusajs/framework/workflows-sdk"
 import { 
   createRemoteLinkStep,
-  completeCartWorkflow
+  completeCartWorkflow,
+  useRemoteQueryStep
 } from "@medusajs/medusa/core-flows"
 import { 
   SubscriptionInterval
@@ -22,10 +23,22 @@ type WorkflowInput = {
 const createSubscriptionWorkflow = createWorkflow(
   "create-subscription",
   (input: WorkflowInput) => {
-    const order = completeCartWorkflow.runAsStep({
+    const { id } = completeCartWorkflow.runAsStep({
       input: {
         id: input.cart_id
       }
+    })
+
+    const order = useRemoteQueryStep({
+      entry_point: "order",
+      fields: ["*", "id", "customer_id"],
+      variables: {
+        filters: {
+          id
+        }
+      },
+      list: false,
+      throw_if_key_not_found: true
     })
 
     const { subscription, linkDefs } = createSubscriptionStep({
