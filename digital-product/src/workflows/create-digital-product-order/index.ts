@@ -6,7 +6,7 @@ import {
 } from "@medusajs/framework/workflows-sdk"
 import {
   completeCartWorkflow,
-  useRemoteQueryStep,
+  useQueryGraphStep,
   createRemoteLinkStep,
   createOrderFulfillmentWorkflow,
   emitEventStep
@@ -24,34 +24,33 @@ type WorkflowInput = {
 const createDigitalProductOrderWorkflow = createWorkflow(
   "create-digital-product-order",
   (input: WorkflowInput) => {
-    const order = completeCartWorkflow.runAsStep({
+    const { id } = completeCartWorkflow.runAsStep({
       input: {
         id: input.cart_id
       }
     })
 
-    const { items } = useRemoteQueryStep({
-      entry_point: "order",
+    const { data: orders } = useQueryGraphStep({
+      entity: "order",
       fields: [
         "*",
         "items.*",
         "items.variant.*",
         "items.variant.digital_product.*"
       ],
-      variables: {
-        filters: {
-          id: order.id
-        }
+      filters: {
+        id
       },
-      throw_if_key_not_found: true,
-      list: false
+      options: {
+        throwIfKeyNotFound: true
+      }
     })
 
     const itemsWithDigitalProducts = transform({
-      items
+      orders
     },
     (data) => {
-      return data.items.filter((item) => item.variant.digital_product !== undefined)
+      return data.orders[0].items.filter((item) => item.variant.digital_product !== undefined)
     }
     )
 
@@ -61,20 +60,22 @@ const createDigitalProductOrderWorkflow = createWorkflow(
     .then(() => {
       const { 
         digital_product_order,
-      } = createDigitalProductOrderStep({ items })
+      } = createDigitalProductOrderStep({
+        items: orders[0].items
+      })
   
       createRemoteLinkStep([{
         [DIGITAL_PRODUCT_MODULE]: {
           digital_product_order_id: digital_product_order.id
         },
         [Modules.ORDER]: {
-          order_id: order.id
+          order_id: id
         }
       }])
 
       createOrderFulfillmentWorkflow.runAsStep({
         input: {
-          order_id: order.id,
+          order_id: id,
           items: transform({
             itemsWithDigitalProducts
           }, (data) => {
@@ -97,7 +98,7 @@ const createDigitalProductOrderWorkflow = createWorkflow(
     })
 
     return new WorkflowResponse({
-      order,
+      order: orders[0],
       digital_product_order
     })
   }

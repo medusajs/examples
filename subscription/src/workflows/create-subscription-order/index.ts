@@ -1,13 +1,10 @@
 import { createWorkflow, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
 import { 
-  useRemoteQueryStep,
+  useQueryGraphStep,
   createPaymentSessionsWorkflow,
   createRemoteLinkStep,
   capturePaymentStep
 } from "@medusajs/medusa/core-flows"
-import { 
-  CartWorkflowDTO
-} from "@medusajs/framework/types"
 import { 
   SubscriptionData
 } from "../../modules/subscription/types"
@@ -25,8 +22,8 @@ type WorkflowInput = {
 const createSubscriptionOrderWorkflow = createWorkflow(
   "create-subscription-order",
   (input: WorkflowInput) => {
-    const { cart } = useRemoteQueryStep({
-      entry_point: "subscription",
+    const { data: carts } = useQueryGraphStep({
+      entity: "subscription",
       fields: [
         "*",
         "cart.*",
@@ -41,30 +38,27 @@ const createSubscriptionOrderWorkflow = createWorkflow(
         "cart.payment_collection.*",
         "cart.payment_collection.payment_sessions.*"
       ],
-      variables: {
-        filters: {
-          id: [input.subscription.id]
-        }
+      filters: {
+        id: [input.subscription.id]
       },
-      list: false,
-      throw_if_key_not_found: true,
-    }) as {
-      cart: CartWorkflowDTO
-    }
+      options: {
+        throwIfKeyNotFound: true
+      }
+    })
 
     const payment_collection = createPaymentCollectionsStep([{
-      region_id: cart.region_id,
-      currency_code: cart.currency_code,
-      amount: cart.payment_collection.amount,
-      metadata: cart.payment_collection.metadata
+      region_id: carts[0].region_id,
+      currency_code: carts[0].currency_code,
+      amount: carts[0].payment_collection.amount,
+      metadata: carts[0].payment_collection.metadata
     }])[0]
 
     const paymentSession = createPaymentSessionsWorkflow.runAsStep({
       input: {
         payment_collection_id: payment_collection.id,
-        provider_id: cart.payment_collection.payment_sessions[0].provider_id,
-        data: cart.payment_collection.payment_sessions[0].data,
-        context: cart.payment_collection.payment_sessions[0].context
+        provider_id: carts[0].payment_collection.payment_sessions[0].provider_id,
+        data: carts[0].payment_collection.payment_sessions[0].data,
+        context: carts[0].payment_collection.payment_sessions[0].context
       }
     })
 
@@ -75,7 +69,7 @@ const createSubscriptionOrderWorkflow = createWorkflow(
 
     const { order, linkDefs } = createSubscriptionOrderStep({
       subscription: input.subscription,
-      cart,
+      cart: carts[0],
       payment_collection
     })
 

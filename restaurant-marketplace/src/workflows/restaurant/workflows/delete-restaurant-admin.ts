@@ -7,7 +7,7 @@ import {
 } from "@medusajs/framework/workflows-sdk"
 import { 
   setAuthAppMetadataStep,
-  useRemoteQueryStep
+  useQueryGraphStep
 } from "@medusajs/medusa/core-flows"
 import { deleteRestaurantAdminStep } from "../steps/delete-restaurant-admin"
 
@@ -22,14 +22,12 @@ export const deleteRestaurantAdminWorkflow = createWorkflow(
   ): WorkflowResponse<string> => {
     deleteRestaurantAdminStep(input)
 
-    const authIdentities = useRemoteQueryStep({
-      entry_point: "auth_identity",
+    const { data: authIdentities } = useQueryGraphStep({
+      entity: "auth_identity",
       fields: ["id"],
-      variables: {
-        filters: {
-          app_metadata: {
-            restaurant_id: input.id,
-          },
+      filters: {
+        app_metadata: {
+          restaurant_id: input.id,
         },
       },
     })

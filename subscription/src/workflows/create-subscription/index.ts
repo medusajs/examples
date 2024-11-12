@@ -5,7 +5,7 @@ import {
 import { 
   createRemoteLinkStep,
   completeCartWorkflow,
-  useRemoteQueryStep
+  useQueryGraphStep
 } from "@medusajs/medusa/core-flows"
 import { 
   SubscriptionInterval
@@ -29,22 +29,21 @@ const createSubscriptionWorkflow = createWorkflow(
       }
     })
 
-    const order = useRemoteQueryStep({
-      entry_point: "order",
+    const { data: orders } = useQueryGraphStep({
+      entity: "order",
       fields: ["*", "id", "customer_id"],
-      variables: {
-        filters: {
-          id
-        }
+      filters: {
+        id
       },
-      list: false,
-      throw_if_key_not_found: true
+      options: {
+        throwIfKeyNotFound: true
+      }
     })
 
     const { subscription, linkDefs } = createSubscriptionStep({
       cart_id: input.cart_id,
-      order_id: order.id,
-      customer_id: order.customer_id,
+      order_id: orders[0].id,
+      customer_id: orders[0].customer_id,
       subscription_data: input.subscription_data
     })
 
@@ -52,7 +51,7 @@ const createSubscriptionWorkflow = createWorkflow(
 
     return new WorkflowResponse({
       subscription: subscription,
-      order: order
+      order: orders[0]
     })
   }
 )
