@@ -1,6 +1,6 @@
 # Medusa v2 Example: Digital Product
 
-This directory holds the code for the [Digital Product recipe example](https://docs.medusajs.com/v2/resources/recipes/digital-products/examples/standard).
+This directory holds the code for the [Digital Product recipe example](https://docs.medusajs.com/resources/recipes/digital-products/examples/standard).
 
 You can either:
 
@@ -16,26 +16,22 @@ git clone https://github.com/medusajs/examples.git
 cd examples/digital-product
 ```
 
-2. Rename the `.env.template` file to `.env`, and set the following environment variable:
+2\. Rename the `.env.template` file to `.env`.
 
-```bash
-DATABASE_URL=
-```
-
-3. Install dependencies:
+3\. Install dependencies:
 
 ```bash
 yarn # or npm install
 ```
 
-4. Run migrations, sync links, and seed the database:
+4\. Setup and seed the database:
 
 ```bash
-npx medusa db:migrate
+npx medusa db:setup
 yarn seed # or npm run seed
 ```
 
-5. Start the Medusa application:
+5\. Start the Medusa application:
 
 ```bash
 yarn dev # or npm run dev
@@ -57,11 +53,11 @@ Then, add the Digital Product Module to `medusa-config.js`:
 ```js
 module.exports = defineConfig({
   // ...
-  modules: {
-    digitalProductModuleService: {
+  modules: [
+    {
       resolve: "./modules/digital-product"
     }
-  }
+  ]
 })
 ```
 
@@ -74,4 +70,4 @@ npx medusa db:migrate
 ## More Resources
 
 - [OpenAPI Spec file](https://res.cloudinary.com/dza7lstvk/raw/upload/v1721654620/OpenApi/Digital_Products_Postman_vjr3jg.yml): Can be imported into tools like Postman to view and send requests to this project's API routes.
-- [Medusa v2 Documentatin](https://docs.medusajs.com/v2)
+- [Medusa Documentatin](https://docs.medusajs.com)
