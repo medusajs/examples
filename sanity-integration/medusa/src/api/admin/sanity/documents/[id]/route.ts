@@ -13,11 +13,13 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
   );
   const sanityDocument = await sanityModule.retrieve(id)
 
-  const url = await sanityModule.getStudioLink(
-    sanityDocument._type,
-    sanityDocument._id,
-    { explicit_type: true },
-  );
+  const url = sanityDocument ? 
+    await sanityModule.getStudioLink(
+      sanityDocument._type,
+      sanityDocument._id,
+      { explicit_type: true },
+    )
+    : ""
 
   res.json({ sanity_document: sanityDocument, studio_url: url });
 };

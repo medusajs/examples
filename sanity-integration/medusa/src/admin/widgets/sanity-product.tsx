@@ -57,11 +57,13 @@ const ProductWidget = ({ data }: DetailWidgetProps<AdminProduct>) => {
           >
             {showCodeBlock ? "Hide" : "Show"} Sanity Document
           </Button>
-          <a href={studio_url} target="_blank" rel="noreferrer">
-            <Button variant="transparent">
-              <ArrowUpRightOnBox /> Sanity Studio
-            </Button>
-          </a>
+          {studio_url && (
+            <a href={studio_url} target="_blank" rel="noreferrer">
+              <Button variant="transparent">
+                <ArrowUpRightOnBox /> Sanity Studio
+              </Button>
+            </a>
+          )}
         </div>
         {!isLoading && showCodeBlock && (
           <CodeBlock

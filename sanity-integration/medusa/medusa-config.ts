@@ -15,7 +15,7 @@ module.exports = defineConfig({
   },
   modules: [
     {
-      resolve: "./modules/sanity",
+      resolve: "./src/modules/sanity",
       options: {
         api_token: process.env.SANITY_API_TOKEN,
         project_id: process.env.SANITY_PROJECT_ID,

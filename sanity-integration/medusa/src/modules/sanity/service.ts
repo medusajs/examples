@@ -1,7 +1,8 @@
 import {
   ModuleJoinerConfig,
   ProductDTO,
-  Logger
+  Logger,
+  FindConfig
 } from "@medusajs/framework/types";
 import {
   createClient,
@@ -106,19 +107,6 @@ export default class SanityModuleService {
     return await this.client.patch(data.id, operations).commit();
   }
 
-  __joinerConfig(): ModuleJoinerConfig {
-    return {
-      serviceName: "sanity",
-      primaryKeys: ["id"],
-      linkableKeys: {},
-      alias: [
-        {
-          name: "sanity",
-        },
-      ],
-    };
-  }
-
   async getStudioLink(
     type: string,
     id: string,
@@ -131,8 +119,14 @@ export default class SanityModuleService {
     return `${this.studioUrl}/structure/${resolvedType};${id}`;
   }
 
-  async list(filter, config) {
-    const data = await this.client.getDocuments(filter.id);
+  async list(
+    filter: {
+      id: string | string[]
+    }
+  ) {
+    const data = await this.client.getDocuments(
+      Array.isArray(filter.id) ? filter.id : [filter.id]
+    );
 
     return data.map((doc) => ({
       id: doc?._id,

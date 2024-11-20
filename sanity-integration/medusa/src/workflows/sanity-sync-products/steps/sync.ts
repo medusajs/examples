@@ -1,6 +1,6 @@
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk";
-import { FilterableProductProps } from "@medusajs/framework/types"
-import { isDefined, Modules, promiseAll } from "@medusajs/framework/utils";
+import { ProductDTO } from "@medusajs/framework/types"
+import { ContainerRegistrationKeys, promiseAll } from "@medusajs/framework/utils";
 import SanityModuleService from "../../../modules/sanity/service";
 import { SANITY_MODULE } from "../../../modules/sanity";
 
@@ -11,8 +11,8 @@ export type SyncStepInput = {
 export const syncStep = createStep(
   { name: "sync-step", async: true},
   async (input: SyncStepInput, { container }) => {
-    const productModule = container.resolve(Modules.PRODUCT);
     const sanityModule: SanityModuleService = container.resolve(SANITY_MODULE);
+    const query = container.resolve(ContainerRegistrationKeys.QUERY)
 
     let total = 0;
     const upsertMap: {
@@ -23,35 +23,49 @@ export const syncStep = createStep(
     const batchSize = 200;
     let hasMore = true;
     let offset = 0;
-    let filter: FilterableProductProps = {};
-    if (isDefined(input.product_ids)) {
-      filter.id = input.product_ids;
+    let filters = {
+      id: input.product_ids || []
     }
 
     while (hasMore) {
-      const [products, count] = await productModule.listAndCountProducts(
-        filter,
-        {
-          select: ["id", "title"],
+      const {
+        data: products,
+        metadata: { count }
+      } = await query.graph({
+        entity: "product",
+        fields: [
+          "id",
+          "title",
+          // @ts-ignore
+          "sanity_product.*"
+        ],
+        // @ts-ignore
+        filters,
+        pagination: {
           skip: offset,
           take: batchSize,
-          order: { id: "ASC" },
-        },
-      );
+          order: {
+            id: "ASC"
+          }
+        }
+      });
 
       await promiseAll(
         products.map(async (prod) => {
-          const before = await sanityModule.retrieve(prod.id)
-          const after = await sanityModule.upsertSyncDocument("product", prod);
+          const after = await sanityModule.upsertSyncDocument(
+            "product", 
+            prod as ProductDTO
+          );
 
           upsertMap.push({
-            before,
+            // @ts-ignore
+            before: prod.sanity_product,
             after
           })
 
           return after
         }),
-      );
+      )
 
       offset += batchSize;
       hasMore = offset < count;
