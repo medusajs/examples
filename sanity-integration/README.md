@@ -75,7 +75,7 @@ module.exports = defineConfig({
         api_version: new Date().toISOString().split("T")[0],
         dataset: "production",
         studio_url: process.env.SANITY_STUDIO_URL || 
-          "http://localhost:3000/studio",
+          "http://localhost:8000/studio",
         type_map: {
           product: "product",
         },
@@ -85,10 +85,17 @@ module.exports = defineConfig({
 })
 ```
 
-Finally, run the migrations and sync links before starting the Medusa application:
+Set the following environment variables:
 
 ```bash
-npx medusa db:migrate
+SANITY_API_TOKEN= # The API token of the Sanity project.
+SANITY_PROJECT_ID= # The ID of the Sanity project.
+```
+
+And install the following dependency:
+
+```bash
+yarn add @sanity/client # or npm install @sanity/client
 ```
 
 ## Next.js Storefront
