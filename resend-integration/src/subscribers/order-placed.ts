@@ -4,7 +4,7 @@ import type {
 } from "@medusajs/framework"
 import { sendOrderConfirmationWorkflow } from "../workflows/send-order-confirmation"
 
-export default async function userCreatedHandler({
+export default async function orderPlacedHandler({
   event: { data },
   container,
 }: SubscriberArgs<{ id: string }>) {

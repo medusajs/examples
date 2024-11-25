@@ -1,13 +1,30 @@
-import { AbstractNotificationProviderService, MedusaError } from "@medusajs/framework/utils"
-import { Logger } from "@medusajs/medusa";
-import { ProviderSendNotificationDTO, ProviderSendNotificationResultsDTO } from "@medusajs/types";
-import { CreateEmailOptions, Resend } from "resend";
-import templates, { Templates } from "./emails";
+import { 
+  AbstractNotificationProviderService, 
+  MedusaError
+} from "@medusajs/framework/utils"
+import { 
+  ProviderSendNotificationDTO, 
+  ProviderSendNotificationResultsDTO,
+  Logger
+} from "@medusajs/framework/types";
+import { 
+  CreateEmailOptions, 
+  Resend
+} from "resend";
+import { orderPlacedEmail } from "./emails/order-placed";
+
+enum Templates {
+  ORDER_PLACED = "order-placed",
+}
+
+const templates: {[key in Templates]?: (props: unknown) => React.ReactNode} = {
+  [Templates.ORDER_PLACED]: orderPlacedEmail
+}
 
 type ResendOptions = {
   api_key: string
   from: string
-  html_templates?: Record<Templates, {
+  html_templates?: Record<string, {
     subject?: string
     content: string
   }>

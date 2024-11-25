@@ -1,11 +1,11 @@
 import { Text, Column, Container, Heading, Html, Img, Row, Section } from "@react-email/components"
 import { BigNumberValue, OrderDTO } from "@medusajs/framework/types"
 
-export type OrderPlacedEmailProps = {
+type OrderPlacedEmailProps = {
   order: OrderDTO
 }
 
-export default function OrderPlacedEmail({ order }: OrderPlacedEmailProps) {
+function OrderPlacedEmailComponent({ order }: OrderPlacedEmailProps) {
   const formatter = new Intl.NumberFormat([], {
     style: "currency",
     currencyDisplay: "narrowSymbol",
@@ -59,3 +59,7 @@ export default function OrderPlacedEmail({ order }: OrderPlacedEmailProps) {
     </Html>
   )
 }
+
+export const orderPlacedEmail = (props: OrderPlacedEmailProps) => (
+  <OrderPlacedEmailComponent {...props} />
+)
