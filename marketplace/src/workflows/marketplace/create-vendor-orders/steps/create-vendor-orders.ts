@@ -8,10 +8,10 @@ import {
   LinkDefinition,
   InferTypeOf
 } from "@medusajs/framework/types"
-import { Modules } from "@medusajs/framework/utils"
+import { Modules, promiseAll } from "@medusajs/framework/utils"
 import { 
-  createOrdersWorkflow,
-  cancelOrderWorkflow
+  cancelOrderWorkflow,
+  createOrderWorkflow
 } from "@medusajs/medusa/core-flows"
 import MarketplaceModuleService from "../../../../modules/marketplace/service"
 import { MARKETPLACE_MODULE } from "../../../../modules/marketplace"
@@ -113,12 +113,12 @@ const createVendorOrdersStep = createStep(
     }
 
     try {
-      await Promise.all(
+      await promiseAll(
         vendorIds.map(async (vendorId) => {
           const items = vendorsItems[vendorId]
           const vendor = vendors.find(v => v.id === vendorId)!
 
-          const {result: childOrder} = await createOrdersWorkflow(
+          const {result: childOrder} = await createOrderWorkflow(
             container
           )
           .run({
@@ -140,17 +140,12 @@ const createVendorOrdersStep = createStep(
         })
       )
     } catch (e) {
-      await Promise.all(createdOrders.map((createdOrder) => {
-        return cancelOrderWorkflow(container).run({
-          input: {
-            order_id: createdOrder.id,
-          },
-          context,
-          container
-        })
-      }))
-
-      throw e
+      return StepResponse.permanentFailure(
+        `An error occured while creating vendor orders: ${e}`,
+        {
+          created_orders: createdOrders
+        }
+      )
     }
     
     return new StepResponse({ 

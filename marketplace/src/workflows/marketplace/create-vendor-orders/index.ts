@@ -20,7 +20,7 @@ const createVendorOrdersWorkflow = createWorkflow(
   (input: WorkflowInput) => {
     const { data: carts } = useQueryGraphStep({
       entity: "cart",
-      fields: ['items.*'],
+      fields: ["id", "items.*"],
       filters: { id: input.cart_id },
       options: {
         throwIfKeyNotFound: true
@@ -34,7 +34,7 @@ const createVendorOrdersWorkflow = createWorkflow(
     })
 
     const { vendorsItems } = groupVendorItemsStep({
-      cart: carts[0].id
+      cart: carts[0]
     })
     
     const order = getOrderDetailWorkflow.runAsStep({
