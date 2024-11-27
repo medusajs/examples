@@ -23,9 +23,9 @@ export const syncStep = createStep(
     const batchSize = 200;
     let hasMore = true;
     let offset = 0;
-    let filters = {
-      id: input.product_ids || []
-    }
+    let filters = input.product_ids ? {
+      id: input.product_ids
+    } : {}
 
     while (hasMore) {
       const {
@@ -39,7 +39,6 @@ export const syncStep = createStep(
           // @ts-ignore
           "sanity_product.*"
         ],
-        // @ts-ignore
         filters,
         pagination: {
           skip: offset,
@@ -50,22 +49,29 @@ export const syncStep = createStep(
         }
       });
 
-      await promiseAll(
-        products.map(async (prod) => {
-          const after = await sanityModule.upsertSyncDocument(
-            "product", 
-            prod as ProductDTO
-          );
-
-          upsertMap.push({
-            // @ts-ignore
-            before: prod.sanity_product,
-            after
-          })
-
-          return after
-        }),
-      )
+      try {
+        await promiseAll(
+          products.map(async (prod) => {
+            const after = await sanityModule.upsertSyncDocument(
+              "product", 
+              prod as ProductDTO
+            );
+  
+            upsertMap.push({
+              // @ts-ignore
+              before: prod.sanity_product,
+              after
+            })
+  
+            return after
+          }),
+        )
+      } catch (e) {
+        return StepResponse.permanentFailure(
+          `An error occurred while syncing documents: ${e}`,
+          upsertMap
+        )
+      }
 
       offset += batchSize;
       hasMore = offset < count;
