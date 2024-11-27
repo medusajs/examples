@@ -32,20 +32,22 @@ SANITY_API_TOKEN= # The API token of the Sanity project.
 SANITY_PROJECT_ID= # The ID of the Sanity project.
 ```
 
-3\. Install dependencies:
+3\. If necessary, change the PostgreSQL username, password, and host in the `DATABASE_URL` environment variable.
+
+4\. Install dependencies:
 
 ```bash
 yarn # or npm install
 ```
 
-4\. Setup and seed the database:
+5\. Setup and seed the database:
 
 ```bash
 npx medusa db:setup
 yarn seed # or npm run seed
 ```
 
-5\. Start the Medusa application:
+6\. Start the Medusa application:
 
 ```bash
 yarn dev # or npm run dev
@@ -75,7 +77,7 @@ module.exports = defineConfig({
         api_version: new Date().toISOString().split("T")[0],
         dataset: "production",
         studio_url: process.env.SANITY_STUDIO_URL || 
-          "http://localhost:3000/studio",
+          "http://localhost:8000/studio",
         type_map: {
           product: "product",
         },
@@ -85,10 +87,17 @@ module.exports = defineConfig({
 })
 ```
 
-Finally, run the migrations and sync links before starting the Medusa application:
+Set the following environment variables:
 
 ```bash
-npx medusa db:migrate
+SANITY_API_TOKEN= # The API token of the Sanity project.
+SANITY_PROJECT_ID= # The ID of the Sanity project.
+```
+
+And install the following dependency:
+
+```bash
+yarn add @sanity/client # or npm install @sanity/client
 ```
 
 ## Next.js Storefront
