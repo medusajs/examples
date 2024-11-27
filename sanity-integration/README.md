@@ -32,20 +32,22 @@ SANITY_API_TOKEN= # The API token of the Sanity project.
 SANITY_PROJECT_ID= # The ID of the Sanity project.
 ```
 
-3\. Install dependencies:
+3\. If necessary, change the PostgreSQL username, password, and host in the `DATABASE_URL` environment variable.
+
+4\. Install dependencies:
 
 ```bash
 yarn # or npm install
 ```
 
-4\. Setup and seed the database:
+5\. Setup and seed the database:
 
 ```bash
 npx medusa db:setup
 yarn seed # or npm run seed
 ```
 
-5\. Start the Medusa application:
+6\. Start the Medusa application:
 
 ```bash
 yarn dev # or npm run dev

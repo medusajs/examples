@@ -32,20 +32,22 @@ RESEND_API_KEY= # Resend API key
 RESEND_FROM_EMAIL= # Resend from email. Use onboarding@resend.dev if you don't have a verified domain.
 ```
 
-4\. Install dependencies:
+4\. If necessary, change the PostgreSQL username, password, and host in the `DATABASE_URL` environment variable.
+
+5\. Install dependencies:
 
 ```bash
 yarn # or npm install
 ```
 
-5\. Setup and seed the database:
+6\. Setup and seed the database:
 
 ```bash
 npx medusa db:setup
 yarn seed # or npm run seed
 ```
 
-6\. Start the Medusa application:
+7\. Start the Medusa application:
 
 ```bash
 yarn dev # or npm run dev
