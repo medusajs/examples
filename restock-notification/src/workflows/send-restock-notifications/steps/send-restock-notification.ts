@@ -12,19 +12,15 @@ export const sendRestockNotificationStep = createStep(
   async (input: SendRestockNotificationStepInput, { container }) => {
     const notificationModuleService = container.resolve("notification")
 
-    await promiseAll(
-      input.map(async (restockSubscription) => {
-        await notificationModuleService.createNotifications(
-          restockSubscription.subscribers.map((subscriber) => ({
-            to: subscriber.email,
-            channel: "email",
-            template: "variant-restock",
-            data: {
-              variant: restockSubscription.product_variant
-            }
-          }))
-        )
-      })
-    )
+    const notificationData = input.map((subscription) => ({
+      to: subscription.email,
+      channel: "email",
+      template: "variant-restock",
+      data: {
+        variant: subscription.product_variant
+      }
+    }))
+
+    await notificationModuleService.createNotifications(notificationData)
   }
 )

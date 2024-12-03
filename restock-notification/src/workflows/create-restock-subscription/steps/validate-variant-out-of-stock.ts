@@ -1,21 +1,21 @@
-import { deepFlatMap, MedusaError, promiseAll } from "@medusajs/framework/utils"
-import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
-import { hasOutOfStockLocations } from "../../utils/has-out-of-stock-locations"
+import { MedusaError } from "@medusajs/framework/utils"
+import { createStep } from "@medusajs/framework/workflows-sdk"
+import { isVariantInStock } from "../../utils/is-variant-in-stock"
 
 type ValidateVariantOutOfStockStepInput = {
   variant_id: string
-  sales_channel_ids: string[]
+  sales_channel_id: string
 }
 
 export const validateVariantOutOfStockStep = createStep(
   "validate-variant-out-of-stock",
-  async (input: ValidateVariantOutOfStockStepInput, { container }) => {
-    const isOutOfStock = await hasOutOfStockLocations(input, container)
-    
-    if (!isOutOfStock) {
+  async (input: ValidateVariantOutOfStockStepInput, stepContext) => {
+    const isInStock = await isVariantInStock(input, stepContext)
+
+    if (isInStock) {
       throw new MedusaError(
-        MedusaError.Types.NOT_ALLOWED,
-        "Specified variant is in stock."
+        MedusaError.Types.INVALID_DATA,
+        `Variant is in stock.`
       )
     }
   }

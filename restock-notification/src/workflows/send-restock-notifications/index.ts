@@ -10,7 +10,7 @@ export const sendRestockNotificationsWorkflow = createWorkflow(
     // @ts-ignore
     const { data: restockSubscriptions } = useQueryGraphStep({
       entity: "restock_subscription",
-      fields: ["*", "subscribers.*", "product_variant.*"],
+      fields: ["*", "product_variant.*"],
     })
 
     // @ts-ignore

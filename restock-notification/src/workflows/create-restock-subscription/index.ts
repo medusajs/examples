@@ -1,12 +1,13 @@
-import { createWorkflow, transform, when, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
+import { createWorkflow, when, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
 import { validateVariantOutOfStockStep } from "./steps/validate-variant-out-of-stock"
 import { getEmailStep } from "./steps/get-email"
-import { createOrGetRestockSubscriptionsStep } from "./steps/create-or-get-restock-subscriptions"
-import { addRestockSubscriberStep } from "./steps/add-restock-subscribers"
+import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
+import { createRestockSubscriptionStep } from "./steps/create-restock-subscription"
+import { updateRestockSubscriptionStep } from "./steps/update-restock-subscription"
 
 type CreateRestockSubscriptionWorkflowInput = {
   variant_id: string
-  sales_channel_ids: string[]
+  sales_channel_id: string
   customer: {
     email?: string
     customer_id?: string
@@ -15,34 +16,63 @@ type CreateRestockSubscriptionWorkflowInput = {
 
 export const createRestockSubscriptionWorkflow = createWorkflow(
   "create-restock-subscription",
-  (input: CreateRestockSubscriptionWorkflowInput) => {
-    const email = getEmailStep(input.customer)
+  ({
+    variant_id,
+    sales_channel_id,
+    customer
+  }: CreateRestockSubscriptionWorkflowInput) => {
+    const email = getEmailStep(customer)
     
     validateVariantOutOfStockStep({
-      variant_id: input.variant_id,
-      sales_channel_ids: input.sales_channel_ids
+      variant_id,
+      sales_channel_id
     })
 
-    const restockSubscriptions = createOrGetRestockSubscriptionsStep({
-      variant_id: input.variant_id,
-      sales_channel_ids: input.sales_channel_ids
+    const { data } = useQueryGraphStep({
+      entity: "restock_subscription",
+      fields: ["*"],
+      filters: {
+        email,
+        variant_id,
+        sales_channel_id
+      }
     })
 
-    const restockSubscriptionIds = transform({
-      restockSubscriptions
-    }, (data) => {
-      return data.restockSubscriptions.map((restockSubscription) => restockSubscription.id)
+    when({ data }, ({ data }) => {
+      return data.length === 0
+    })
+    .then(() => {
+      createRestockSubscriptionStep({
+        variant_id,
+        sales_channel_id,
+        email,
+        customer_id: customer.customer_id
+      })
     })
 
-    const restockSubscriber = addRestockSubscriberStep({
-      email,
-      customer_id: input.customer.customer_id,
-      restock_subscription_ids: restockSubscriptionIds
+    when({ data }, ({ data }) => {
+      return data.length > 0
+    })
+    .then(() => {
+      updateRestockSubscriptionStep({
+        id: data[0].id,
+        customer_id: customer.customer_id
+      })
     })
 
-    return new WorkflowResponse({
-      restockSubscriptions,
-      restockSubscriber
-    })
+    // @ts-ignore
+    const { data: restockSubscription } = useQueryGraphStep({
+      entity: "restock_subscription",
+      fields: ["*"],
+      filters: {
+        email,
+        variant_id,
+        sales_channel_id
+      }
+    }).config({ name: "retrieve-restock-subscription" })
+
+    return new WorkflowResponse(
+      restockSubscription
+    )
   }
 )
