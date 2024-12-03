@@ -12,7 +12,6 @@ export async function POST(
   req: AuthenticatedMedusaRequest<PostStoreCreateRestockSubscription>,
   res: MedusaResponse
 ) {
-  console.log("hi")
   const salesChannelId = req.validatedBody.sales_channel_id || (
     req.publishable_key_context?.sales_channel_ids?.length ? 
       req.publishable_key_context?.sales_channel_ids[0] : undefined
