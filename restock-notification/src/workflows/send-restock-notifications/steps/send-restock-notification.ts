@@ -14,7 +14,7 @@ export const sendRestockNotificationStep = createStep(
 
     const notificationData = input.map((subscription) => ({
       to: subscription.email,
-      channel: "email",
+      channel: "feed",
       template: "variant-restock",
       data: {
         variant: subscription.product_variant

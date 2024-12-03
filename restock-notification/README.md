@@ -63,14 +63,7 @@ module.exports = defineConfig({
   // ...
   modules: [
     {
-      resolve: "@medusajs/medusa/notification",
-      options: {
-        providers: [
-          {
-            resolve: "./src/modules/restock"
-          },
-        ],
-      },
+      resolve: "./src/modules/restock"
     },
   ]
 })
@@ -84,4 +77,4 @@ npx medusa db:migrate
 
 ## More Resources
 
-- [Medusa Documentatin](https://docs.medusajs.com)
+- [Medusa Documentation](https://docs.medusajs.com)

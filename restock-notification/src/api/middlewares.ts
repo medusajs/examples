@@ -7,9 +7,9 @@ export default defineMiddlewares({
       matcher: "/store/restock-subscriptions",
       method: "POST",
       middlewares: [
-        authenticate("customer", ["bearer", "session"], {
-          allowUnauthenticated: true
-        }),
+        // authenticate("customer", ["bearer", "session"], {
+        //   allowUnauthenticated: true
+        // }),
         validateAndTransformBody(PostStoreCreateRestockSubscription)
       ]
     }
