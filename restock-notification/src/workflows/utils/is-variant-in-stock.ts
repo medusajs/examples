@@ -13,28 +13,26 @@ export const isVariantInStock = async (
   { container, ...context }: StepExecutionContext) => {
   const query = container.resolve("query")
 
-  const { data: variants } = await query.graph({
-    entity: "variant",
-    fields: [
-      "*", 
-      "inventory_items.*", 
-      // @ts-ignore
-      "inventory_items.inventory.location_levels.stock_locations.*",
-      // @ts-ignore
-      "inventory_items.inventory.location_levels.stock_locations.sales_channels.*"
-    ],
-    filters: {
-      id: variant_id
+  const { data: variants } = await query.graph(
+    {
+      entity: "variant",
+      fields: [
+        "*", 
+        "inventory_items.*", 
+        // @ts-ignore
+        "inventory_items.inventory.location_levels.stock_locations.*",
+        // @ts-ignore
+        "inventory_items.inventory.location_levels.stock_locations.sales_channels.*"
+      ],
+      filters: {
+        id: variant_id
+      }
+    },
+    {
+      throwIfKeyNotFound: true
     }
-  })
-
-  if (!variants.length) {
-    throw new MedusaError(
-      MedusaError.Types.NOT_FOUND,
-      `Variant does not exist.`
-    )
-  }
-
+  )
+  
   let isInStock = false
 
   try {
