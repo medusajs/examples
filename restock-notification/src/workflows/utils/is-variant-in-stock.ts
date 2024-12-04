@@ -1,7 +1,5 @@
 import { MedusaError } from "@medusajs/framework/utils"
 import { StepExecutionContext } from "@medusajs/framework/workflows-sdk"
-import { confirmVariantInventoryWorkflow } from "@medusajs/medusa/core-flows"
-import { ConfirmVariantInventoryWorkflowInputDTO } from "@medusajs/framework/types"
 
 type IsVariantInStockInput = {
   variant_id: string
@@ -10,51 +8,67 @@ type IsVariantInStockInput = {
 
 export const isVariantInStock = async (
   { variant_id, sales_channel_id }: IsVariantInStockInput, 
-  { container, ...context }: StepExecutionContext) => {
+  { container, ...context }: StepExecutionContext
+) => {
   const query = container.resolve("query")
 
-  const { data: variants } = await query.graph({
-    entity: "variant",
+  const { data: inventory_items } = await query.graph({
+    entity: "product_variant_inventory_items",
     fields: [
-      "*", 
-      "inventory_items.*", 
+      "variant_id",
+      "required_quantity",
       // @ts-ignore
-      "inventory_items.inventory.location_levels.stock_locations.*",
+      "variant.manage_inventory",
       // @ts-ignore
-      "inventory_items.inventory.location_levels.stock_locations.sales_channels.*"
+      "variant.allow_backorder",
+      // @ts-ignore
+      "inventory.*",
+      // @ts-ignore
+      "inventory.location_levels.*",
     ],
-    filters: {
-      id: variant_id
-    }
+    filters: { variant_id, },
   })
 
-  if (!variants.length) {
+  const { data: channel_locations } = await query.graph({
+    entity: "sales_channel_locations",
+    fields: ["stock_location_id"],
+    filters: { sales_channel_id },
+  })
+
+  if (!inventory_items.length || !channel_locations.length) {
     throw new MedusaError(
       MedusaError.Types.NOT_FOUND,
-      `Variant does not exist.`
+      `Couldn't find variant or sales channel`
     )
   }
 
-  let isInStock = false
+  // Create set of location ids for the sales channel
+  const locationIds = new Set(channel_locations.map((l) => l.stock_location_id))
 
-  try {
-    await confirmVariantInventoryWorkflow(container)
-      .run({
-        input: {
-          variants,
-          sales_channel_id,
-          items: [{
-            variant_id,
-            quantity: 1
-          }],
-        } as unknown as ConfirmVariantInventoryWorkflowInputDTO,
-        context,
-      })
-      // no error is thrown, the variant is in stock
-      isInStock = true
-  } catch (e) {
-    // if an error is thrown, the variant isn't in stock
+  const inventoryQuantities: number[] = []
+
+  for (const link of inventory_items) {
+    const requiredQuantity = link.required_quantity
+    const availableQuantity = (link.inventory?.location_levels || []).reduce(
+      (sum, level) => {
+        if (!locationIds.has(level.location_id)) {
+          return sum
+        }
+
+        return sum + (level?.available_quantity || 0)
+      },
+      0
+    )
+
+    // This will give us the maximum deliverable quantities for each inventory item
+    const maxInventoryQuantity = Math.floor(
+      availableQuantity / requiredQuantity
+    )
+
+    inventoryQuantities.push(maxInventoryQuantity)
   }
-  
-  return isInStock
+
+  const availableQuantity = inventoryQuantities.length ? Math.min(...inventoryQuantities) : 0
+
+  return availableQuantity > 0
 }
