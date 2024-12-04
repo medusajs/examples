@@ -1,4 +1,3 @@
-import { MedusaError } from "@medusajs/framework/utils"
 import { StepExecutionContext } from "@medusajs/framework/workflows-sdk"
 import { confirmVariantInventoryWorkflow } from "@medusajs/medusa/core-flows"
 import { ConfirmVariantInventoryWorkflowInputDTO } from "@medusajs/framework/types"
@@ -32,7 +31,7 @@ export const isVariantInStock = async (
       throwIfKeyNotFound: true
     }
   )
-  
+
   let isInStock = false
 
   try {
