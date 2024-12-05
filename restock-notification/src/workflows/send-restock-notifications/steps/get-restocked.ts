@@ -1,10 +1,11 @@
 import { promiseAll } from "@medusajs/framework/utils"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
-import { InferTypeOf } from "@medusajs/framework/types"
-import RestockSubscription from "../../../modules/restock/models/restock-subscription"
 import { isVariantInStock } from "../../utils/is-variant-in-stock"
 
-type GetRestockedStepInput = InferTypeOf<typeof RestockSubscription>[]
+type GetRestockedStepInput = {
+  variant_id: string
+  sales_channel_id: string
+}[]
 
 export const getRestockedStep = createStep(
   "get-restocked",
