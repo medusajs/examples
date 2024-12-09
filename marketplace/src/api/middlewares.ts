@@ -2,7 +2,7 @@ import {
   defineMiddlewares, 
   authenticate, 
   validateAndTransformBody
-} from "@medusajs/framework"
+} from "@medusajs/framework/http"
 import { AdminCreateProduct } from "@medusajs/medusa/api/admin/products/validators"
 
 export default defineMiddlewares({

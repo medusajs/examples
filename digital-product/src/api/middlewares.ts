@@ -1,9 +1,7 @@
 import { 
+  validateAndTransformBody,
   defineMiddlewares, 
-} from "@medusajs/framework"
-import { 
-  validateAndTransformBody
-} from "@medusajs/framework"
+} from "@medusajs/framework/http"
 import { createDigitalProductsSchema } from "./validation-schemas"
 import multer from "multer"
 
