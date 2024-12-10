@@ -1,6 +1,5 @@
-import { promiseAll } from "@medusajs/framework/utils"
+import { getVariantAvailability, promiseAll } from "@medusajs/framework/utils"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
-import { isVariantInStock } from "../../utils/is-variant-in-stock"
 
 type GetRestockedStepInput = {
   variant_id: string
@@ -9,17 +8,18 @@ type GetRestockedStepInput = {
 
 export const getRestockedStep = createStep(
   "get-restocked",
-  async (input: GetRestockedStepInput, stepContext) => {
+  async (input: GetRestockedStepInput, { container }) => {
     const restocked: GetRestockedStepInput = []
+    const query = container.resolve("query")
     
     await promiseAll(
       input.map(async (restockSubscription) => {
-        const isInStock = await isVariantInStock({
-          variant_id: restockSubscription.variant_id,
+        const variantAvailability = await getVariantAvailability(query, {
+          variant_ids: [restockSubscription.variant_id],
           sales_channel_id: restockSubscription.sales_channel_id
-        }, stepContext)
+        })
 
-        if (isInStock) {
+        if (variantAvailability[restockSubscription.variant_id].availability > 0) {
           restocked.push(restockSubscription)
         }
       })

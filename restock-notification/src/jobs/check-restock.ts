@@ -10,5 +10,5 @@ export default async function myCustomJob(container: MedusaContainer) {
 
 export const config = {
   name: "check-restock",
-  schedule: "* * * * *", // For debugging, change to `* * * * *`
+  schedule: "0 0 * * *", // For debugging, change to `* * * * *`
 };

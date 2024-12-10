@@ -1,6 +1,5 @@
-import { MedusaError } from "@medusajs/framework/utils"
-import { createStep } from "@medusajs/framework/workflows-sdk"
-import { isVariantInStock } from "../../utils/is-variant-in-stock"
+import { getVariantAvailability, MedusaError } from "@medusajs/framework/utils"
+import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 
 type ValidateVariantOutOfStockStepInput = {
   variant_id: string
@@ -9,13 +8,17 @@ type ValidateVariantOutOfStockStepInput = {
 
 export const validateVariantOutOfStockStep = createStep(
   "validate-variant-out-of-stock",
-  async (input: ValidateVariantOutOfStockStepInput, stepContext) => {
-    const isInStock = await isVariantInStock(input, stepContext)
-
-    if (isInStock) {
+  async ({ variant_id, sales_channel_id }: ValidateVariantOutOfStockStepInput, { container }) => {
+    const query = container.resolve("query")
+    const availability = await getVariantAvailability(query, {
+      variant_ids: [variant_id],
+      sales_channel_id
+    })
+    
+    if (availability[variant_id].availability > 0) {
       throw new MedusaError(
         MedusaError.Types.INVALID_DATA,
-        `Variant is in stock.`
+        "Variant isn't out of stock."
       )
     }
   }
