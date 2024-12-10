@@ -54,7 +54,7 @@ const createDigitalProductOrderWorkflow = createWorkflow(
     }
     )
 
-    const digital_product_order = when(itemsWithDigitalProducts, (itemsWithDigitalProducts) => {
+    const digital_product_order = when("create-digital-product-order-condition", itemsWithDigitalProducts, (itemsWithDigitalProducts) => {
       return itemsWithDigitalProducts.length
     })
     .then(() => {

@@ -25,7 +25,7 @@ export const createRestockSubscriptionWorkflow = createWorkflow(
     }, (data) => {
       return data.customer.customer_id || ""
     })
-    const retrievedCustomer = when({ customer }, ({ customer }) => {
+    const retrievedCustomer = when("retrieve-customer-by-id", { customer }, ({ customer }) => {
       return !customer.email
     }).then(() => {
       // @ts-ignore
