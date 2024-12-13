@@ -6,7 +6,8 @@ const DigitalProductOrder = model.define("digital_product_order", {
   id: model.id().primaryKey(),
   status: model.enum(OrderStatus),
   products: model.manyToMany(() => DigitalProduct, {
-    mappedBy: "orders"
+    mappedBy: "orders",
+    pivotTable: "digitalproduct_digitalproductorders"
   })
 })
 
