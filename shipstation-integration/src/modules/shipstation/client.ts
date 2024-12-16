@@ -9,7 +9,11 @@ export class ShipStationClient {
   }
 
   private async sendRequest(url: string, data?: RequestInit): Promise<any> {
-    return fetch(`https://docs.shipstation.com/_mock/openapi/v2${url}`, {
+    const baseUrl = this.options.sandbox ? 
+      `https://docs.shipstation.com/_mock/openapi/v2`
+      : `https://api.shipstation.com/v2`
+
+    return fetch(`${baseUrl}${url}`, {
       ...data,
       headers: {
         ...data?.headers,
@@ -37,12 +41,6 @@ export class ShipStationClient {
     return await this.sendRequest(`/shipments/${id}`)
   }
 
-  async purchaseLabelByShipmentId(shipment_id: string): Promise<Label> {
-    return await this.sendRequest(`/labels/shipment/${shipment_id}`, {
-      method: "POST"
-    })
-  }
-
   async purchaseLabel(data: PurchaseLabelRequest): Promise<Label> {
     return await this.sendRequest(`/labels`, {
       method: "POST",
@@ -56,8 +54,10 @@ export class ShipStationClient {
     })
   }
 
-  async getLabel(id: string): Promise<Label> {
-    return await this.sendRequest(`/labels/${id}`)
+  async cancelShipment(id: string): Promise<void> {
+    return await this.sendRequest(`/shipments/${id}/cancel`, {
+      method: "PUT"
+    })
   }
 
   async createReturnLabel(id: string): Promise<Label> {

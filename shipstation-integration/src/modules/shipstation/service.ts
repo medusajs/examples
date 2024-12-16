@@ -1,10 +1,10 @@
 import { AbstractFulfillmentProviderService } from "@medusajs/framework/utils"
-import { CalculatedShippingOptionPrice, FulfillmentOption } from "@medusajs/types"
+import { CalculatedShippingOptionPrice, FulfillmentOption } from "@medusajs/framework/types"
 import { ShipStationClient } from "./client"
-import { Label } from "./types"
 
 export type ShipStationOptions = {
   api_key: string
+  sandbox?: boolean
 }
 
 class ShipStationProviderService extends AbstractFulfillmentProviderService {
@@ -49,16 +49,15 @@ class ShipStationProviderService extends AbstractFulfillmentProviderService {
     const { shipment_id } = data as {
       shipment_id: string
     }
-    const { id: carrier_id, carrier_service_code } = optionData as {
-      id: string
-      carrier_service_code: string
-    }
 
     const { rates: [rate] } = await this.client.getShipmentRates(shipment_id)
 
+    const calculatedPrice = rate.shipping_amount.amount + rate.insurance_amount.amount + 
+      rate.confirmation_amount.amount + rate.other_amount.amount + 
+      (rate.tax_amount?.amount || 0)
+
     return {
-      calculated_price: rate.shipping_amount.amount + rate.insurance_amount.amount + 
-        rate.confirmation_amount.amount + rate.other_amount.amount,
+      calculated_price: calculatedPrice,
       is_calculated_price_tax_inclusive: !!rate.tax_amount
     }
   }
@@ -112,51 +111,36 @@ class ShipStationProviderService extends AbstractFulfillmentProviderService {
 
     const shipment = await this.client.getShipment(shipment_id)
 
-    let label: Label | undefined
-
-    if (shipment.items?.length === items.length) {
-      label = await this.client.purchaseLabelByShipmentId(shipment_id)
-    } else {
-      const { shipment_id: _, items: __, ...shipment_data } = shipment
-      label = await this.client.purchaseLabel({
-        shipment: {
-          ...shipment_data,
-          items: items.map((item) => ({
-            // @ts-ignore
-            name: item.title,
-            // @ts-ignore
-            sku: item.sku,
-            // @ts-ignore
-            quantity: item.quantity
-          }))
-        },
-        outbound_label_id: shipment.shipment_id,
-      })
-    }
+    const { shipment_id: _, ...shipment_data } = shipment
+    const label = await this.client.purchaseLabel({
+      shipment: {
+        ...shipment_data,
+        items: items.map((item) => ({
+          // @ts-ignore
+          name: item.title,
+          // @ts-ignore
+          sku: item.sku,
+          // @ts-ignore
+          quantity: item.quantity
+        }))
+      },
+      outbound_label_id: shipment.shipment_id,
+    })
 
     return {
-      label_id: label.label_id
+      label_id: label.label_id,
+      shipment_id: label.shipment_id
     }
   }
 
   async cancelFulfillment(fulfillment: Record<string, unknown>): Promise<any> {
-    const { label_id } = fulfillment.data as {
+    const { label_id, shipment_id } = fulfillment.data as {
       label_id: string
+      shipment_id: string
     }
 
     await this.client.voidLabel(label_id)
-  }
-
-  async createReturnFulfillment(fulfillment: Record<string, unknown>): Promise<any> {
-    const { label_id } = fulfillment.data as {
-      label_id: string
-    }
-
-    const returnLabel = await this.client.createReturnLabel(label_id)
-
-    return {
-      label_id: returnLabel.label_id
-    }
+    await this.client.cancelShipment(shipment_id)
   }
 
 }
