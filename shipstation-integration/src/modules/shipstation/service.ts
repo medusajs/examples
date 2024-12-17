@@ -128,8 +128,11 @@ class ShipStationProviderService extends AbstractFulfillmentProviderService {
     })
 
     return {
-      label_id: label.label_id,
-      shipment_id: label.shipment_id
+      data: {
+        ...(fulfillment.data as object || {}),
+        label_id: label.label_id,
+        shipment_id: label.shipment_id
+      },
     }
   }
 
