@@ -1,5 +1,5 @@
 import { AbstractFulfillmentProviderService } from "@medusajs/framework/utils"
-import { CalculatedShippingOptionPrice, FulfillmentOption } from "@medusajs/framework/types"
+import { CalculatedShippingOptionPrice, CalculateShippingOptionPriceDTO, FulfillmentOption } from "@medusajs/framework/types"
 import { ShipStationClient } from "./client"
 
 export type ShipStationOptions = {
@@ -42,9 +42,9 @@ class ShipStationProviderService extends AbstractFulfillmentProviderService {
   }
 
   async calculatePrice(
-    optionData: Record<string, unknown>, 
-    data: Record<string, unknown>, 
-    context: Record<string, unknown>
+    optionData: CalculateShippingOptionPriceDTO["optionData"], 
+    data: CalculateShippingOptionPriceDTO["data"], 
+    context: CalculateShippingOptionPriceDTO["context"]
   ): Promise<CalculatedShippingOptionPrice> {
     const { shipment_id } = data as {
       shipment_id: string
@@ -57,7 +57,7 @@ class ShipStationProviderService extends AbstractFulfillmentProviderService {
       (rate.tax_amount?.amount || 0)
 
     return {
-      calculated_price: calculatedPrice,
+      calculated_amount: calculatedPrice,
       is_calculated_price_tax_inclusive: !!rate.tax_amount
     }
   }
