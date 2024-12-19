@@ -102,9 +102,12 @@ export default async function seedDemoData({ container }: ExecArgs) {
         {
           name: "European Warehouse",
           address: {
+            // fake address
             city: "Copenhagen",
             country_code: "DK",
-            address_1: "",
+            address_1: "Hørmarken 6",
+            postal_code: "8362",
+            phone: "+(45) 86-92-44-11"
           },
         },
       ],

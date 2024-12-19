@@ -27,8 +27,7 @@ module.exports = defineConfig({
             resolve: "./src/modules/shipstation",
             id: "shipstation",
             options: {
-              api_key: process.env.SHIPSTATION_API_KEY,
-              sandbox: process.env.SHIPSTATION_SANDBOX === "true"
+              api_key: process.env.SHIPSTATION_API_KEY
             },
           },
         ],

@@ -1,8 +1,13 @@
 export type Carrier = {
   carrier_id: string
   disabled_by_billing_plan: boolean
+  friendly_name: string
   services: {
     service_code: string
+    name: string
+  }[]
+  packages: {
+    package_code: string
   }[]
   [k: string]: unknown
 }
@@ -57,6 +62,10 @@ export type Rate = {
 
 export type RateResponse = {
   rates: Rate[]
+  errors?: {
+    message: string
+    [k: string]: string
+  }[]
 }
 
 export type GetShippingRatesRequest = {
@@ -66,6 +75,7 @@ export type GetShippingRatesRequest = {
     carrier_ids: string[]
     service_codes: string[]
     preferred_currency: string
+    package_types?: string[]
   }
 }
 
@@ -90,10 +100,23 @@ export type Shipment = {
       name?: string
       quantity?: number
       sku?: string
+      [k: string]: unknown
     }
   ]
+  packages: {
+    weight: {
+      value: number
+      unit: "pound" | "ounce" | "gram" | "kilogram"
+    }
+    [k: string]: unknown
+  }[]
   warehouse_id?: string
   shipment_status: "pending" | "processing" | "label_purchased" | "cancelled"
+  validate_address: "no_validation" | "validate_only" | "validate_and_clean"
+  customs?: {
+    contents: "merchandise" | "documents" | "gift" | "returned_goods" | "sample" | "other"
+    non_delivery: "return_to_sender" | "treat_as_abandoned"
+  }
   [k: string]: unknown
 }
 

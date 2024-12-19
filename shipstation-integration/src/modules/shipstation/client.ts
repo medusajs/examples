@@ -1,3 +1,4 @@
+import { MedusaError } from "@medusajs/framework/utils";
 import { ShipStationOptions } from "./service";
 import { CarriersResponse, GetShippingRatesRequest, GetShippingRatesResponse, Label, PurchaseLabelRequest, RateResponse, Shipment, VoidLabelResponse } from "./types";
 
@@ -9,18 +10,33 @@ export class ShipStationClient {
   }
 
   private async sendRequest(url: string, data?: RequestInit): Promise<any> {
-    const baseUrl = this.options.sandbox ? 
-      `https://docs.shipstation.com/_mock/openapi/v2`
-      : `https://api.shipstation.com/v2`
-
-    return fetch(`${baseUrl}${url}`, {
+    return fetch(`https://api.shipstation.com/v2${url}`, {
       ...data,
       headers: {
         ...data?.headers,
         'api-key': this.options.api_key,
-        "Content-Type": "application/"
+        "Content-Type": "application/json"
       }
-    }).then((resp) => resp.json())
+    }).then((resp) => {
+      const contentType = resp.headers.get("content-type")
+      if (!contentType?.includes("application/json")) {
+        return resp.text()
+      }
+
+      return resp.json()
+    })
+    .then((resp) => {
+      if (typeof resp !== "string" && resp.errors?.length) {
+        throw new MedusaError(
+          MedusaError.Types.INVALID_DATA,
+          `An error occured while sending a request to ShipStation: ${
+            resp.errors.map((error) => error.message)
+          }`
+        )
+      }
+
+      return resp
+    })
   }
 
   async getCarriers(): Promise<CarriersResponse> {
@@ -29,22 +45,30 @@ export class ShipStationClient {
 
   async getShippingRates(data: GetShippingRatesRequest): Promise<GetShippingRatesResponse> {
     return await this.sendRequest("/rates", {
+      method: "POST",
       body: JSON.stringify(data)
+    }).then((resp) => {
+      if (resp.rate_response.errors?.length) {
+        throw new MedusaError(
+          MedusaError.Types.INVALID_DATA,
+          `An error occured while retrieving rates from ShipStation: ${
+            resp.rate_response.errors.map((error) => error.message)
+          }`
+        )
+      }
+
+      return resp
     })
   }
 
-  async getShipmentRates(id: string): Promise<RateResponse> {
+  async getShipmentRates(id: string): Promise<RateResponse[]> {
     return await this.sendRequest(`/shipments/${id}/rates`)
   }
 
-  async getShipment(id: string): Promise<Shipment> {
-    return await this.sendRequest(`/shipments/${id}`)
-  }
-
-  async purchaseLabel(data: PurchaseLabelRequest): Promise<Label> {
-    return await this.sendRequest(`/labels`, {
+  async purchaseLabelForShipment(id: string): Promise<Label> {
+    return await this.sendRequest(`/labels/shipment/${id}`, {
       method: "POST",
-      body: JSON.stringify(data)
+      body: JSON.stringify({})
     })
   }
 
@@ -60,9 +84,7 @@ export class ShipStationClient {
     })
   }
 
-  async createReturnLabel(id: string): Promise<Label> {
-    return await this.sendRequest(`/labels/${id}/return`, {
-      method: "POST"
-    })
+  async getShipment(id: string): Promise<Shipment> {
+    return await this.sendRequest(`/shipments/${id}`)
   }
 }
