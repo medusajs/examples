@@ -192,7 +192,7 @@ class ShipStationProviderService extends AbstractFulfillmentProviderService {
         carrier_service_code,
         from_address: {
           // @ts-ignore
-          name: context.from_location.name,
+          name: context.from_location?.name,
           // @ts-ignore
           address: context.from_location?.address
         },
