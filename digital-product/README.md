@@ -48,7 +48,7 @@ If you have an existing Medusa application, copy the content of the following di
 3. `src/workflows`
 4. `src/api`
 5. `src/admin`
-6. `src/jobs`
+6. `src/subscribers`
 
 Then, add the Digital Product Module to `medusa-config.js`:
 

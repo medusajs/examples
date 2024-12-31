@@ -61,6 +61,14 @@
       "schema": "public",
       "indexes": [
         {
+          "keyName": "IDX_digital_product_deleted_at",
+          "columnNames": [],
+          "composite": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_digital_product_deleted_at\" ON \"digital_product\" (deleted_at) WHERE deleted_at IS NULL"
+        },
+        {
           "keyName": "digital_product_pkey",
           "columnNames": [
             "id"
@@ -169,6 +177,14 @@
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_digital_product_media_digital_product_id\" ON \"digital_product_media\" (digital_product_id) WHERE deleted_at IS NULL"
         },
         {
+          "keyName": "IDX_digital_product_media_deleted_at",
+          "columnNames": [],
+          "composite": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_digital_product_media_deleted_at\" ON \"digital_product_media\" (deleted_at) WHERE deleted_at IS NULL"
+        },
+        {
           "keyName": "digital_product_media_pkey",
           "columnNames": [
             "id"
@@ -256,6 +272,14 @@
       "schema": "public",
       "indexes": [
         {
+          "keyName": "IDX_digital_product_order_deleted_at",
+          "columnNames": [],
+          "composite": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_digital_product_order_deleted_at\" ON \"digital_product_order\" (deleted_at) WHERE deleted_at IS NULL"
+        },
+        {
           "keyName": "digital_product_order_pkey",
           "columnNames": [
             "id"
@@ -270,8 +294,8 @@
     },
     {
       "columns": {
-        "digital_product_id": {
-          "name": "digital_product_id",
+        "digital_product_order_id": {
+          "name": "digital_product_order_id",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,
@@ -279,8 +303,8 @@
           "nullable": false,
           "mappedType": "text"
         },
-        "digital_product_order_id": {
-          "name": "digital_product_order_id",
+        "digital_product_id": {
+          "name": "digital_product_id",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,
@@ -295,8 +319,8 @@
         {
           "keyName": "digitalproduct_digitalproductorders_pkey",
           "columnNames": [
-            "digital_product_id",
-            "digital_product_order_id"
+            "digital_product_order_id",
+            "digital_product_id"
           ],
           "composite": true,
           "primary": true,
@@ -305,19 +329,6 @@
       ],
       "checks": [],
       "foreignKeys": {
-        "digitalproduct_digitalproductorders_digital_product_id_foreign": {
-          "constraintName": "digitalproduct_digitalproductorders_digital_product_id_foreign",
-          "columnNames": [
-            "digital_product_id"
-          ],
-          "localTableName": "public.digitalproduct_digitalproductorders",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.digital_product",
-          "deleteRule": "cascade",
-          "updateRule": "cascade"
-        },
         "digitalproduct_digitalproductorders_digital_produ_c0c21_foreign": {
           "constraintName": "digitalproduct_digitalproductorders_digital_produ_c0c21_foreign",
           "columnNames": [
@@ -328,6 +339,19 @@
             "id"
           ],
           "referencedTableName": "public.digital_product_order",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "digitalproduct_digitalproductorders_digital_product_id_foreign": {
+          "constraintName": "digitalproduct_digitalproductorders_digital_product_id_foreign",
+          "columnNames": [
+            "digital_product_id"
+          ],
+          "localTableName": "public.digitalproduct_digitalproductorders",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.digital_product",
           "deleteRule": "cascade",
           "updateRule": "cascade"
         }
