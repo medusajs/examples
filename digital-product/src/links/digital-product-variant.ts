@@ -3,6 +3,9 @@ import ProductModule from "@medusajs/medusa/product"
 import { defineLink } from "@medusajs/framework/utils"
 
 export default defineLink(
-  DigitalProductModule.linkable.digitalProduct,
+  {
+    linkable: DigitalProductModule.linkable.digitalProduct,
+    deleteCascade: true
+  },
   ProductModule.linkable.productVariant
 )

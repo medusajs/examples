@@ -56,6 +56,9 @@ const CreateDigitalProductForm = ({
     }
 
     mediaWithFiles.forEach((media) => {
+      if (!media.file) {
+        return
+      }
       formData.append("files", media.file)
     })
 
@@ -85,7 +88,11 @@ const CreateDigitalProductForm = ({
         files: mainFiles
       } = await uploadMediaFiles(MediaType.MAIN) || {}
   
-      const mediaData = []
+      const mediaData: {
+        type: MediaType
+        file_id: string
+        mime_type: string
+      }[] = []
   
       previewMedias?.forEach((media, index) => {
         mediaData.push({
@@ -192,7 +199,7 @@ const CreateDigitalProductForm = ({
               onChange={(e) => changeFiles(
                 index,
                 {
-                  file: e.target.files[0]
+                  file: e.target.files?.[0]
                 }
               )}
               className="mt-2"

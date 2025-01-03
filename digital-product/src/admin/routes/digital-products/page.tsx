@@ -107,7 +107,7 @@ const DigitalProductsPage = () => {
                 {digitalProduct.name}
               </Table.Cell>
               <Table.Cell>
-                <Link to={`/products/${digitalProduct.product_variant.product_id}`}>
+                <Link to={`/products/${digitalProduct.product_variant?.product_id}`}>
                   View Product
                 </Link>
               </Table.Cell>
