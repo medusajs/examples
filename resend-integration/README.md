@@ -103,5 +103,5 @@ yarn add @react-email/components -E # or npm install @react-email/components -E
 
 ## More Resources
 
-- [Medusa Documentatin](https://docs.medusajs.com)
+- [Medusa Documentation](https://docs.medusajs.com)
 - [Resend Documentation](https://resend.com/docs/introduction)
