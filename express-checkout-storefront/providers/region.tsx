@@ -42,7 +42,7 @@ export const RegionProvider = (
       .then(({ regions }) => {
         setRegions(regions)
       })
-  }, [regions])
+  }, [])
 
   useEffect(() => {
     if (region) {

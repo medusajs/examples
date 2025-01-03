@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@medusajs/icons": "^2.1.3",
-    "@medusajs/js-sdk": "^2.1.1",
-    "@medusajs/types": "^2.1.1",
+    "@medusajs/js-sdk": "^2.1.3",
+    "@medusajs/types": "^2.1.3",
     "@medusajs/ui": "^4.0.2",
     "next": "15.1.0",
     "react": "^19.0.0",

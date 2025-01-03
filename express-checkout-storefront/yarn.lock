@@ -366,19 +366,19 @@
   resolved "https://registry.yarnpkg.com/@medusajs/icons/-/icons-2.1.3.tgz#a9b9dc58435992fa56e0d4177c318530932348e2"
   integrity sha512-olIpuxjerd8RqRtzJRMitYQj27nWrpS5D2ozk+75OVUGd8gExvZA7FM8EgBK2gHygFeJXOVCWuQ/1/SsxLRPjA==
 
-"@medusajs/js-sdk@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@medusajs/js-sdk/-/js-sdk-2.1.1.tgz#7c98875f7c6e8aa1ff0f2ae8d72929df2851c0fe"
-  integrity sha512-FqdEtCQ26QnmvljyXNeo5qYcqUuCc49IKX/vDsoaUF8BND5BlM79hY8m1jk2BHFcBPHW4210NTR33UhicofdRA==
+"@medusajs/js-sdk@^2.1.3":
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/@medusajs/js-sdk/-/js-sdk-2.1.3.tgz#9669935f9984c314067123563243361cf01dfb70"
+  integrity sha512-jR+1o0ZT3AWXJScj87XIQS+y56/mEwK9Bg/KXMfTN/lyF+lSg7O0sD0cSvLH4/hQHDvvmKGligO3h8XDNt/Urw==
   dependencies:
-    "@medusajs/types" "^2.1.1"
+    "@medusajs/types" "^2.1.3"
     fetch-event-stream "^0.1.5"
     qs "^6.12.1"
 
-"@medusajs/types@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-2.1.1.tgz#d6024d35902c00a17534a719b34fd57e9bbdeea9"
-  integrity sha512-TVkZjF8/zWTrT9cKlqPskYhGMsuxZv045XJlH5uwHtbVBr+wyTIzcpf5zQ9Eos/2h8iJOGxorDTgU775XALdwg==
+"@medusajs/types@^2.1.3":
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-2.1.3.tgz#efd8c89330695a8d699074b0ae7c789b77155679"
+  integrity sha512-+mjijFb0bUco1tggdEx8V2R7PpYjaJLjrALRTh3nbHQxa682pQxkr78jsonU9DQU/TzbLAQKAMluYb3c+XwKpw==
   dependencies:
     bignumber.js "^9.1.2"
 
