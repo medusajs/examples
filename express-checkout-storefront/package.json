@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@medusajs/icons": "^2.1.3",
     "@medusajs/js-sdk": "^2.1.1",
     "@medusajs/types": "^2.1.1",
     "@medusajs/ui": "^4.0.2",
