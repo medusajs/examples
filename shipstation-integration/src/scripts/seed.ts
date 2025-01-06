@@ -22,7 +22,7 @@ import {
 
 export default async function seedDemoData({ container }: ExecArgs) {
   const logger = container.resolve(ContainerRegistrationKeys.LOGGER);
-  const remoteLink = container.resolve(ContainerRegistrationKeys.REMOTE_LINK);
+  const link = container.resolve(ContainerRegistrationKeys.LINK);
   const query = container.resolve(ContainerRegistrationKeys.QUERY);
   const fulfillmentModuleService = container.resolve(Modules.FULFILLMENT);
   const salesChannelModuleService = container.resolve(Modules.SALES_CHANNEL);
@@ -102,12 +102,9 @@ export default async function seedDemoData({ container }: ExecArgs) {
         {
           name: "European Warehouse",
           address: {
-            // fake address
             city: "Copenhagen",
             country_code: "DK",
-            address_1: "Hørmarken 6",
-            postal_code: "8362",
-            phone: "+(45) 86-92-44-11"
+            address_1: "",
           },
         },
       ],
@@ -115,7 +112,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
   });
   const stockLocation = stockLocationResult[0];
 
-  await remoteLink.create({
+  await link.create({
     [Modules.STOCK_LOCATION]: {
       stock_location_id: stockLocation.id,
     },
@@ -178,7 +175,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
     ],
   });
 
-  await remoteLink.create({
+  await link.create({
     [Modules.STOCK_LOCATION]: {
       stock_location_id: stockLocation.id,
     },
