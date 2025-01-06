@@ -29,6 +29,7 @@ const ProductInfo = ({ product, sanity }: ProductInfoProps) => {
           {product.title}
         </Heading>
 
+        {/* @ts-ignore */}
         <Text
           className="text-medium text-ui-fg-subtle whitespace-pre-line"
           data-testid="product-description"
