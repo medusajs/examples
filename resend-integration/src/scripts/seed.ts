@@ -13,21 +13,17 @@ import {
   linkSalesChannelsToStockLocationWorkflow,
   updateStoresWorkflow,
 } from "@medusajs/medusa/core-flows";
-import {
-  ExecArgs,
-} from "@medusajs/framework/types";
+import { CreateInventoryLevelInput, ExecArgs } from "@medusajs/framework/types";
 import {
   ContainerRegistrationKeys,
   Modules,
-  ProductStatus
+  ProductStatus,
 } from "@medusajs/framework/utils";
 
 export default async function seedDemoData({ container }: ExecArgs) {
   const logger = container.resolve(ContainerRegistrationKeys.LOGGER);
-  const remoteLink = container.resolve(
-    ContainerRegistrationKeys.REMOTE_LINK
-  );
-  const query = container.resolve(ContainerRegistrationKeys.QUERY)
+  const link = container.resolve(ContainerRegistrationKeys.LINK);
+  const query = container.resolve(ContainerRegistrationKeys.QUERY);
   const fulfillmentModuleService = container.resolve(Modules.FULFILLMENT);
   const salesChannelModuleService = container.resolve(Modules.SALES_CHANNEL);
   const storeModuleService = container.resolve(Modules.STORE);
@@ -116,7 +112,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
   });
   const stockLocation = stockLocationResult[0];
 
-  await remoteLink.create({
+  await link.create({
     [Modules.STOCK_LOCATION]: {
       stock_location_id: stockLocation.id,
     },
@@ -179,7 +175,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
     ],
   });
 
-  await remoteLink.create({
+  await link.create({
     [Modules.STOCK_LOCATION]: {
       stock_location_id: stockLocation.id,
     },
@@ -335,7 +331,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
         {
           title: "Medusa T-Shirt",
           category_ids: [
-            categoryResult.find((cat) => cat.name === "Shirts").id,
+            categoryResult.find((cat) => cat.name === "Shirts")!.id,
           ],
           description:
             "Reimagine the feeling of a classic T-shirt. With our cotton T-shirts, everyday essentials no longer have to be ordinary.",
@@ -521,7 +517,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
         {
           title: "Medusa Sweatshirt",
           category_ids: [
-            categoryResult.find((cat) => cat.name === "Sweatshirts").id,
+            categoryResult.find((cat) => cat.name === "Sweatshirts")!.id,
           ],
           description:
             "Reimagine the feeling of a classic sweatshirt. With our cotton sweatshirt, everyday essentials no longer have to be ordinary.",
@@ -620,7 +616,9 @@ export default async function seedDemoData({ container }: ExecArgs) {
         },
         {
           title: "Medusa Sweatpants",
-          category_ids: [categoryResult.find((cat) => cat.name === "Pants").id],
+          category_ids: [
+            categoryResult.find((cat) => cat.name === "Pants")!.id,
+          ],
           description:
             "Reimagine the feeling of classic sweatpants. With our cotton sweatpants, everyday essentials no longer have to be ordinary.",
           handle: "sweatpants",
@@ -718,7 +716,9 @@ export default async function seedDemoData({ container }: ExecArgs) {
         },
         {
           title: "Medusa Shorts",
-          category_ids: [categoryResult.find((cat) => cat.name === "Merch").id],
+          category_ids: [
+            categoryResult.find((cat) => cat.name === "Merch")!.id,
+          ],
           description:
             "Reimagine the feeling of classic shorts. With our cotton shorts, everyday essentials no longer have to be ordinary.",
           handle: "shorts",
@@ -822,25 +822,25 @@ export default async function seedDemoData({ container }: ExecArgs) {
   logger.info("Seeding inventory levels.");
 
   const { data: inventoryItems } = await query.graph({
-    entity: 'inventory_item',
-    fields: ['id']
-  })
+    entity: "inventory_item",
+    fields: ["id"],
+  });
 
-  const inventoryLevels = []
+  const inventoryLevels: CreateInventoryLevelInput[] = [];
   for (const inventoryItem of inventoryItems) {
     const inventoryLevel = {
       location_id: stockLocation.id,
       stocked_quantity: 1000000,
       inventory_item_id: inventoryItem.id,
-    }
-    inventoryLevels.push(inventoryLevel)
+    };
+    inventoryLevels.push(inventoryLevel);
   }
 
   await createInventoryLevelsWorkflow(container).run({
     input: {
-      inventory_levels: inventoryLevels
+      inventory_levels: inventoryLevels,
     },
-  })
+  });
 
   logger.info("Finished seeding inventory levels data.");
 }
