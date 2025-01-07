@@ -73,7 +73,7 @@ export const Shipping = ({
   }, [shippingOptions, cart])
 
   const getShippingOptionPrice = useCallback((shippingOption: HttpTypes.StoreCartShippingOption) => {
-    let price = shippingOption.price_type === "flat" ? 
+    const price = shippingOption.price_type === "flat" ? 
       shippingOption.amount : calculatedPrices[shippingOption.id]
 
     return formatPrice(price || 0, cart?.currency_code)

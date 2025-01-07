@@ -60,12 +60,22 @@ export const Product = ({ handle, isActive }: ProductProps) => {
   }, [selectedOptions, product])
 
   const price = useMemo(() => {
-    let selectedVariantPrice = selectedVariant || product?.variants?.sort((a: any, b: any) => {
-      return (
-        a.calculated_price.calculated_amount -
-        b.calculated_price.calculated_amount
-      )
-    })[0]
+    const selectedVariantPrice = selectedVariant || 
+      product?.variants?.sort((a: HttpTypes.StoreProductVariant, b: HttpTypes.StoreProductVariant) => {
+        if (!a.calculated_price?.calculated_amount && !b.calculated_price?.calculated_amount) {
+          return 0
+        }
+        if (!a.calculated_price?.calculated_amount) {
+          return 1
+        }
+        if (!b.calculated_price?.calculated_amount) {
+          return -1
+        }
+        return (
+          a.calculated_price?.calculated_amount -
+          b.calculated_price?.calculated_amount
+        )
+      })[0]
 
     return formatPrice(
       selectedVariantPrice?.calculated_price?.calculated_amount || 0,
