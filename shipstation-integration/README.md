@@ -1,70 +1,101 @@
-<p align="center">
-  <a href="https://www.medusajs.com">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/59018053/229103275-b5e482bb-4601-46e6-8142-244f531cebdb.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
-    <img alt="Medusa logo" src="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
-    </picture>
-  </a>
-</p>
-<h1 align="center">
-  Medusa
-</h1>
+# Medusa v2 Example: ShipStation Integration
 
-<h4 align="center">
-  <a href="https://docs.medusajs.com">Documentation</a> |
-  <a href="https://www.medusajs.com">Website</a>
-</h4>
+This directory holds the code for the [ShipStation Integration Guide](https://docs.medusajs.com/resources/integrations/guides/shipstation).
 
-<p align="center">
-  Building blocks for digital commerce
-</p>
-<p align="center">
-  <a href="https://github.com/medusajs/medusa/blob/master/CONTRIBUTING.md">
-    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat" alt="PRs welcome!" />
-  </a>
-    <a href="https://www.producthunt.com/posts/medusa"><img src="https://img.shields.io/badge/Product%20Hunt-%231%20Product%20of%20the%20Day-%23DA552E" alt="Product Hunt"></a>
-  <a href="https://discord.gg/xpCwq3Kfn8">
-    <img src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg" alt="Discord Chat" />
-  </a>
-  <a href="https://twitter.com/intent/follow?screen_name=medusajs">
-    <img src="https://img.shields.io/twitter/follow/medusajs.svg?label=Follow%20@medusajs" alt="Follow @medusajs" />
-  </a>
-</p>
+You can either:
 
-## Compatibility
+- [install and use it as a Medusa application](#installation);
+- or [copy its source files into an existing Medusa application](#copy-into-existing-medusa-application).
 
-This starter is compatible with versions >= 1.8.0 of `@medusajs/medusa`. 
+## Prerequisites
 
-## Getting Started
+- [Node.js v20+](https://nodejs.org/en/download)
+- [Git CLI](https://git-scm.com/downloads)
+- [PostgreSQL](https://www.postgresql.org/download/)
+- [ShipStation account](https://www.shipstation.com/start-a-free-trial) with enabled carriers and activated shipping API, as explained [here](https://docs.medusajs.com/resources/integrations/guides/shipstation#step-2-prepare-shipstation-account).
 
-Visit the [Quickstart Guide](https://docs.medusajs.com/learn) to set up a server.
+## Installation
 
-Visit the [Docs](https://docs.medusajs.com/learn#get-started) to learn more about our system requirements.
+1. Clone the repository and change to the `shipstation-integration` directory:
 
-## What is Medusa
+```bash
+git clone https://github.com/medusajs/examples.git
+cd examples/shipstation-integration
+```
 
-Medusa is a set of commerce modules and tools that allow you to build rich, reliable, and performant commerce applications without reinventing core commerce logic. The modules can be customized and used to build advanced ecommerce stores, marketplaces, or any product that needs foundational commerce primitives. All modules are open-source and freely available on npm.
+2\. Rename the `.env.template` file to `.env`.
 
-Learn more about [Medusa’s architecture](https://docs.medusajs.com/learn/advanced-development/architecture/overview) and [commerce modules](https://docs.medusajs.com/learn/basics/commerce-modules) in the Docs.
+3\. If necessary, change the PostgreSQL username, password, and host in the `DATABASE_URL` environment variable.
 
-## Roadmap, Upgrades & Plugins
+4\. Set the following environment variables:
 
-You can view the planned, started and completed features in the [Roadmap discussion](https://github.com/medusajs/medusa/discussions/categories/roadmap).
+```bash
+SHIPSTATION_API_KEY=
+```
 
-Follow the [Upgrade Guides](https://docs.medusajs.com/upgrade-guides/) to keep your Medusa project up-to-date.
+Where `SHIPSTATION_API_KEY` is the API key of your ShipStation account, retrieved as explained [here](https://docs.medusajs.com/resources/integrations/guides/shipstation#add-module-to-configurations).
 
-Check out all [available Medusa plugins](https://medusajs.com/plugins/).
+5\. Install dependencies:
 
-## Community & Contributions
+```bash
+yarn # or npm install
+```
 
-The community and core team are available in [GitHub Discussions](https://github.com/medusajs/medusa/discussions), where you can ask for support, discuss roadmap, and share ideas.
+6\. Setup and seed the database:
 
-Join our [Discord server](https://discord.com/invite/medusajs) to meet other community members.
+```bash
+npx medusa db:setup
+yarn seed # or npm run seed
+```
 
-## Other channels
+7\. Start the Medusa application:
 
-- [GitHub Issues](https://github.com/medusajs/medusa/issues)
-- [Twitter](https://twitter.com/medusajs)
-- [LinkedIn](https://www.linkedin.com/company/medusajs)
-- [Medusa Blog](https://medusajs.com/blog/)
+```bash
+yarn dev # or npm run dev
+```
+
+## Copy into Existing Medusa Application
+
+If you have an existing Medusa application, copy the `src/modules/shipstation` directory into your application.
+
+Then, add the ShipStation Integration to `medusa-config.ts` as part of the Fulfillment Module's options:
+
+```ts
+module.exports = defineConfig({
+  // ...
+  modules: [
+    {
+      resolve: "@medusajs/medusa/fulfillment",
+      options: {
+        providers: [
+          // default provider
+          {
+            resolve: "@medusajs/medusa/fulfillment-manual",
+            id: "manual",
+          },
+          {
+            resolve: "./src/modules/shipstation",
+            id: "shipstation",
+            options: {
+              api_key: process.env.SHIPSTATION_API_KEY,
+            },
+          },
+        ],
+      },
+    },
+  ],
+})
+```
+
+Make sure to add the following environment variable:
+
+```bash
+SHIPSTATION_API_KEY=
+```
+
+Where `SHIPSTATION_API_KEY` is the API key of your ShipStation account, retrieved as explained [here](https://docs.medusajs.com/resources/integrations/guides/shipstation#add-module-to-configurations).
+
+## More Resources
+
+- [Medusa Documentatin](https://docs.medusajs.com)
+- [ShipStation API Documentation](https://docs.shipstation.com/getting-started)
