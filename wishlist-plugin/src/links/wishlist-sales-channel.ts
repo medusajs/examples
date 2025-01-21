@@ -3,9 +3,6 @@ import WishlistModule from "../modules/wishlist"
 import SalesChannelModule from "@medusajs/medusa/sales-channel"
 
 export default defineLink(
-  {
-    linkable: WishlistModule.linkable.wishlist,
-    isList: true
-  },
+  WishlistModule.linkable.wishlist,
   SalesChannelModule.linkable.salesChannel,
 )
