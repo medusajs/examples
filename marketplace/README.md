@@ -70,4 +70,4 @@ npx medusa db:migrate
 ## More Resources
 
 - [OpenAPI Spec file](https://res.cloudinary.com/dza7lstvk/raw/upload/v1720603521/OpenApi/Marketplace_OpenApi_n458oh.yml): Can be imported into tools like Postman to view and send requests to this project's API routes.
-- [Medusa Documentatin](https://docs.medusajs.com)
+- [Medusa Documentation](https://docs.medusajs.com)
