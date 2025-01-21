@@ -1,20 +1,21 @@
 {
   "name": "medusa-wishlist-plugin",
   "version": "0.0.1",
-  "description": "Plugin for wishlist functionality in Medusa",
-  "author": "Medusa (https://medusajs.com)",
+  "description": "Plugin for wishlist functionality in Medusa.",
+  "author": "Shahed Nasser <shahednasser@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/medusajs/examples.git",
+    "directory": "wishlist-plugin"
+  },
   "license": "MIT",
   "files": [
     ".medusa/server"
   ],
   "keywords": [
-    "sqlite",
-    "postgres",
-    "typescript",
-    "ecommerce",
-    "headless",
     "medusa",
-    "plugin"
+    "plugin",
+    "medusa-plugin-other"
   ],
   "scripts": {
     "build": "medusa plugin:build",
