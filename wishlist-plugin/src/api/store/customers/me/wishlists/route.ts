@@ -34,7 +34,7 @@ export async function GET(
 
   const { data } = await query.graph({
     entity: WishlistCustomerLink.entryPoint,
-    fields: ["wishlist.*", "wishlist.items.*"],
+    fields: ["wishlist.*", "wishlist.items.*", "wishlist.items.product_variant.*"],
     filters: {
       customer_id: req.auth_context.actor_id
     }
@@ -47,16 +47,7 @@ export async function GET(
     )
   }
 
-  // refetch wishlist to get variants
-  const { data: [wishlist] } = await query.graph({
-    entity: "wishlist",
-    fields: ["*", "items.*", "items.product_variant.*"],
-    filters: {
-      id: data[0].wishlist.id
-    }
-  })
-
   return res.json({
-    wishlist
+    wishlist: data[0].wishlist
   })
 }
