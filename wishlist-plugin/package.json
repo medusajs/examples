@@ -1,6 +1,6 @@
 {
   "name": "medusa-wishlist-plugin",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Plugin for wishlist functionality in Medusa.",
   "author": "Shahed Nasser <shahednasser@gmail.com>",
   "repository": {
