@@ -1,7 +1,6 @@
 import { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { createWishlistWorkflow } from "../../../../../workflows/create-wishlist";
 import { MedusaError } from "@medusajs/framework/utils";
-import WishlistCustomerLink from "../../../../../links/wishlist-customer"
 
 export async function POST(
   req: AuthenticatedMedusaRequest,
@@ -33,8 +32,8 @@ export async function GET(
   const query = req.scope.resolve("query")
 
   const { data } = await query.graph({
-    entity: WishlistCustomerLink.entryPoint,
-    fields: ["wishlist.*", "wishlist.items.*", "wishlist.items.product_variant.*"],
+    entity: "wishlist",
+    fields: ["*", "items.*", "items.product_variant.*"],
     filters: {
       customer_id: req.auth_context.actor_id
     }
@@ -48,6 +47,6 @@ export async function GET(
   }
 
   return res.json({
-    wishlist: data[0].wishlist
+    wishlist: data[0]
   })
 }

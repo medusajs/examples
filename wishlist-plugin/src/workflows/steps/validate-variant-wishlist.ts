@@ -17,7 +17,7 @@ export const validateVariantWishlistStep = createStep(
     wishlist
   }: ValidateVariantWishlistStepInput, { container }) => {
     // validate whether variant is in wishlist
-    const isInWishlist = wishlist.items?.some((item) => item.variant_id === variant_id)
+    const isInWishlist = wishlist.items?.some((item) => item.product_variant_id === variant_id)
 
     if (isInWishlist) {
       throw new MedusaError(

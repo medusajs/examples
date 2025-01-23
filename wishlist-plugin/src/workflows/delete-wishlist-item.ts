@@ -1,7 +1,6 @@
 import { createWorkflow, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
 import { deleteWishlistItemStep } from "./steps/delete-wishlist-item"
 import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
-import WishlistCustomerLink from "../links/wishlist-customer"
 import { validateItemInWishlistStep } from "./steps/validate-item-in-wishlist"
 
 type DeleteWishlistItemWorkflowInput = {
@@ -12,9 +11,9 @@ type DeleteWishlistItemWorkflowInput = {
 export const deleteWishlistItemWorkflow = createWorkflow(
   "delete-wishlist-item",
   (input: DeleteWishlistItemWorkflowInput) => {
-    const { data: wishlistCustomerLinks } = useQueryGraphStep({
-      entity: WishlistCustomerLink.entryPoint,
-      fields: ["wishlist.*", "wishlist.items.*"],
+    const { data: wishlists } = useQueryGraphStep({
+      entity: "wishlist",
+      fields: ["*", "items.*"],
       filters: {
         customer_id: input.customer_id,
       },
@@ -24,23 +23,23 @@ export const deleteWishlistItemWorkflow = createWorkflow(
     })
 
     validateItemInWishlistStep({
-      wishlist: wishlistCustomerLinks[0].wishlist,
+      wishlist: wishlists[0],
       wishlist_item_id: input.wishlist_item_id
     })
 
     deleteWishlistItemStep(input)
 
     // refetch wishlist
-    const { data: wishlists } = useQueryGraphStep({
+    const { data: updatedWishlists } = useQueryGraphStep({
       entity: "wishlist",
       fields: ["*", "items.*", "items.product_variant.*"],
       filters: {
-        id: wishlistCustomerLinks[0].wishlist.id
+        id: wishlists[0].wishlist.id
       }
     }).config({ name: "refetch-wishlist" })
 
     return new WorkflowResponse({
-      wishlist: wishlists[0]
+      wishlist: updatedWishlists[0]
     })
   }
 )

@@ -4,8 +4,11 @@ import ProductModule from "@medusajs/medusa/product"
 
 export default defineLink(
   {
-    linkable: WishlistModule.linkable.wishlistItem,
-    isList: true,
+    ...WishlistModule.linkable.wishlistItem.id,
+    field: "product_variant_id"
   },
   ProductModule.linkable.productVariant,
+  {
+    readOnly: true
+  }
 )

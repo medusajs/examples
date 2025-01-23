@@ -4,7 +4,7 @@ import { WISHLIST_MODULE } from "../../modules/wishlist"
 
 type CreateWishlistItemStepInput = {
   wishlist_id: string
-  variant_id: string
+  product_variant_id: string
 }
 
 export const createWishlistItemStep = createStep(

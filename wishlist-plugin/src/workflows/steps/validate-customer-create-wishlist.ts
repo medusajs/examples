@@ -11,24 +11,33 @@ export const validateCustomerCreateWishlistStep = createStep(
     const query = container.resolve("query")
 
     const { data } = await query.graph({
+      entity: "wishlist",
+      fields: ["*"],
+      filters: {
+        customer_id: customer_id
+      }
+    })
+
+    if (data.length) {
+      throw new MedusaError(
+        MedusaError.Types.NOT_FOUND,
+        "Customer already has a wishlist",
+      )
+    }
+
+    // check that customer exists
+    const { data: customers } = await query.graph({
       entity: "customer",
-      fields: ["wishlist.*"],
+      fields: ["*"],
       filters: {
         id: customer_id
       }
     })
 
-    if (!data.length) {
-      throw new MedusaError(
-        MedusaError.Types.NOT_FOUND,
-        "Specified customer was not found",
-      )
-    }
-
-    if (data[0].wishlist) {
+    if (customers.length === 0) {
       throw new MedusaError(
         MedusaError.Types.INVALID_DATA,
-        "Customer already has a wishlist",
+        "Specified customer was not found",
       )
     }
   },

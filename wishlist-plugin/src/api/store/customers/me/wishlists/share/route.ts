@@ -1,6 +1,5 @@
 import { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework";
 import { MedusaError } from "@medusajs/framework/utils";
-import WishlistCustomerLink from "../../../../../../links/wishlist-customer"
 import jwt from "jsonwebtoken"
 
 export async function POST(
@@ -17,8 +16,8 @@ export async function POST(
   const query = req.scope.resolve("query")
 
   const { data } = await query.graph({
-    entity: WishlistCustomerLink.entryPoint,
-    fields: ["wishlist.*"],
+    entity: "wishlist",
+    fields: ["*"],
     filters: {
       customer_id: req.auth_context.actor_id,
     }
@@ -31,7 +30,7 @@ export async function POST(
     )
   }
 
-  if (data[0].wishlist.sales_channel_id !== req.publishable_key_context.sales_channel_ids[0]) {
+  if (data[0].sales_channel_id !== req.publishable_key_context.sales_channel_ids[0]) {
     throw new MedusaError(
       MedusaError.Types.INVALID_DATA,
       "Wishlist does not belong to the specified sales channel"
@@ -41,7 +40,7 @@ export async function POST(
   const { http } = req.scope.resolve("configModule").projectConfig
 
   const wishlistToken = jwt.sign({
-    wishlist_id: data[0].wishlist.id
+    wishlist_id: data[0].id
   }, http.jwtSecret!, {
     expiresIn: http.jwtExpiresIn
   })
