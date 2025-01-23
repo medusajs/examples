@@ -71,6 +71,10 @@ module.exports = defineConfig({
 npx medusa db:migrate
 ```
 
+## Test it Out
+
+To test out that the plugin is working, you can go to any product page on the Medusa Admin and see a Wishlist section at the top of the page. You can also try importing the [OpenAPI Spec file](https://res.cloudinary.com/dza7lstvk/raw/upload/v1737459635/OpenApi/Wishlist_Postman_gjk7mn.yml) and using the API routes added by this plugin.
+
 ## More Resources
 
 - [Medusa Documentatin](https://docs.medusajs.com)
