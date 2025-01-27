@@ -14,7 +14,6 @@ type WishlistResponse = {
 const ProductWidget = ({ 
   data: product,
 }: DetailWidgetProps<AdminProduct>) => {
-  console.log("here")
   const { data, isLoading } = useQuery<WishlistResponse>({
     queryFn: () => sdk.client.fetch(`/admin/products/${product.id}/wishlist`),
     queryKey: [["products", product.id, "wishlist"]],
