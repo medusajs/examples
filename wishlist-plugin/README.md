@@ -35,7 +35,25 @@ module.exports = defineConfig({
 })
 ```
 
-3. Run the `db:migrate` command to run migrations and sync links:
+3. Add the following `admin` configuration in `medusa-config.ts`:
+
+```ts
+module.exports = defineConfig({
+  // ...
+  admin: {
+    vite: () => {
+      return {
+        optimizeDeps: {
+          include: ["qs"],
+        },
+      };
+    },
+  },
+})
+
+```
+
+4. Run the `db:migrate` command to run migrations and sync links:
 
 ```bash
 npx medusa db:migrate
