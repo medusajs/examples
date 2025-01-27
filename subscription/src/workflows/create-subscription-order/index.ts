@@ -47,7 +47,6 @@ const createSubscriptionOrderWorkflow = createWorkflow(
     })
 
     const payment_collection = createPaymentCollectionsStep([{
-      region_id: carts[0].region_id,
       currency_code: carts[0].currency_code,
       amount: carts[0].payment_collection.amount,
       metadata: carts[0].payment_collection.metadata
