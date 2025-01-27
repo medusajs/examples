@@ -129,5 +129,5 @@ The Sanity studio is available at `http://localhost:8000/studio`, and the the st
 
 ## More Resources
 
-- [Medusa Documentatin](https://docs.medusajs.com)
+- [Medusa Documentation](https://docs.medusajs.com)
 - [Sanity Documentation](https://www.sanity.io/docs/overview-introduction)
