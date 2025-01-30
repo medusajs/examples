@@ -1,20 +1,17 @@
 /dist
-.env.*
-!.env.template
+.env
 .DS_Store
 /uploads
 /node_modules
 yarn-error.log
 
 .idea
-.vscode
 
 coverage
 
 !src/**
 
 ./tsconfig.tsbuildinfo
-package-lock.json
 medusa-db.sql
 build
 .cache
