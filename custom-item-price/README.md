@@ -1,62 +1,95 @@
-<p align="center">
-  <a href="https://www.medusajs.com">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/59018053/229103275-b5e482bb-4601-46e6-8142-244f531cebdb.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
-    <img alt="Medusa logo" src="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
-    </picture>
-  </a>
-</p>
-<h1 align="center">
-  Medusa
-</h1>
+# Medusa v2 Example: Custom Line Item Price
 
-<h4 align="center">
-  <a href="https://docs.medusajs.com">Documentation</a> |
-  <a href="https://www.medusajs.com">Website</a>
-</h4>
+This directory holds the code for the [Custom Line Item Price Guide](https://docs.medusajs.com/resources/examples/guides/custom-item-price).
 
-<p align="center">
-  Building blocks for digital commerce
-</p>
-<p align="center">
-  <a href="https://github.com/medusajs/medusa/blob/master/CONTRIBUTING.md">
-    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat" alt="PRs welcome!" />
-  </a>
-    <a href="https://www.producthunt.com/posts/medusa"><img src="https://img.shields.io/badge/Product%20Hunt-%231%20Product%20of%20the%20Day-%23DA552E" alt="Product Hunt"></a>
-  <a href="https://discord.gg/xpCwq3Kfn8">
-    <img src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg" alt="Discord Chat" />
-  </a>
-  <a href="https://twitter.com/intent/follow?screen_name=medusajs">
-    <img src="https://img.shields.io/twitter/follow/medusajs.svg?label=Follow%20@medusajs" alt="Follow @medusajs" />
-  </a>
-</p>
+You can either:
 
-## Compatibility
+- [install and use it as a Medusa application](#installation);
+- or [copy its source files into an existing Medusa application](#copy-into-existing-medusa-application).
 
-This starter is compatible with versions >= 2 of `@medusajs/medusa`. 
+## Prerequisites
 
-## Getting Started
+- [Node.js v20+](https://nodejs.org/en/download)
+- [Git CLI](https://git-scm.com/downloads)
+- [PostgreSQL](https://www.postgresql.org/download/)
+- [GoldAPI.io Account](https://www.goldapi.io) which is used to retrieve real-time metal prices. You can create a free account.
 
-Visit the [Quickstart Guide](https://docs.medusajs.com/learn/installation) to set up a server.
+## Installation
 
-Visit the [Docs](https://docs.medusajs.com/learn/installation#get-started) to learn more about our system requirements.
+1. Clone the repository and change to the `custom-item-price` directory:
 
-## What is Medusa
+```bash
+git clone https://github.com/medusajs/examples.git
+cd examples/custom-item-price
+```
 
-Medusa is a set of commerce modules and tools that allow you to build rich, reliable, and performant commerce applications without reinventing core commerce logic. The modules can be customized and used to build advanced ecommerce stores, marketplaces, or any product that needs foundational commerce primitives. All modules are open-source and freely available on npm.
+2\. Rename the `.env.template` file to `.env`.
 
-Learn more about [Medusa’s architecture](https://docs.medusajs.com/learn/introduction/architecture) and [commerce modules](https://docs.medusajs.com/learn/fundamentals/modules/commerce-modules) in the Docs.
+3\. If necessary, change the PostgreSQL username, password, and host in the `DATABASE_URL` environment variable.
 
-## Community & Contributions
+4\. Set the following environment variables:
 
-The community and core team are available in [GitHub Discussions](https://github.com/medusajs/medusa/discussions), where you can ask for support, discuss roadmap, and share ideas.
+```bash
+GOLD_API_TOKEN=
+```
 
-Join our [Discord server](https://discord.com/invite/medusajs) to meet other community members.
+Where `GOLD_API_TOKEN` is the access token that you can retrieve from your GoldAPI.io dashboard.
 
-## Other channels
+5\. Install dependencies:
 
-- [GitHub Issues](https://github.com/medusajs/medusa/issues)
-- [Twitter](https://twitter.com/medusajs)
-- [LinkedIn](https://www.linkedin.com/company/medusajs)
-- [Medusa Blog](https://medusajs.com/blog/)
+```bash
+yarn # or npm install
+```
+
+6\. Setup and seed the database:
+
+```bash
+npx medusa db:setup
+yarn seed # or npm run seed
+```
+
+7\. Start the Medusa application:
+
+```bash
+yarn dev # or npm run dev
+```
+
+## Copy into Existing Medusa Application
+
+If you have an existing Medusa application, copy the following directories and files into your project:
+
+- `src/api/store`
+- `src/api/middlewares.ts`
+- `src/modules/metal-prices`
+- `src/workflows/steps`
+- `src/workflows/add-custom-to-cart.ts`
+
+Then, add the Metal Prices Module to `medusa-config.ts`:
+
+```ts
+module.exports = defineConfig({
+  // ...
+  modules: [
+    {
+      resolve: "./src/modules/metal-prices",
+      options: {
+        accessToken: process.env.GOLD_API_TOKEN,
+        sandbox: process.env.GOLD_API_SANDBOX === "true"
+      }
+    }
+  ],
+})
+```
+
+Make sure to add the following environment variable:
+
+```bash
+GOLD_API_TOKEN=
+```
+
+Where `GOLD_API_TOKEN` is the access token that you can retrieve from your GoldAPI.io dashboard.
+
+## More Resources
+
+- [Medusa Documentatin](https://docs.medusajs.com)
+- [OpenAPI Spec file](https://res.cloudinary.com/dza7lstvk/raw/upload/v1738246728/OpenApi/Custom_Item_Price_gdfnl3.yaml): Can be imported into tools like Postman to view and send requests to this project's API routes.
