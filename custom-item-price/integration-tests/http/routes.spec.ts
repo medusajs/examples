@@ -1,6 +1,6 @@
 import { medusaIntegrationTestRunner } from "@medusajs/test-utils"
 import { ApiKeyDTO, CartDTO } from "@medusajs/framework/types"
-import { createApiKeysWorkflow, createCartWorkflow, createProductsWorkflow } from "@medusajs/medusa/core-flows"
+import { createCartWorkflow, createProductsWorkflow } from "@medusajs/medusa/core-flows"
 import seedDemoData from "../../src/scripts/seed"
 
 medusaIntegrationTestRunner({
