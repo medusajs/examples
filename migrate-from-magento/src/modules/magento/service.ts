@@ -1,6 +1,11 @@
-import { Logger } from "@medusajs/framework/types"
 import { MedusaError, promiseAll } from "@medusajs/framework/utils"
-import { MagentoAttribute, MagentoCategory, MagentoPaginatedResponse, MagentoPagination, MagentoProduct } from "./types"
+import { 
+  MagentoAttribute, 
+  MagentoCategory, 
+  MagentoPaginatedResponse, 
+  MagentoPagination, 
+  MagentoProduct
+} from "./types"
 
 type Options = {
   baseUrl: string
@@ -13,20 +18,14 @@ type Options = {
   }
 }
 
-type InjectedDependencies = {
-  logger: Logger
-}
-
 export default class MagentoModuleService {
-  private logger: Logger
   private options: Options
   private accessToken: {
     token: string
     expiresAt: Date
   }
 
-  constructor(container: InjectedDependencies, options: Options) {
-    this.logger = container.logger
+  constructor({}, options: Options) {
     this.options = {
       ...options,
       storeCode: options.storeCode || "default",
