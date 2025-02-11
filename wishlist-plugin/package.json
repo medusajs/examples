@@ -1,6 +1,6 @@
 {
   "name": "medusa-wishlist-plugin",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Plugin for wishlist functionality in Medusa.",
   "author": "Shahed Nasser <shahednasser@gmail.com>",
   "repository": {
@@ -23,13 +23,13 @@
     "prepublishOnly": "medusa plugin:build"
   },
   "devDependencies": {
-    "@medusajs/admin-sdk": "2.4.0",
-    "@medusajs/cli": "2.4.0",
-    "@medusajs/framework": "2.4.0",
-    "@medusajs/icons": "2.4.0",
-    "@medusajs/medusa": "2.4.0",
-    "@medusajs/test-utils": "2.4.0",
-    "@medusajs/js-sdk": "2.4.0",
+    "@medusajs/admin-sdk": "2.5.0",
+    "@medusajs/cli": "2.5.0",
+    "@medusajs/framework": "2.5.0",
+    "@medusajs/icons": "2.5.0",
+    "@medusajs/medusa": "2.5.0",
+    "@medusajs/test-utils": "2.5.0",
+    "@medusajs/js-sdk": "2.5.0",
     "@medusajs/ui": "4.0.3",
     "@mikro-orm/cli": "6.4.3",
     "@mikro-orm/core": "6.4.3",
@@ -59,7 +59,7 @@
     "@medusajs/medusa": "2.3.1",
     "@medusajs/test-utils": "2.3.1",
     "@medusajs/ui": "4.0.3",
-    "@medusajs/js-sdk": "2.4.0",
+    "@medusajs/js-sdk": "2.5.0",
     "@mikro-orm/cli": "6.4.3",
     "@mikro-orm/core": "6.4.3",
     "@mikro-orm/knex": "6.4.3",

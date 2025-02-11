@@ -28,6 +28,7 @@ const createDigitalProductOrderStep = createStep(
 
     const digitalProductIds = items.map((item) => item.variant.digital_product.id)
 
+    // @ts-expect-error wait until types are fixed
     const digitalProductOrder = await digitalProductModuleService.createDigitalProductOrders({
       status: OrderStatus.PENDING,
       products: digitalProductIds

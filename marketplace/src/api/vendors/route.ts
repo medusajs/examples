@@ -48,7 +48,7 @@ export const POST = async (
     .resolve("marketplaceModuleService")
 
   // create vendor
-  let vendor = await marketplaceModuleService.createVendors([vendorData])
+  let vendor = await marketplaceModuleService.createVendors(vendorData)
 
   // create vendor admin
   await createVendorAdminWorkflow(req.scope)

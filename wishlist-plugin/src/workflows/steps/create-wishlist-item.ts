@@ -18,6 +18,9 @@ export const createWishlistItemStep = createStep(
     return new StepResponse(item, item.id)
   },
   async (id, { container }) => {
+    if (!id) {
+      return
+    }
     const wishlistModuleService: WishlistModuleService = 
       container.resolve(WISHLIST_MODULE)
 
