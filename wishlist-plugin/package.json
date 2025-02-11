@@ -1,0 +1,77 @@
+{
+  "name": "medusa-wishlist-plugin",
+  "version": "0.1.0",
+  "description": "Plugin for wishlist functionality in Medusa.",
+  "author": "Shahed Nasser <shahednasser@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/medusajs/examples.git",
+    "directory": "wishlist-plugin"
+  },
+  "license": "MIT",
+  "files": [
+    ".medusa/server"
+  ],
+  "keywords": [
+    "medusa",
+    "plugin",
+    "medusa-plugin-other"
+  ],
+  "scripts": {
+    "build": "medusa plugin:build",
+    "dev": "medusa plugin:develop",
+    "prepublishOnly": "medusa plugin:build"
+  },
+  "devDependencies": {
+    "@medusajs/admin-sdk": "2.5.0",
+    "@medusajs/cli": "2.5.0",
+    "@medusajs/framework": "2.5.0",
+    "@medusajs/icons": "2.5.0",
+    "@medusajs/medusa": "2.5.0",
+    "@medusajs/test-utils": "2.5.0",
+    "@medusajs/js-sdk": "2.5.0",
+    "@medusajs/ui": "4.0.3",
+    "@mikro-orm/cli": "6.4.3",
+    "@mikro-orm/core": "6.4.3",
+    "@mikro-orm/knex": "6.4.3",
+    "@mikro-orm/migrations": "6.4.3",
+    "@mikro-orm/postgresql": "6.4.3",
+    "@swc/core": "1.5.7",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.3.2",
+    "@types/react-dom": "^18.2.25",
+    "awilix": "^8.0.1",
+    "pg": "^8.13.0",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.2",
+    "vite": "^5.2.11",
+    "yalc": "^1.0.0-pre.53"
+  },
+  "peerDependencies": {
+    "@medusajs/admin-sdk": "2.3.1",
+    "@medusajs/cli": "2.3.1",
+    "@medusajs/framework": "2.3.1",
+    "@medusajs/icons": "2.3.1",
+    "@medusajs/medusa": "2.3.1",
+    "@medusajs/test-utils": "2.3.1",
+    "@medusajs/ui": "4.0.3",
+    "@medusajs/js-sdk": "2.5.0",
+    "@mikro-orm/cli": "6.4.3",
+    "@mikro-orm/core": "6.4.3",
+    "@mikro-orm/knex": "6.4.3",
+    "@mikro-orm/migrations": "6.4.3",
+    "@mikro-orm/postgresql": "6.4.3",
+    "awilix": "^8.0.1",
+    "pg": "^8.13.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2"
+  }
+}

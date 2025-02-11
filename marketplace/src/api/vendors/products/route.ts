@@ -46,7 +46,7 @@ export const POST = async (
   req: AuthenticatedMedusaRequest<RequestType>,
   res: MedusaResponse
 ) => {
-  const remoteLink = req.scope.resolve("remoteLink")
+  const link = req.scope.resolve("link")
   const marketplaceModuleService: MarketplaceModuleService = 
     req.scope.resolve(MARKETPLACE_MODULE)
   const productModuleService: IProductModuleService = req.scope
@@ -75,7 +75,7 @@ export const POST = async (
     })
 
   // link product to vendor
-  await remoteLink.create({
+  await link.create({
     [MARKETPLACE_MODULE]: {
       vendor_id: vendorAdmin.vendor.id
     },

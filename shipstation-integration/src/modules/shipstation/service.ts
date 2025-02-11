@@ -1,5 +1,5 @@
 import { AbstractFulfillmentProviderService, MedusaError } from "@medusajs/framework/utils"
-import { CalculatedShippingOptionPrice, CalculateShippingOptionPriceDTO, CartAddressDTO, CartLineItemDTO, FulfillmentOption, OrderLineItemDTO, StockLocationAddressDTO } from "@medusajs/framework/types"
+import { CalculatedShippingOptionPrice, CalculateShippingOptionPriceDTO, CartAddressDTO, CartLineItemDTO, CreateShippingOptionDTO, FulfillmentOption, OrderLineItemDTO, StockLocationAddressDTO } from "@medusajs/framework/types"
 import { ShipStationClient } from "./client"
 import { GetShippingRatesResponse, Rate, ShipStationAddress } from "./types"
 
@@ -39,7 +39,7 @@ class ShipStationProviderService extends AbstractFulfillmentProviderService {
     return fulfillmentOptions
   }
 
-  async canCalculate(data: Record<string, unknown>): Promise<boolean> {
+  async canCalculate(data: CreateShippingOptionDTO): Promise<boolean> {
     return true
   }
 
@@ -155,7 +155,7 @@ class ShipStationProviderService extends AbstractFulfillmentProviderService {
         },
         to_address: context.shipping_address,
         items: context.items || [],
-        currency_code: context.currency_code
+        currency_code: context.currency_code as string
       })
       rate = shipment.rate_response.rates[0]
     } else {

@@ -1,5 +1,5 @@
 import { AbstractFulfillmentProviderService } from "@medusajs/framework/utils"
-import { FulfillmentOption } from "@medusajs/framework/types"
+import { CreateFulfillmentResult, FulfillmentDTO, FulfillmentItemDTO, FulfillmentOption, FulfillmentOrderDTO } from "@medusajs/framework/types"
 
 class DigitalProductFulfillmentService extends AbstractFulfillmentProviderService {
   static identifier = "digital"
@@ -28,9 +28,17 @@ class DigitalProductFulfillmentService extends AbstractFulfillmentProviderServic
     return true
   }
 
-  async createFulfillment(): Promise<Record<string, any>> {
+  async createFulfillment(
+    data: Record<string, unknown>, 
+    items: Partial<Omit<FulfillmentItemDTO, "fulfillment">>[], 
+    order: Partial<FulfillmentOrderDTO> | undefined, 
+    fulfillment: Partial<Omit<FulfillmentDTO, "provider_id" | "data" | "items">>
+  ): Promise<CreateFulfillmentResult> {
     // No data is being sent anywhere
-    return {}
+    return {
+      data,
+      labels: []
+    }
   }
 
   async cancelFulfillment(): Promise<any> {

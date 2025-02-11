@@ -23,6 +23,9 @@ export const createRestockSubscriptionStep = createStep(
     return new StepResponse(restockSubscription, restockSubscription)
   },
   async (restockSubscription, { container }) => {
+    if (!restockSubscription) {
+      return
+    }
     const restockModuleService: RestockModuleService = container.resolve(
       RESTOCK_MODULE
     )

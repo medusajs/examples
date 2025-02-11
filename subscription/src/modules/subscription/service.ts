@@ -44,7 +44,7 @@ class SubscriptionModuleService extends MedusaService({
     return subscriptions
   }
 
-  async recordNewSubscriptionOrder(id: string): Promise<SubscriptionData[]> {
+  async recordNewSubscriptionOrder(id: string) {
     const subscription = await this.retrieveSubscription(id)
 
     const orderDate = new Date()

@@ -56,7 +56,7 @@ If you have an existing Medusa application, copy the content of the following di
 4. `src/modules/restock`
 5. `src/workflows`
 
-Then, add the Resend Module to `medusa-config.js`:
+Then, add the Resend Module to `medusa-config.ts`:
 
 ```ts
 module.exports = defineConfig({

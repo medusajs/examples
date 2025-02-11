@@ -4,8 +4,8 @@ import { createDeliveryWorkflow } from "../../../workflows/delivery/workflows/cr
 import { handleDeliveryWorkflow } from "../../../workflows/delivery/workflows/handle-delivery";
 
 const schema = zod.object({
-  cart_id: zod.string().startsWith("cart_"),
-  restaurant_id: zod.string().startsWith("res_"),
+  cart_id: zod.string(),
+  restaurant_id: zod.string(),
 });
 
 export async function POST(req: MedusaRequest, res: MedusaResponse) {
