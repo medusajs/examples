@@ -1,14 +1,20 @@
 import { MedusaContainer } from "@medusajs/framework/types"
-import { migrateFromMagento } from "../workflows/migrate-from-magento"
 
 export default async function migrateMagentoJob(
   container: MedusaContainer
 ) {
-  await migrateFromMagento(container)
-    .run()
+  const eventBusService = container.resolve("event_bus")
+
+  eventBusService.emit({
+    name: "migrate.magento",
+    data: {
+      type: ["product", "category"],
+    }
+  })
 }
 
 export const config = {
   name: "migrate-magento-job",
-  schedule: "* * * * *"
+  schedule: "0 0 * * *"
 }
+
