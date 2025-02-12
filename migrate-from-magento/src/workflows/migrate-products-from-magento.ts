@@ -63,19 +63,36 @@ export const migrateProductsFromMagentoWorkflow = createWorkflow(
       }
     }).config({ name: "get-categories" })
 
+    const externalIdFilters = transform({
+      products
+    }, (data) => {
+      return data.products.map((product) => product.id.toString())
+    })
+
+    const { data: existingProducts } = useQueryGraphStep({
+      entity: "product",
+      fields: ["id", "external_id", "variants.id", "variants.metadata"],
+      filters: {
+        external_id: externalIdFilters
+      }
+    }).config({ name: "get-existing-products" })
+
     const { 
-      productsToCreate: initialProductsToCreate,
-      externalIds: externalIdFilters
+      productsToCreate,
+      productsToUpdate
     } = transform({
       products,
       attributes,
       stores,
       categories,
-      shippingProfiles
+      shippingProfiles,
+      existingProducts
     }, (data) => {
-      const externalIds: string[] = []
-      const productsToCreate = data.products.map((magentoProduct) => {
-        const productData: CreateProductWorkflowInputDTO = {
+      const productsToCreate = new Map<string, CreateProductWorkflowInputDTO>()
+      const productsToUpdate = new Map<string, UpsertProductDTO>()
+
+      data.products.forEach((magentoProduct) => {
+        const productData: CreateProductWorkflowInputDTO | UpsertProductDTO = {
           title: magentoProduct.name,
           description: magentoProduct.custom_attributes.find((attr) => attr.attribute_code === "description")?.value,
           status: magentoProduct.status === 1 ? "published" : "draft",
@@ -86,6 +103,11 @@ export const migrateProductsFromMagentoWorkflow = createWorkflow(
             id: data.stores[0].default_sales_channel_id
           }],
           shipping_profile_id: data.shippingProfiles[0].id,
+        }
+        const existingProduct = data.existingProducts.find((p) => p.external_id === productData.external_id)
+
+        if (existingProduct) {
+          productData.id = existingProduct.id
         }
 
         productData.category_ids = magentoProduct.extension_attributes.category_links.map((link) => {
@@ -115,6 +137,9 @@ export const migrateProductsFromMagentoWorkflow = createWorkflow(
             childOptions[attrData.default_frontend_label] = attrData.options.find((opt) => opt.value === attr.value)?.label || ""
           })
 
+          const variantExternalId = child.id.toString()
+          const existingVariant = existingProduct.variants.find((v) => v.metadata.external_id === variantExternalId)
+
           return {
             title: child.name,
             sku: child.sku,
@@ -126,8 +151,9 @@ export const migrateProductsFromMagentoWorkflow = createWorkflow(
               }
             }),
             metadata: {
-              external_id: child.id.toString()
-            }
+              external_id: variantExternalId
+            },
+            id: existingVariant?.id
           }
         })
 
@@ -140,52 +166,10 @@ export const migrateProductsFromMagentoWorkflow = createWorkflow(
           }
         })
 
-        externalIds.push(magentoProduct.id.toString())
-
-        return productData
-      }).filter(Boolean) as CreateProductWorkflowInputDTO[]
-
-      return {
-        productsToCreate,
-        externalIds
-      }
-    })
-
-    const { data: existingProducts } = useQueryGraphStep({
-      entity: "product",
-      fields: ["id", "external_id", "variants.id", "variants.metadata"],
-      filters: {
-        external_id: externalIdFilters
-      }
-    }).config({ name: "get-existing-products" })
-
-    const { productsToCreate, productsToUpdate } = transform({
-      initialProductsToCreate,
-      existingProducts
-    }, (data) => {
-      const productsToCreate = new Map<string, CreateProductWorkflowInputDTO>()
-      const productsToUpdate = new Map<string, UpsertProductDTO>()
-
-      data.initialProductsToCreate.forEach((product) => {
-        const existingProduct = data.existingProducts.find((p) => p.external_id === product.external_id)
-        if (existingProduct) {
-          productsToUpdate.set(existingProduct.id, {
-            ...product,
-            id: existingProduct.id,
-            variants: product.variants?.map((variant) => {
-              const existingVariant = existingProduct.variants.find((v) => v.metadata.external_id === variant.metadata?.external_id)
-              if (existingVariant) {
-                return {
-                  ...variant,
-                  id: existingVariant.id
-                }
-              } else {
-                return variant
-              }
-            })
-          })
+        if (productData.id) {
+          productsToUpdate.set(existingProduct.id, productData)
         } else {
-          productsToCreate.set(product.external_id!, product)
+          productsToCreate.set(productData.external_id!, productData)
         }
       })
 
