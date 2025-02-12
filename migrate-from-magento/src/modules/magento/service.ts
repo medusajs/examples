@@ -53,12 +53,12 @@ export default class MagentoModuleService {
     }
   }
 
-  async isAccessTokenExpired() {
-    return this.accessToken.expiresAt < new Date()
+  async isAccessTokenExpired(): Promise<boolean> {
+    return !this.accessToken || this.accessToken.expiresAt < new Date()
   }
 
   async getCategories(): Promise<MagentoCategory[]> {
-    const getAccessToken = !this.accessToken || await this.isAccessTokenExpired()
+    const getAccessToken = await this.isAccessTokenExpired()
     if (getAccessToken) {
       await this.authenticate()
     }
@@ -85,29 +85,23 @@ export default class MagentoModuleService {
   async getProducts(options?: {
     currentPage?: number
     pageSize?: number
-    ids?: number[]
   }): Promise<{
     products: MagentoProduct[]
     attributes: MagentoAttribute[]
     pagination: MagentoPagination
   }> {
-    const { currentPage, pageSize, ids } = options || { currentPage: 1, pageSize: 100 }
-    const getAccessToken = !this.accessToken || await this.isAccessTokenExpired()
+    const { currentPage = 1, pageSize = 100 } = options || {}
+    const getAccessToken = await this.isAccessTokenExpired()
     if (getAccessToken) {
       await this.authenticate()
     }
 
     const searchQuery = new URLSearchParams()
+    // pass pagination parameters
     searchQuery.append("searchCriteria[currentPage]", currentPage?.toString() || "1")
     searchQuery.append("searchCriteria[pageSize]", pageSize?.toString() || "100")
 
-    if (ids?.length) {
-      searchQuery.append("searchCriteria[filter_groups][0][filters][0][field]", "entity_id")
-      searchQuery.append("searchCriteria[filter_groups][0][filters][0][value]", ids.join(","))
-      searchQuery.append("searchCriteria[filter_groups][0][filters][0][condition_type]", "in")
-    }
-
-    // retrieve only single and configurable produts
+    // retrieve only configurable produts
     searchQuery.append("searchCriteria[filter_groups][1][filters][0][field]", "type_id")
     searchQuery.append("searchCriteria[filter_groups][1][filters][0][value]", "configurable")
     searchQuery.append("searchCriteria[filter_groups][1][filters][0][condition_type]", "in")
@@ -161,7 +155,7 @@ export default class MagentoModuleService {
   }: {
     ids: string[]
   }): Promise<MagentoAttribute[]> {
-    const getAccessToken = !this.accessToken || await this.isAccessTokenExpired()
+    const getAccessToken = await this.isAccessTokenExpired()
     if (getAccessToken) {
       await this.authenticate()
     }
