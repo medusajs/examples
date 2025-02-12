@@ -1,64 +1,145 @@
-<p align="center">
-  <a href="https://www.medusajs.com">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/59018053/229103275-b5e482bb-4601-46e6-8142-244f531cebdb.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
-    <img alt="Medusa logo" src="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
-    </picture>
-  </a>
-</p>
-<h1 align="center">
-  Medusa Plugin Starter
-</h1>
+# Medusa v2 Example: Migrate Data from Magento to Medusa
 
-<h4 align="center">
-  <a href="https://docs.medusajs.com">Documentation</a> |
-  <a href="https://www.medusajs.com">Website</a>
-</h4>
+This directory holds the code for the [Migrate Magento to Medusa Guide](https://docs.medusajs.com/resources/examples/guides/custom-item-price).
 
-<p align="center">
-  Building blocks for digital commerce
-</p>
-<p align="center">
-  <a href="https://github.com/medusajs/medusa/blob/master/CONTRIBUTING.md">
-    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat" alt="PRs welcome!" />
-  </a>
-    <a href="https://www.producthunt.com/posts/medusa"><img src="https://img.shields.io/badge/Product%20Hunt-%231%20Product%20of%20the%20Day-%23DA552E" alt="Product Hunt"></a>
-  <a href="https://discord.gg/xpCwq3Kfn8">
-    <img src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg" alt="Discord Chat" />
-  </a>
-  <a href="https://twitter.com/intent/follow?screen_name=medusajs">
-    <img src="https://img.shields.io/twitter/follow/medusajs.svg?label=Follow%20@medusajs" alt="Follow @medusajs" />
-  </a>
-</p>
+You can either:
 
-## Compatibility
+- [install and use it as a plugin in the Medusa application](#installation);
+- or [copy its source files into an existing Medusa application, without using them as a plugin](#copy-into-existing-medusa-application).
 
-This starter is compatible with versions >= 2.4.0 of `@medusajs/medusa`. 
+## Prerequisites
 
-## Getting Started
+- [Node.js v20+](https://nodejs.org/en/download)
+- [Git CLI](https://git-scm.com/downloads)
+- [PostgreSQL](https://www.postgresql.org/download/)
+- Magento server with admin credentials.
 
-Visit the [Quickstart Guide](https://docs.medusajs.com/learn/installation) to set up a server.
+## Installation
 
-Visit the [Plugins documentation](https://docs.medusajs.com/learn/fundamentals/plugins) to learn more about plugins and how to create them.
+> Learn more about building and developing with plugins in [this documentation](https://docs.medusajs.com/learn/fundamentals/plugins/create).
 
-Visit the [Docs](https://docs.medusajs.com/learn/installation#get-started) to learn more about our system requirements.
+1. Clone the repository and change to the `migrate-from-magento` directory:
 
-## What is Medusa
+```bash
+git clone https://github.com/medusajs/examples.git
+cd examples/migrate-from-magento
+```
 
-Medusa is a set of commerce modules and tools that allow you to build rich, reliable, and performant commerce applications without reinventing core commerce logic. The modules can be customized and used to build advanced ecommerce stores, marketplaces, or any product that needs foundational commerce primitives. All modules are open-source and freely available on npm.
+2\. Install dependencies:
 
-Learn more about [Medusa’s architecture](https://docs.medusajs.com/learn/introduction/architecture) and [commerce modules](https://docs.medusajs.com/learn/fundamentals/modules/commerce-modules) in the Docs.
+```bash
+yarn install # or npm install
+```
 
-## Community & Contributions
+3\. Publish to local registry:
 
-The community and core team are available in [GitHub Discussions](https://github.com/medusajs/medusa/discussions), where you can ask for support, discuss roadmap, and share ideas.
+```bash
+npx medusa plugin:publish
+```
 
-Join our [Discord server](https://discord.com/invite/medusajs) to meet other community members.
+4\. Build plugin:
 
-## Other channels
+```bash
+npx medusa plugin:build
+```
 
-- [GitHub Issues](https://github.com/medusajs/medusa/issues)
-- [Twitter](https://twitter.com/medusajs)
-- [LinkedIn](https://www.linkedin.com/company/medusajs)
-- [Medusa Blog](https://medusajs.com/blog/)
+5\. In a Medusa application, install the plugin from the local registry:
+
+```bash
+npx medusa plugin:add migrate-from-magento
+```
+
+6\. Add the plugin to `medusa-config.ts`:
+
+```ts
+module.exports = defineConfig({
+  // ...
+  plugins: [
+    {
+      resolve: "migrate-from-magento",
+      options: {
+        baseUrl: process.env.MAGENTO_BASE_URL,
+        username: process.env.MAGENTO_USERNAME,
+        password: process.env.MAGENTO_PASSWORD,
+        migrationOptions: {
+          imageBaseUrl: process.env.MAGENTO_IMAGE_BASE_URL,
+        }
+      },
+    },
+  ],
+})
+```
+
+7\. Set the following environment variables:
+
+```bash
+MAGENTO_BASE_URL=https://magento.example.com
+MAGENTO_USERNAME=admin
+MAGENTO_PASSWORD=password
+MAGENTO_IMAGE_BASE_URL=https://magento.example.com/pub/media/catalog/product
+```
+
+Where:
+
+- `MAGENTO_BASE_URL`: The base URL of the Magento server. It can also be a local URL, such as `http://localhost:8080`.
+- `MAGENTO_USERNAME`: The username of a Magento admin user to authenticate with the Magento server.
+- `MAGENTO_PASSWORD`: The password of the Magento admin user.
+- `MAGENTO_IMAGE_BASE_URL`: The base URL to use for product images. Magento stores product images in the `pub/media/catalog/product` directory, so you can reference them directly or use a CDN URL. If the URLs of product images in the Medusa server already have a different base URL, you can omit this option.
+
+## Copy into Existing Medusa Application
+
+You can also copy the source files into an existing Medusa application, which will add them not as a plugin, but as standard Medusa customizations.
+
+1. Copy the content of the following directories:
+
+- `src/admin`
+- `src/api/admin` and `src/api/middlewares.ts`
+- `src/jobs`
+- `src/modules/magento`
+- `src/modules/subscribers`
+- `src/workflows`
+
+2. Add the Magento Module to `medusa-config.ts`:
+
+```ts
+module.exports = defineConfig({
+  // ...
+  modules: [
+    {
+      resolve: "./src/modules/magento",
+      options: {
+        baseUrl: process.env.MAGENTO_BASE_URL,
+        username: process.env.MAGENTO_USERNAME,
+        password: process.env.MAGENTO_PASSWORD,
+        migrationOptions: {
+          imageBaseUrl: process.env.MAGENTO_IMAGE_BASE_URL,
+        }
+      }
+    },
+  ]
+})
+```
+
+3. Set the following environment variables:
+
+```bash
+MAGENTO_BASE_URL=https://magento.example.com
+MAGENTO_USERNAME=admin
+MAGENTO_PASSWORD=password
+MAGENTO_IMAGE_BASE_URL=https://magento.example.com/pub/media/catalog/product
+```
+
+Where:
+
+- `MAGENTO_BASE_URL`: The base URL of the Magento server. It can also be a local URL, such as `http://localhost:8080`.
+- `MAGENTO_USERNAME`: The username of a Magento admin user to authenticate with the Magento server.
+- `MAGENTO_PASSWORD`: The password of the Magento admin user.
+- `MAGENTO_IMAGE_BASE_URL`: The base URL to use for product images. Magento stores product images in the `pub/media/catalog/product` directory, so you can reference them directly or use a CDN URL. If the URLs of product images in the Medusa server already have a different base URL, you can omit this option.
+
+## Test it Out
+
+To test out that the customizations are working, open the Medusa Admin at `http://localhost:9000/app`. You'll find a "Migrate Magento" sidebar item. Click on it, and you can trigger a migration of products and categories.
+
+## More Resources
+
+- [Medusa Documentatin](https://docs.medusajs.com)
