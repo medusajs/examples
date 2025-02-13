@@ -133,7 +133,8 @@ const CreateDigitalProductForm = ({
               // delegate setting the prices to the
               // product's page.
               prices: []
-            }]
+            }],
+            shipping_profile_id: ""
           }
         })
       })

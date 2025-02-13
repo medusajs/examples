@@ -52,6 +52,11 @@ export const POST = async (
   req: AuthenticatedMedusaRequest<CreateRequestBody>,
   res: MedusaResponse
 ) => {
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
+  const { data: [shippingProfile] } = await query.graph({
+    entity: "shipping_profile",
+    fields: ["id"],
+  })
   const { result } = await createDigitalProductWorkflow(
     req.scope
   ).run({
@@ -64,7 +69,10 @@ export const POST = async (
           ...media
         })) as Omit<CreateDigitalProductMediaInput, "digital_product_id">[]
       },
-      product: req.validatedBody.product
+      product: {
+        ...req.validatedBody.product,
+        shipping_profile_id: shippingProfile.id,
+      }
     }
   })
 
