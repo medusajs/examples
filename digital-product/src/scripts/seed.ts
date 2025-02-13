@@ -214,7 +214,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
         rules: [
           {
             attribute: "enabled_in_store",
-            value: '"true"',
+            value: 'true',
             operator: "eq",
           },
           {
