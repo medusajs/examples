@@ -3,6 +3,7 @@ import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
 import { validateWishlistSalesChannelStep } from "./steps/validate-wishlist-sales-channel"
 import { createWishlistItemStep } from "./steps/create-wishlist-item"
 import { validateVariantWishlistStep } from "./steps/validate-variant-wishlist"
+import { validateWishlistExistsStep } from "./steps/validate-wishlist-exists"
 
 type CreateWishlistItemWorkflowInput = {
   variant_id: string
@@ -19,9 +20,10 @@ export const createWishlistItemWorkflow = createWorkflow(
       filters: {
         customer_id: input.customer_id,
       },
-      options: {
-        throwIfKeyNotFound: true,
-      }
+    })
+
+    validateWishlistExistsStep({
+      wishlists
     })
 
     validateWishlistSalesChannelStep({
