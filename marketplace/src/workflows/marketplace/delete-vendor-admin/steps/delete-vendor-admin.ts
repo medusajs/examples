@@ -25,7 +25,9 @@ const deleteVendorAdminStep = createStep(
     const marketplaceModuleService: MarketplaceModuleService = 
       container.resolve(MARKETPLACE_MODULE)
 
-    marketplaceModuleService.createVendorAdmins(vendorAdmin)
+    const { vendor: _, ...vendorAdminData } = vendorAdmin
+
+    marketplaceModuleService.createVendorAdmins(vendorAdminData)
   }
 )
 

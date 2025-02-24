@@ -23,6 +23,8 @@ export const deleteRestaurantAdminStep = createStep(
       RESTAURANT_MODULE
     )
 
-    await restaurantModuleService.createRestaurantAdmins(admin)
+    const { restaurant: _, ...adminData } = admin
+
+    await restaurantModuleService.createRestaurantAdmins(adminData)
   }
 )
