@@ -16,7 +16,6 @@ export const GET = async (
       "*",
       "orders.*",
       "customer.*",
-      ...(req.validatedQuery?.fields.split(",") || [])
     ],
     filters: {
       id: [req.params.id]
