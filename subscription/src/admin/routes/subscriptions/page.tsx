@@ -5,7 +5,7 @@ import { useMemo, useState } from "react"
 import { SubscriptionData, SubscriptionStatus } from "../../types"
 import { useQuery } from "@tanstack/react-query"
 import { sdk } from "../../lib/sdk"
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 const getBadgeColor = (status: SubscriptionStatus) => {
   switch(status) {
@@ -30,13 +30,6 @@ const columnHelper = createDataTableColumnHelper<SubscriptionData>()
 const columns = [
   columnHelper.accessor("id", {
     header: "#",
-    cell: ({ getValue }) => {
-      return (
-        <Link to={`/subscriptions/${getValue()}`}>
-          {getValue()}
-        </Link>
-      )
-    }
   }),
   columnHelper.accessor("metadata.main_order_id", {
     header: "Main Order",
@@ -69,6 +62,7 @@ const columns = [
 ]
 
 const SubscriptionsPage = () => {
+  const navigate = useNavigate()
   const [pagination, setPagination] = useState<DataTablePaginationState>({
     pageSize: 4,
     pageIndex: 0,
@@ -98,6 +92,9 @@ const SubscriptionsPage = () => {
     pagination: {
       state: pagination,
       onPaginationChange: setPagination,
+    },
+    onRowClick(event, row) {
+      navigate(`/subscriptions/${row.id}`)
     },
   })
 
