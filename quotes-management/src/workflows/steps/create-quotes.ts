@@ -11,11 +11,10 @@ type StepInput = {
 
 export const createQuotesStep = createStep(
   "create-quotes",
-  async (
-    input: StepInput,
-    { container }
-  ) => {
-    const quoteModuleService: QueryModuleService = container.resolve(QUOTE_MODULE);
+  async (input: StepInput, { container }) => {
+    const quoteModuleService: QueryModuleService = container.resolve(
+      QUOTE_MODULE
+    );
 
     const quotes = await quoteModuleService.createQuotes(input);
 
@@ -24,8 +23,14 @@ export const createQuotesStep = createStep(
       quotes.map((quote) => quote.id)
     );
   },
-  async (quoteIds: string[], { container }) => {
-    const quoteModuleService: QueryModuleService = container.resolve(QUOTE_MODULE);
+  async (quoteIds, { container }) => {
+    if (!quoteIds) {
+      return
+    }
+    
+    const quoteModuleService: QueryModuleService = container.resolve(
+      QUOTE_MODULE
+    );
 
     await quoteModuleService.deleteQuotes(quoteIds);
   }

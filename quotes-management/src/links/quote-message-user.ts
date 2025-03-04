@@ -8,10 +8,8 @@ export default defineLink(
     field: "admin_id"
   },
   {
-    linkable: {
-      ...UserModule.linkable.user.id,
-      alias: "admin",
-    }
+    ...UserModule.linkable.user.id,
+    alias: "admin",
   },
   {
     readOnly: true

@@ -8,10 +8,8 @@ export default defineLink(
     field: "draft_order_id"
   },
   {
-    linkable: {
-      ...OrderModule.linkable.order.id,
-      alias: "draft_order",
-    }
+    ...OrderModule.linkable.order.id,
+    alias: "draft_order",
   },
   {
     readOnly: true

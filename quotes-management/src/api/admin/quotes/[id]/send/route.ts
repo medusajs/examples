@@ -4,7 +4,7 @@ import type {
 } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import { AdminSendQuoteType } from "../../validators";
-import { merchantSendQuoteWorkflow } from "../../../../../workflows";
+import { merchantSendQuoteWorkflow } from "../../../../../workflows/merchant-send-quote";
 
 export const POST = async (
   req: AuthenticatedMedusaRequest<AdminSendQuoteType>,

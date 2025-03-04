@@ -3,8 +3,8 @@ import type {
   MedusaResponse,
 } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
-import { AcceptQuoteType } from "../../validators";
-import { customerAcceptQuoteWorkflow } from "../../../../../workflows";
+import { AcceptQuoteType } from "../../../../../validators";
+import { customerAcceptQuoteWorkflow } from "../../../../../../../workflows/customer-accept-quote";
 
 export const POST = async (
   req: AuthenticatedMedusaRequest<AcceptQuoteType>,

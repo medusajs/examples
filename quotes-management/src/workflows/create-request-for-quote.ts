@@ -10,8 +10,8 @@ import {
   transform,
   WorkflowResponse,
 } from "@medusajs/workflows-sdk";
-import { createQuotesWorkflow } from "./create-quote";
 import { CreateOrderLineItemDTO } from "@medusajs/framework/types";
+import { createQuotesStep } from "./steps/create-quotes";
 
 type WorkflowInput = {
   cart_id: string;
@@ -20,7 +20,7 @@ type WorkflowInput = {
 
 export const createRequestForQuoteWorkflow = createWorkflow(
   "create-request-for-quote",
-  function (input: WorkflowInput) {
+  (input: WorkflowInput) => {
     // @ts-ignore
     const { data: carts } = useQueryGraphStep({
       entity: "cart",
@@ -100,9 +100,9 @@ export const createRequestForQuoteWorkflow = createWorkflow(
       }
     })
 
-    const quotes = createQuotesWorkflow.runAsStep({
-      input: [quoteData],
-    });
+    const quotes = createQuotesStep([
+      quoteData
+    ])
 
     return new WorkflowResponse({ quote: quotes[0] });
   }

@@ -4,7 +4,7 @@ import type {
 } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import { AdminCreateQuoteMessageType } from "../../validators";
-import { createQuoteMessageWorkflow } from "../../../../../workflows";
+import { createQuoteMessageWorkflow } from "../../../../../workflows/create-quote-message";
 
 export const POST = async (
   req: AuthenticatedMedusaRequest<AdminCreateQuoteMessageType>,

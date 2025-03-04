@@ -3,7 +3,7 @@ import {
   MedusaResponse,
 } from "@medusajs/framework";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
-import { GetQuoteParamsType } from "../validators";
+import { GetQuoteParamsType } from "../../../../validators";
 
 export const GET = async (
   req: AuthenticatedMedusaRequest<GetQuoteParamsType>,

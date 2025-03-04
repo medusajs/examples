@@ -3,8 +3,8 @@ import type {
   MedusaResponse,
 } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
-import { StoreCreateQuoteMessageType } from "../../validators";
-import { createQuoteMessageWorkflow } from "../../../../../workflows";
+import { StoreCreateQuoteMessageType } from "../../../../../validators";
+import { createQuoteMessageWorkflow } from "../../../../../../../workflows/create-quote-message";
 
 export const POST = async (
   req: AuthenticatedMedusaRequest<StoreCreateQuoteMessageType>,

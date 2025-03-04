@@ -1,10 +1,12 @@
 import {
   AuthenticatedMedusaRequest,
   MedusaResponse,
-} from "@medusajs/framework";
+} from "@medusajs/framework/http";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
-import { CreateQuoteType, GetQuoteParamsType } from "./validators";
-import { createRequestForQuoteWorkflow } from "../../../workflows";
+import { 
+  createRequestForQuoteWorkflow
+} from "../../../../../workflows/create-request-for-quote";
+import { CreateQuoteType, GetQuoteParamsType } from "../../../validators";
 
 export const GET = async (
   req: AuthenticatedMedusaRequest<GetQuoteParamsType>,
@@ -34,10 +36,6 @@ export const POST = async (
   req: AuthenticatedMedusaRequest<CreateQuoteType>,
   res: MedusaResponse
 ) => {
-  const query = req.scope.resolve(
-    ContainerRegistrationKeys.QUERY
-  );
-
   const {
     result: { quote: createdQuote },
   } = await createRequestForQuoteWorkflow(req.scope).run({
@@ -46,6 +44,10 @@ export const POST = async (
       customer_id: req.auth_context.actor_id,
     },
   });
+
+  const query = req.scope.resolve(
+    ContainerRegistrationKeys.QUERY
+  );
 
   const {
     data: [quote],
