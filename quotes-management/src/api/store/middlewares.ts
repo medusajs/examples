@@ -12,7 +12,6 @@ import {
   CreateQuote,
   GetQuoteParams,
   RejectQuote,
-  StoreCreateQuoteMessage,
 } from "./validators";
 
 export const storeQuotesMiddlewares: MiddlewareRoute[] = [
@@ -70,17 +69,6 @@ export const storeQuotesMiddlewares: MiddlewareRoute[] = [
     method: ["GET"],
     matcher: "/store/customers/me/quotes/:id/preview",
     middlewares: [
-      validateAndTransformQuery(
-        GetQuoteParams,
-        retrieveQuoteTransformQueryConfig
-      ),
-    ],
-  },
-  {
-    method: ["POST"],
-    matcher: "/store/customers/me/quotes/:id/messages",
-    middlewares: [
-      validateAndTransformBody(StoreCreateQuoteMessage),
       validateAndTransformQuery(
         GetQuoteParams,
         retrieveQuoteTransformQueryConfig

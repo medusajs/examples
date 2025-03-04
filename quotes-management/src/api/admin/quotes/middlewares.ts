@@ -8,7 +8,6 @@ import {
   retrieveQuoteTransformQueryConfig,
 } from "./query-config";
 import {
-  AdminCreateQuoteMessage,
   AdminGetQuoteParams,
   AdminRejectQuote,
   AdminSendQuote,
@@ -17,21 +16,11 @@ import {
 export const adminQuotesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/quotes",
+    matcher: "/admin/quotes*",
     middlewares: [
       validateAndTransformQuery(
         AdminGetQuoteParams,
         listQuotesTransformQueryConfig
-      ),
-    ],
-  },
-  {
-    method: ["GET"],
-    matcher: "/admin/quotes/:id",
-    middlewares: [
-      validateAndTransformQuery(
-        AdminGetQuoteParams,
-        retrieveQuoteTransformQueryConfig
       ),
     ],
   },
@@ -51,17 +40,6 @@ export const adminQuotesMiddlewares: MiddlewareRoute[] = [
     matcher: "/admin/quotes/:id/reject",
     middlewares: [
       validateAndTransformBody(AdminRejectQuote),
-      validateAndTransformQuery(
-        AdminGetQuoteParams,
-        retrieveQuoteTransformQueryConfig
-      ),
-    ],
-  },
-  {
-    method: ["POST"],
-    matcher: "/admin/quotes/:id/messages",
-    middlewares: [
-      validateAndTransformBody(AdminCreateQuoteMessage),
       validateAndTransformQuery(
         AdminGetQuoteParams,
         retrieveQuoteTransformQueryConfig

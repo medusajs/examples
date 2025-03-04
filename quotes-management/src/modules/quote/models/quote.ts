@@ -1,5 +1,4 @@
 import { model } from "@medusajs/framework/utils";
-import { Message } from "./message";
 
 export enum QuoteStatus {
   PENDING_MERCHANT = "pending_merchant",
@@ -18,5 +17,4 @@ export const Quote = model.define("quote", {
   draft_order_id: model.text(),
   order_change_id: model.text(),
   cart_id: model.text(),
-  messages: model.hasMany(() => Message),
 });

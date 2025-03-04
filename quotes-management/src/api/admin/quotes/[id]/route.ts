@@ -3,10 +3,9 @@ import type {
   MedusaResponse,
 } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
-import { AdminGetQuoteParamsType } from "../validators";
 
 export const GET = async (
-  req: AuthenticatedMedusaRequest<AdminGetQuoteParamsType>,
+  req: AuthenticatedMedusaRequest,
   res: MedusaResponse
 ) => {
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);

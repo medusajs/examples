@@ -1,22 +1,28 @@
 import { defineRouteConfig } from "@medusajs/admin-sdk";
 import { DocumentText } from "@medusajs/icons";
 import { Container, createDataTableColumnHelper, DataTable, DataTablePaginationState, Heading, Toaster, useDataTable } from "@medusajs/ui";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useQuotes } from "../../hooks/quotes";
 import { AdminQuote } from "../../types";
 import { useState } from "react";
-import QuoteStatusBadge from "../../components/quote-status-badge";
+
+const StatusTitles: Record<string, string> = {
+  accepted: "Accepted",
+  customer_rejected: "Customer Rejected",
+  merchant_rejected: "Merchant Rejected",
+  pending_merchant: "Pending Merchant",
+  pending_customer: "Pending Customer",
+};
 
 const columnHelper = createDataTableColumnHelper<AdminQuote>()
 
 const columns = [
   columnHelper.accessor("draft_order.display_id", {
     header: "ID",
-    cell: ({ getValue, row }) => <Link to={`/quotes/${row.original.id}`}>#{getValue()}</Link>,
   }),
   columnHelper.accessor("status", {
     header: "Status",
-    cell: ({ getValue }) => <QuoteStatusBadge status={getValue()} />
+    cell: ({ getValue }) => StatusTitles[getValue()],
   }),
   columnHelper.accessor("customer.email", {
     header: "Email",
@@ -83,7 +89,6 @@ const Quotes = () => {
             <Heading>Products</Heading>
           </DataTable.Toolbar>
           <DataTable.Table />
-          {/** This component will render the pagination controls **/}
           <DataTable.Pagination />
         </DataTable>
       </Container>

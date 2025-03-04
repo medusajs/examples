@@ -14,13 +14,3 @@ export const AdminSendQuote = z.object({}).strict();
 
 export type AdminRejectQuoteType = z.infer<typeof AdminRejectQuote>;
 export const AdminRejectQuote = z.object({}).strict();
-
-export type AdminCreateQuoteMessageType = z.infer<
-  typeof AdminCreateQuoteMessage
->;
-export const AdminCreateQuoteMessage = z
-  .object({
-    text: z.string(),
-    item_id: z.string().nullish(),
-  })
-  .strict();

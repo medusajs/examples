@@ -1,7 +1,6 @@
 import { HttpTypes } from "@medusajs/framework/types";
 import { ClientHeaders, FetchError } from "@medusajs/js-sdk";
 import {
-  AdminCreateQuoteMessage,
   AdminQuoteResponse,
   QuoteQueryParams,
   AdminQuotesResponse,
@@ -14,7 +13,7 @@ import {
   useQueryClient,
   UseQueryOptions,
 } from "@tanstack/react-query";
-import { sdk } from "../lib/client";
+import { sdk } from "../lib/sdk";
 import { orderPreviewQueryKey } from "./order-preview";
 
 export const useQuotes = (
@@ -182,35 +181,6 @@ export const useRejectQuote = (
 
       queryClient.invalidateQueries({
         queryKey: ["quote", "list"],
-      });
-
-      options?.onSuccess?.(data, variables, context);
-    },
-    ...options,
-  });
-};
-
-export const useCreateQuoteMessage = (
-  id: string,
-  options?: UseMutationOptions<
-    AdminQuoteResponse,
-    FetchError,
-    AdminCreateQuoteMessage
-  >
-) => {
-  const queryClient = useQueryClient();
-
-  const sendQuote = async (id: string, body: AdminCreateQuoteMessage) =>
-    sdk.client.fetch<AdminQuoteResponse>(`/admin/quotes/${id}/messages`, {
-      body,
-      method: "POST",
-    });
-
-  return useMutation({
-    mutationFn: (body) => sendQuote(id, body),
-    onSuccess: (data: AdminQuoteResponse, variables: any, context: any) => {
-      queryClient.invalidateQueries({
-        queryKey: ["quote", id],
       });
 
       options?.onSuccess?.(data, variables, context);

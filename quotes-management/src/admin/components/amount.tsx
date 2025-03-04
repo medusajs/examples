@@ -1,7 +1,7 @@
 import { clx } from "@medusajs/ui";
 import { formatAmount } from "../utils/format-amount";
 
-type AmountCellProps = {
+type AmountProps = {
   currencyCode: string;
   amount?: number | null;
   originalAmount?: number | null;
@@ -9,13 +9,13 @@ type AmountCellProps = {
   className?: string;
 };
 
-export const AmountCell = ({
+export const Amount = ({
   currencyCode,
   amount,
   originalAmount,
   align = "left",
   className,
-}: AmountCellProps) => {
+}: AmountProps) => {
   if (typeof amount === "undefined" || amount === null) {
     return (
       <div className="flex h-full w-full items-center">

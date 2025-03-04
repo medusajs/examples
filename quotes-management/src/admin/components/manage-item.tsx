@@ -13,7 +13,7 @@ import {
   useUpdateQuoteItem,
 } from "../hooks/quotes";
 import { currencySymbolMap } from "../utils/currency-symbol-map";
-import { AmountCell } from "./amount-cell";
+import { Amount } from "./amount";
 
 type ManageItemProps = {
   originalItem: AdminOrder["items"][0];
@@ -122,7 +122,7 @@ export function ManageItem({
           </div>
 
           <div className="text-ui-fg-subtle txt-small mr-2 flex flex-shrink-0">
-            <AmountCell
+            <Amount
               currencyCode={currencyCode}
               amount={item.total}
               originalAmount={originalItem?.total}
