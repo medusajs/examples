@@ -9,9 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@medusajs/icons": "2.5.1",
-    "@medusajs/js-sdk": "2.5.1",
-    "@medusajs/types": "2.5.1",
+    "@medusajs/icons": "2.6",
+    "@medusajs/js-sdk": "2.6",
+    "@medusajs/types": "2.6",
     "@medusajs/ui": "4.0.6",
     "next": "15.1.0",
     "react": "^19.0.0",
@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@medusajs/ui-preset": "2.5.1",
+    "@medusajs/ui-preset": "2.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

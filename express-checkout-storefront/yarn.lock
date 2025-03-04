@@ -356,31 +356,36 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@medusajs/icons@2.5.1", "@medusajs/icons@^2.5.1":
+"@medusajs/icons@2.6":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@medusajs/icons/-/icons-2.6.0.tgz#19151b421572e85ca22fc64549ace0d6ce9b2c90"
+  integrity sha512-igwhY6a4Nm93m8FqBDHtEG0CQ12yV16mKs5JjoXjF3V2nr/7M/ZHOnumduBIXyEv8+rqV1iVgUJfEhL7SP68Xw==
+
+"@medusajs/icons@^2.5.1":
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/@medusajs/icons/-/icons-2.5.1.tgz#1eb4b7d929932f2ec155cc35e73965544cbaf0d8"
   integrity sha512-r8Ml+karzFur3wxZrC4zsgndt1ILERCW+ZyzQeN5/I9waYA4UL1sQ1eE9qbCwvbnzHwivcuBgBofp6rfgjY+xw==
 
-"@medusajs/js-sdk@2.5.1":
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/@medusajs/js-sdk/-/js-sdk-2.5.1.tgz#63e1630781411dc7c899956bf91d7b77fae310ae"
-  integrity sha512-DCkEzrMKy0okkmlaENHjn4czr0U1XvCmVbO8Z8Ly0YXmVANL0Hc7bNNXx52kU4RZjCIn2KMuisOmgQzCiHMvIA==
+"@medusajs/js-sdk@2.6":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@medusajs/js-sdk/-/js-sdk-2.6.0.tgz#63250c65c6e4cf7bc28fef48bd8fbe278fbe670a"
+  integrity sha512-VzIdcAFgXxf3KUduE2XYUSBbXw+r1Usug3fghnHEfRfAQ7ZCQtpEg/1qwHWozr7KNZsvD7lha9LcVaiD/AC0XQ==
   dependencies:
-    "@medusajs/types" "^2.5.1"
+    "@medusajs/types" "^2.6.0"
     fetch-event-stream "^0.1.5"
     qs "^6.12.1"
 
-"@medusajs/types@2.5.1", "@medusajs/types@^2.5.1":
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-2.5.1.tgz#673322694815a3dc41fea1f8877ed903314fe6bf"
-  integrity sha512-46oH5mB2guFPcc/WXNzKu8yMWL4UIkkH2l3KWK61/VORYG8ebmODZ1q6KHBDbvlE4NdIrGyMf63FmYcKTMjb+w==
+"@medusajs/types@2.6", "@medusajs/types@^2.6.0":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-2.6.0.tgz#b9768826443588c484db93c34ec89e08f4c59264"
+  integrity sha512-xxjBmnFjtBnO0ChWryPJIGK6dvCR/LMVKWIzpf6L6M+YwQzw1JyLBJx5lXDWyMOSzy7Kz8MyRUDu0fY1NNyT3Q==
   dependencies:
     bignumber.js "^9.1.2"
 
-"@medusajs/ui-preset@2.5.1":
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/@medusajs/ui-preset/-/ui-preset-2.5.1.tgz#28c544ae15ff59bf3a5ac11aa5b34d3aea34b96d"
-  integrity sha512-n9aq3zPSUk8eB8zH1x58jlVxJCz6fHt+KU5yqi/PPdsIeMtSjf6qKXL9pMwBoHgbvr+40+cqLioHwrFu859ntw==
+"@medusajs/ui-preset@2.6":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@medusajs/ui-preset/-/ui-preset-2.6.0.tgz#59b82b4b1b59da7688303a15e075d6e276759221"
+  integrity sha512-eVh3NpowvIEfZPhf4njMjBmJAqW9M8lW4c11CsJ4FFGA/hje/opXI7Hoe1HYIFxs8gEo9NzguFJneYH6FfQiBA==
   dependencies:
     "@tailwindcss/forms" "^0.5.3"
     tailwindcss-animate "^1.0.6"
