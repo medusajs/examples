@@ -17,7 +17,7 @@ export const GET = async (
     {
       entity: "quote",
       filters: { id },
-      ...req.queryConfig,
+      fields: req.queryConfig.fields,
     },
     { throwIfKeyNotFound: true }
   );

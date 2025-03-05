@@ -6,6 +6,7 @@ import { validateQuoteNotAccepted } from "./steps/validate-quote-not-accepted";
 
 type WorkflowInput = {
   quote_id: string;
+  customer_id: string;
 }
 
 export const customerRejectQuoteWorkflow = createWorkflow(
@@ -15,7 +16,7 @@ export const customerRejectQuoteWorkflow = createWorkflow(
     const { data: quotes } = useQueryGraphStep({
       entity: "quote",
       fields: ["id", "status"],
-      filters: { id: input.quote_id },
+      filters: { id: input.quote_id, customer_id: input.customer_id },
       options: {
         throwIfKeyNotFound: true,
       }

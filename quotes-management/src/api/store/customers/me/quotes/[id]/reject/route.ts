@@ -1,9 +1,9 @@
-import type { MedusaRequest, MedusaResponse } from "@medusajs/framework";
+import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import { customerRejectQuoteWorkflow } from "../../../../../../../workflows/customer-reject-quote";
 
 export const POST = async (
-  req: MedusaRequest,
+  req: AuthenticatedMedusaRequest,
   res: MedusaResponse
 ) => {
   const { id } = req.params;
@@ -14,6 +14,7 @@ export const POST = async (
   await customerRejectQuoteWorkflow(req.scope).run({
     input: {
       quote_id: id,
+      customer_id: req.auth_context.actor_id,
     },
   });
 

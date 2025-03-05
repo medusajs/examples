@@ -43,12 +43,12 @@ export const quoteFields = [
   "*order_change.actions",
 ];
 
-export const retrieveQuoteTransformQueryConfig = {
+export const retrieveAdminQuoteQueryConfig = {
   defaults: quoteFields,
   isList: false,
 };
 
-export const listQuotesTransformQueryConfig = {
+export const listAdminQuoteQueryConfig = {
   defaults: quoteFields,
   isList: true,
 };
