@@ -3,39 +3,7 @@ import { Text } from "@medusajs/ui";
 import { ReactNode } from "react";
 import { formatAmount } from "../utils/format-amount";
 
-export const CostBreakdown = ({ order }: { order: AdminOrder }) => {
-  return (
-    <div className="text-ui-fg-subtle flex flex-col gap-y-2 px-6 py-4">
-      <Cost
-        label="Discounts"
-        secondaryValue=""
-        value={
-          order.discount_total > 0
-            ? `- ${formatAmount(order.discount_total, order.currency_code)}`
-            : "-"
-        }
-      />
-      {(order.shipping_methods || [])
-        .sort((m1, m2) =>
-          (m1.created_at as string).localeCompare(m2.created_at as string)
-        )
-        .map((sm, i) => {
-          return (
-            <div key={i}>
-              <Cost
-                key={sm.id}
-                label={"Shipping"}
-                secondaryValue={sm.name}
-                value={formatAmount(sm.total, order.currency_code)}
-              />
-            </div>
-          );
-        })}
-    </div>
-  );
-};
-
-export const Cost = ({
+export const Total = ({
   label,
   value,
   secondaryValue,
@@ -63,3 +31,35 @@ export const Cost = ({
     </div>
   </div>
 );
+
+export const TotalsBreakdown = ({ order }: { order: AdminOrder }) => {
+  return (
+    <div className="text-ui-fg-subtle flex flex-col gap-y-2 px-6 py-4">
+      <Total
+        label="Discounts"
+        secondaryValue=""
+        value={
+          order.discount_total > 0
+            ? `- ${formatAmount(order.discount_total, order.currency_code)}`
+            : "-"
+        }
+      />
+      {(order.shipping_methods || [])
+        .sort((m1, m2) =>
+          (m1.created_at as string).localeCompare(m2.created_at as string)
+        )
+        .map((sm, i) => {
+          return (
+            <div key={i}>
+              <Total
+                key={sm.id}
+                label={"Shipping"}
+                secondaryValue={sm.name}
+                value={formatAmount(sm.total, order.currency_code)}
+              />
+            </div>
+          );
+        })}
+    </div>
+  );
+};

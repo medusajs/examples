@@ -1,10 +1,9 @@
 import type { MedusaRequest, MedusaResponse } from "@medusajs/framework";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
-import { RejectQuoteType } from "../../../../../validators";
 import { customerRejectQuoteWorkflow } from "../../../../../../../workflows/customer-reject-quote";
 
 export const POST = async (
-  req: MedusaRequest<RejectQuoteType>,
+  req: MedusaRequest,
   res: MedusaResponse
 ) => {
   const { id } = req.params;
@@ -15,7 +14,6 @@ export const POST = async (
   await customerRejectQuoteWorkflow(req.scope).run({
     input: {
       quote_id: id,
-      ...req.validatedBody,
     },
   });
 
@@ -25,7 +23,7 @@ export const POST = async (
     {
       entity: "quote",
       filters: { id },
-      ...req.queryConfig,
+      fields: req.queryConfig.fields,
     },
     { throwIfKeyNotFound: true }
   );

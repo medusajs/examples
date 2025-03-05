@@ -12,7 +12,6 @@ import { useMemo } from "react";
 import {
   useUpdateQuoteItem,
 } from "../hooks/quotes";
-import { currencySymbolMap } from "../utils/currency-symbol-map";
 import { Amount } from "./amount";
 
 type ManageItemProps = {
@@ -35,9 +34,6 @@ export function ManageItem({
     [item]
   );
 
-  /**
-   * HANDLERS
-   */
   const onUpdate = async ({
     quantity,
     unit_price,
@@ -143,8 +139,7 @@ export function ManageItem({
           <div className="flex-grow">
             <CurrencyInput
               symbol={currencyCode}
-              // @ts-ignore
-              code={currencySymbolMap[currencyCode]}
+              code={currencyCode}
               defaultValue={item.unit_price}
               type="numeric"
               min={0}

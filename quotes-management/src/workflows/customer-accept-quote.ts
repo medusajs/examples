@@ -5,9 +5,9 @@ import {
 } from "@medusajs/core-flows";
 import { OrderStatus } from "@medusajs/framework/utils";
 import { createWorkflow } from "@medusajs/workflows-sdk";
-import { validateQuoteAcceptanceStep } from "./steps/validate-quote-acceptance";
-import { updateQuotesWorkflow } from "./update-quote";
+import { validateQuoteCanAcceptStep } from "./steps/validate-quote-can-accept";
 import { QuoteStatus } from "../modules/quote/models/quote";
+import { updateQuotesStep } from "./steps/update-quotes";
 
 type WorkflowInput = {
   quote_id: string;
@@ -21,20 +21,21 @@ export const customerAcceptQuoteWorkflow = createWorkflow(
     const { data: quotes } = useQueryGraphStep({
       entity: "quote",
       fields: ["id", "draft_order_id", "status"],
-      filters: { id: input.quote_id },
+      filters: { id: input.quote_id, customer_id: input.customer_id },
       options: {
         throwIfKeyNotFound: true,
       }
     });
 
-    validateQuoteAcceptanceStep({ 
+    validateQuoteCanAcceptStep({ 
       // @ts-ignore
       quote: quotes[0]
     });
 
-    updateQuotesWorkflow.runAsStep({
-      input: [{ id: input.quote_id, status: QuoteStatus.ACCEPTED }],
-    });
+    updateQuotesStep([{ 
+      id: input.quote_id, 
+      status: QuoteStatus.ACCEPTED
+    }]);
 
     confirmOrderEditRequestWorkflow.runAsStep({
       input: {

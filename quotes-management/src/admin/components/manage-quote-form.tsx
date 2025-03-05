@@ -1,18 +1,11 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import { AdminOrder } from "@medusajs/framework/types";
 import { Button, Heading, toast } from "@medusajs/ui";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { useConfirmQuote } from "../hooks/quotes";
 import { formatAmount } from "../utils/format-amount";
 import { useOrderPreview } from "../hooks/order-preview";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMemo } from "react";
 import { ManageItem } from "./manage-item";
-
-export const ManageQuoteFormSchema = z.object({});
-
-export type ManageQuoteFormSchemaType = z.infer<typeof ManageQuoteFormSchema>;
 
 type ReturnCreateFormProps = {
   order: AdminOrder;
@@ -23,21 +16,11 @@ export const ManageQuoteForm = ({ order }: ReturnCreateFormProps) => {
   const navigate = useNavigate()
   const { id: quoteId } = useParams()
 
-  /**
-   * MUTATIONS
-   */
   const { mutateAsync: confirmQuote, isPending: isRequesting } =
     useConfirmQuote(order.id);
 
-  /**
-   * FORM
-   */
-  const form = useForm<ManageQuoteFormSchemaType>({
-    defaultValues: () => Promise.resolve({}),
-    resolver: zodResolver(ManageQuoteFormSchema),
-  });
-
-  const handleSubmit = form.handleSubmit(async () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
       await confirmQuote();
       navigate(`/quotes/${quoteId}`);
@@ -48,7 +31,7 @@ export const ManageQuoteForm = ({ order }: ReturnCreateFormProps) => {
         description: (e as any).message,
       });
     }
-  });
+  };
   
     const originalItemsMap = useMemo(() => {
       return new Map(order.items.map((item) => [item.id, item]));

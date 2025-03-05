@@ -11,17 +11,17 @@ import {
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useOrderPreview } from "../../../hooks/order-preview";
-import { useQuote, useRejectQuote, useSendQuote } from "../../../hooks/quotes";
-import { QuoteDetailsHeader } from "../../../components/quote-details-header";
+import { 
+  useQuote, 
+  useRejectQuote, 
+  useSendQuote
+} from "../../../hooks/quotes";
 import { QuoteItems } from "../../../components/quote-items";
-import { CostBreakdown } from "../../../components/cost-breakdown";
-import { QuoteTotal } from "../../../components/quote-total";
+import { TotalsBreakdown } from "../../../components/totals-breakdown";
+import { formatAmount } from "../../../utils/format-amount";
 
 const QuoteDetails = () => {
   const { id } = useParams();
-  // const [showSendQuote, setShowSendQuote] = useState(false);
-  // const [showRejectQuote, setShowRejectQuote] = useState(false);
-  // const prompt = usePrompt();
   const navigate = useNavigate();
   const { quote, isLoading } = useQuote(id!, {
     fields:
@@ -34,70 +34,85 @@ const QuoteDetails = () => {
     { enabled: !!quote?.draft_order_id }
   );
 
-  // const { mutateAsync: sendQuote, isPending: isSendingQuote } = useSendQuote(
-  //   id!
-  // );
+  const prompt = usePrompt();
+  const { mutateAsync: rejectQuote, isPending: isRejectingQuote } =
+    useRejectQuote(id!);
+  const [showRejectQuote, setShowRejectQuote] = useState(false);
 
-  // const { mutateAsync: rejectQuote, isPending: isRejectingQuote } =
-  //   useRejectQuote(id!);
+  const { mutateAsync: sendQuote, isPending: isSendingQuote } = useSendQuote(
+    id!
+  );
+  const [showSendQuote, setShowSendQuote] = useState(false);
 
-  // useEffect(() => {
-  //   if (["pending_merchant", "customer_rejected"].includes(quote?.status!)) {
-  //     setShowSendQuote(true);
-  //   } else {
-  //     setShowSendQuote(false);
-  //   }
+  const [showManageQuote, setShowManageQuote] = useState(false);
 
-  //   if (
-  //     ["customer_rejected", "merchant_rejected", "accepted"].includes(
-  //       quote?.status!
-  //     )
-  //   ) {
-  //     setShowRejectQuote(false);
-  //   } else {
-  //     setShowRejectQuote(true);
-  //   }
-  // }, [quote]);
+  useEffect(() => {
+    if (["pending_merchant", "customer_rejected"].includes(quote?.status!)) {
+      setShowSendQuote(true);
+    } else {
+      setShowSendQuote(false);
+    }
 
-  // const handleSendQuote = async () => {
-  //   const res = await prompt({
-  //     title: "Send quote?",
-  //     description:
-  //       "You are about to send this quote to the customer. Do you want to continue?",
-  //     confirmText: "Continue",
-  //     cancelText: "Cancel",
-  //     variant: "confirmation",
-  //   });
+    if (
+      ["customer_rejected", "merchant_rejected", "accepted"].includes(
+        quote?.status!
+      )
+    ) {
+      setShowRejectQuote(false);
+    } else {
+      setShowRejectQuote(true);
+    }
 
-  //   if (res) {
-  //     await sendQuote(
-  //       void 0,
-  //       {
-  //         onSuccess: () => toast.success("Successfully sent quote to customer"),
-  //         onError: (e) => toast.error(e.message),
-  //       }
-  //     );
-  //   }
-  // };
+    if (![
+      "pending_merchant",
+      "customer_rejected",
+      "merchant_rejected",
+    ].includes(quote?.status!)) {
+      setShowManageQuote(false);
+    } else {
+      setShowManageQuote(true);
+    }
+  }, [quote]);
 
-  // const handleRejectQuote = async () => {
-  //   const res = await prompt({
-  //     title: "Reject quote?",
-  //     description:
-  //       "You are about to reject this customer's quote. Do you want to continue?",
-  //     confirmText: "Continue",
-  //     cancelText: "Cancel",
-  //     variant: "confirmation",
-  //   });
+  const handleRejectQuote = async () => {
+    const res = await prompt({
+      title: "Reject quote?",
+      description:
+        "You are about to reject this customer's quote. Do you want to continue?",
+      confirmText: "Continue",
+      cancelText: "Cancel",
+      variant: "confirmation",
+    });
 
-  //   if (res) {
-  //     await rejectQuote(void 0, {
-  //       onSuccess: () =>
-  //         toast.success("Successfully rejected customer's quote"),
-  //       onError: (e) => toast.error(e.message),
-  //     });
-  //   }
-  // };
+    if (res) {
+      await rejectQuote(void 0, {
+        onSuccess: () =>
+          toast.success("Successfully rejected customer's quote"),
+        onError: (e) => toast.error(e.message),
+      });
+    }
+  };
+
+  const handleSendQuote = async () => {
+    const res = await prompt({
+      title: "Send quote?",
+      description:
+        "You are about to send this quote to the customer. Do you want to continue?",
+      confirmText: "Continue",
+      cancelText: "Cancel",
+      variant: "confirmation",
+    });
+
+    if (res) {
+      await sendQuote(
+        void 0,
+        {
+          onSuccess: () => toast.success("Successfully sent quote to customer"),
+          onError: (e) => toast.error(e.message),
+        }
+      );
+    }
+  };
 
   if (isLoading || !quote) {
     return <></>;
@@ -136,36 +151,83 @@ const QuoteDetails = () => {
           <Container className="divide-y divide-dashed p-0">
             <div className="flex items-center justify-between px-6 py-4">
               <Heading level="h2">Quote Summary</Heading>
+              <span className="text-ui-fg-muted txt-compact-small">{quote.status}</span>
             </div>
             <QuoteItems order={quote.draft_order} preview={preview!} />
-            <CostBreakdown order={quote.draft_order} />
-            <QuoteTotal order={quote.draft_order} preview={preview!} />
-
-            {/* {(showRejectQuote || showSendQuote) && (
-              <div className="bg-ui-bg-subtle flex items-center justify-end gap-x-2 rounded-b-xl px-4 py-4">
-                {showRejectQuote && (
-                  <Button
-                    size="small"
-                    variant="secondary"
-                    onClick={() => handleRejectQuote()}
-                    disabled={isSendingQuote || isRejectingQuote}
-                  >
-                    Reject Quote
-                  </Button>
-                )}
-
-                {showSendQuote && (
-                  <Button
-                    size="small"
-                    variant="secondary"
-                    onClick={() => handleSendQuote()}
-                    disabled={isSendingQuote || isRejectingQuote}
-                  >
-                    Send Quote
-                  </Button>
-                )}
+            <TotalsBreakdown order={quote.draft_order} />
+            <div className=" flex flex-col gap-y-2 px-6 py-4">
+              <div className="text-ui-fg-base flex items-center justify-between">
+                <Text
+                  weight="plus"
+                  className="text-ui-fg-subtle"
+                  size="small"
+                  leading="compact"
+                >
+                  Original Total
+                </Text>
+                <Text
+                  weight="plus"
+                  className="text-ui-fg-subtle"
+                  size="small"
+                  leading="compact"
+                >
+                  {formatAmount(quote.draft_order.total, quote.draft_order.currency_code)}
+                </Text>
               </div>
-            )} */}
+        
+              <div className="text-ui-fg-base flex items-center justify-between">
+                <Text
+                  className="text-ui-fg-subtle text-semibold"
+                  size="small"
+                  leading="compact"
+                  weight="plus"
+                >
+                  Quote Total
+                </Text>
+                <Text
+                  className="text-ui-fg-subtle text-bold"
+                  size="small"
+                  leading="compact"
+                  weight="plus"
+                >
+                  {formatAmount(preview!.summary.current_order_total, quote.draft_order.currency_code)}
+                </Text>
+              </div>
+            </div>
+
+            <div className="bg-ui-bg-subtle flex items-center justify-end gap-x-2 rounded-b-xl px-4 py-4">
+              {showRejectQuote && (
+                <Button
+                  size="small"
+                  variant="secondary"
+                  onClick={() => handleRejectQuote()}
+                  disabled={isRejectingQuote}
+                >
+                  Reject Quote
+                </Button>
+              )}
+
+              {showSendQuote && (
+                <Button
+                  size="small"
+                  variant="secondary"
+                  onClick={() => handleSendQuote()}
+                  disabled={isSendingQuote || isRejectingQuote}
+                >
+                  Send Quote
+                </Button>
+              )}
+
+              {showManageQuote && (
+                <Button
+                  size="small"
+                  variant="secondary"
+                  onClick={() => navigate(`/quotes/${quote.id}/manage`)}
+                >
+                  Manage Quote
+                </Button>
+              )}
+            </div>
           </Container>
 
         </div>
@@ -188,16 +250,6 @@ const QuoteDetails = () => {
               >
                 {quote.draft_order?.customer?.email}
               </Link>
-            </div>
-
-            <div className="text-ui-fg-subtle grid grid-cols-2 items-start px-6 py-4">
-              <Text size="small" weight="plus" leading="compact">
-                Phone
-              </Text>
-
-              <Text size="small" leading="compact" className="text-pretty">
-                {quote.draft_order?.customer?.phone}
-              </Text>
             </div>
           </Container>
         </div>

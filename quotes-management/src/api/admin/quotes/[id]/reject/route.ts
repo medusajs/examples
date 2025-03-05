@@ -3,11 +3,10 @@ import type {
   MedusaResponse,
 } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
-import { AdminRejectQuoteType } from "../../validators";
 import { merchantRejectQuoteWorkflow } from "../../../../../workflows/merchant-reject-quote";
 
 export const POST = async (
-  req: AuthenticatedMedusaRequest<AdminRejectQuoteType>,
+  req: AuthenticatedMedusaRequest,
   res: MedusaResponse
 ) => {
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
@@ -16,7 +15,6 @@ export const POST = async (
   await merchantRejectQuoteWorkflow(req.scope).run({
     input: {
       quote_id: id,
-      ...req.validatedBody,
     },
   });
 
@@ -26,7 +24,7 @@ export const POST = async (
     {
       entity: "quote",
       filters: { id },
-      ...req.queryConfig,
+      fields: req.queryConfig.fields,
     },
     { throwIfKeyNotFound: true }
   );

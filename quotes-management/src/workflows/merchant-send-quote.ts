@@ -1,7 +1,8 @@
 import { useQueryGraphStep } from "@medusajs/core-flows";
 import { createWorkflow } from "@medusajs/workflows-sdk";
-import { updateQuotesWorkflow } from "./update-quote";
 import { QuoteStatus } from "../modules/quote/models/quote";
+import { updateQuotesStep } from "./steps/update-quotes";
+import { validateQuoteNotAccepted } from "./steps/validate-quote-not-accepted";
 
 type WorkflowInput = {
   quote_id: string;
@@ -9,26 +10,27 @@ type WorkflowInput = {
 
 export const merchantSendQuoteWorkflow = createWorkflow(
   "merchant-send-quote-workflow",
-  // @ts-ignore
   (input: WorkflowInput) => {
-    // use Query to validate that the query exists
-    // otherwise, an error is thrown
-    useQueryGraphStep({
+    // @ts-ignore
+    const { data: quotes } = useQueryGraphStep({
       entity: "quote",
-      fields: ["id"],
+      fields: ["id", "status"],
       filters: { id: input.quote_id },
       options: {
         throwIfKeyNotFound: true
       }
     });
 
-    updateQuotesWorkflow.runAsStep({
-      input: [
-        {
-          id: input.quote_id,
-          status: QuoteStatus.PENDING_CUSTOMER,
-        },
-      ],
-    });
+    validateQuoteNotAccepted({
+      // @ts-ignore
+      quote: quotes[0]
+    })
+
+    updateQuotesStep([
+      {
+        id: input.quote_id,
+        status: QuoteStatus.PENDING_CUSTOMER,
+      },
+    ]);
   }
 );

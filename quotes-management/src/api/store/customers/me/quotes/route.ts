@@ -6,31 +6,7 @@ import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import { 
   createRequestForQuoteWorkflow
 } from "../../../../../workflows/create-request-for-quote";
-import { CreateQuoteType, GetQuoteParamsType } from "../../../validators";
-
-export const GET = async (
-  req: AuthenticatedMedusaRequest<GetQuoteParamsType>,
-  res: MedusaResponse
-) => {
-  const query = req.scope.resolve(
-    ContainerRegistrationKeys.QUERY
-  );
-
-  const { data: quotes, metadata } = await query.graph({
-    entity: "quote",
-    ...req.queryConfig,
-    filters: {
-      customer_id: req.auth_context.actor_id,
-    },
-  });
-
-  res.json({
-    quotes,
-    count: metadata!.count,
-    offset: metadata!.skip,
-    limit: metadata!.take,
-  });
-};
+import { CreateQuoteType } from "../../../validators";
 
 export const POST = async (
   req: AuthenticatedMedusaRequest<CreateQuoteType>,

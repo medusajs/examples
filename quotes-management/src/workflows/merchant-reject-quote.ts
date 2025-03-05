@@ -1,8 +1,8 @@
 import { useQueryGraphStep } from "@medusajs/core-flows";
 import { createWorkflow } from "@medusajs/workflows-sdk";
 import { QuoteStatus } from "../modules/quote/models/quote";
-import { validateQuoteRejectionStep } from "./steps/validate-quote-rejection";
-import { updateQuotesWorkflow } from "./update-quote";
+import { validateQuoteNotAccepted } from "./steps/validate-quote-not-accepted";
+import { updateQuotesStep } from "./steps/update-quotes";
 
 type WorkflowInput = {
   quote_id: string;
@@ -21,17 +21,16 @@ export const merchantRejectQuoteWorkflow = createWorkflow(
       }
     });
 
-    validateQuoteRejectionStep({ 
+    validateQuoteNotAccepted({ 
+      // @ts-ignore
       quote: quotes[0]
     });
 
-    updateQuotesWorkflow.runAsStep({
-      input: [
-        {
-          id: input.quote_id,
-          status: QuoteStatus.MERCHANT_REJECTED,
-        },
-      ],
-    });
+    updateQuotesStep([
+      {
+        id: input.quote_id,
+        status: QuoteStatus.MERCHANT_REJECTED,
+      },
+    ]);
   }
 );
