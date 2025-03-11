@@ -1,5 +1,6 @@
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk";
 import { RESTAURANT_MODULE } from "../../../modules/restaurant";
+import RestaurantModuleService from "../../../modules/restaurant/service";
 
 export type CreateRestaurantAdminInput = {
   restaurant_id: string;
@@ -14,7 +15,7 @@ export const createRestaurantAdminStep = createStep(
     data: CreateRestaurantAdminInput,
     { container }
   ) => {
-    const restaurantModuleService = container.resolve(RESTAURANT_MODULE)
+    const restaurantModuleService: RestaurantModuleService = container.resolve(RESTAURANT_MODULE)
     const restaurantAdmin = await restaurantModuleService.createRestaurantAdmins(
       data
     );
@@ -26,8 +27,9 @@ export const createRestaurantAdminStep = createStep(
       return
     }
 
-    const service = container.resolve(RESTAURANT_MODULE);
+    const restaurantModuleService: RestaurantModuleService = 
+      container.resolve(RESTAURANT_MODULE);
 
-      await service.deleteRestaurantAdmins(id);
+    await restaurantModuleService.deleteRestaurantAdmins(id);
   }
 );

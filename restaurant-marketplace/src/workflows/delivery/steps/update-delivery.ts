@@ -1,6 +1,7 @@
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk";
 import { DELIVERY_MODULE } from "../../../modules/delivery";
 import { UpdateDelivery } from "../../../modules/delivery/types";
+import DeliveryModuleService from "../../../modules/delivery/service";
 
 type UpdateDeliveryStepInput = {
   data: UpdateDelivery;
@@ -9,11 +10,12 @@ type UpdateDeliveryStepInput = {
 export const updateDeliveryStep = createStep(
   "update-delivery-step",
   async function ({ data }: UpdateDeliveryStepInput, { container }) {
-    const deliveryService = container.resolve(DELIVERY_MODULE);
+    const deliveryModuleService: DeliveryModuleService = 
+      container.resolve(DELIVERY_MODULE);
 
-    const prevDeliveryData = await deliveryService.retrieveDelivery(data.id)
+    const prevDeliveryData = await deliveryModuleService.retrieveDelivery(data.id)
 
-    const delivery = await deliveryService
+    const delivery = await deliveryModuleService
       .updateDeliveries([data])
       .then((res) => res[0]);
 
@@ -22,10 +24,14 @@ export const updateDeliveryStep = createStep(
     });
   },
   async ({ prevDeliveryData }, { container }) => {
-    const deliveryService = container.resolve(DELIVERY_MODULE);
+    const deliverModuleService: DeliveryModuleService = 
+      container.resolve(DELIVERY_MODULE);
 
-    const { driver, ...prevDeliveryDataWithoutDriver } = prevDeliveryData;
+    const { 
+      driver, 
+      ...prevDeliveryDataWithoutDriver
+    } = prevDeliveryData;
 
-    await deliveryService.updateDeliveries(prevDeliveryDataWithoutDriver)
+    await deliverModuleService.updateDeliveries(prevDeliveryDataWithoutDriver)
   }
 );

@@ -7,6 +7,7 @@ import {
   ContainerRegistrationKeys,
 } from "@medusajs/framework/utils"
 import { RESTAURANT_MODULE } from "../../modules/restaurant";
+import RestaurantModuleService from "../../modules/restaurant/service";
 
 export const isDeliveryRestaurant = async (
   req: AuthenticatedMedusaRequest,
@@ -14,7 +15,7 @@ export const isDeliveryRestaurant = async (
   next: MedusaNextFunction
 ) => {
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
-  const restaurantModuleService = req.scope.resolve(
+  const restaurantModuleService: RestaurantModuleService = req.scope.resolve(
     RESTAURANT_MODULE
   )
 

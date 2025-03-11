@@ -1,5 +1,6 @@
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk";
 import { DELIVERY_MODULE } from "../../../modules/delivery";
+import DeliveryModuleService from "../../../modules/delivery/service";
 
 export type SetTransactionIdStepInput = {
   delivery_id: string;
@@ -8,9 +9,10 @@ export type SetTransactionIdStepInput = {
 export const setTransactionIdStep = createStep(
   "create-delivery-step",
   async function (deliveryId: string, { container, context }) {
-    const service = container.resolve(DELIVERY_MODULE);
+    const deliverModuleService: DeliveryModuleService = 
+      container.resolve(DELIVERY_MODULE);
 
-    const delivery = await service.updateDeliveries({
+    const delivery = await deliverModuleService.updateDeliveries({
       id: deliveryId,
       transaction_id: context.transactionId,
     });
@@ -18,9 +20,10 @@ export const setTransactionIdStep = createStep(
     return new StepResponse(delivery, delivery.id);
   },
   async function (delivery_id: string, { container }) {
-    const service = container.resolve(DELIVERY_MODULE);
+    const deliverModuleService: DeliveryModuleService = 
+      container.resolve(DELIVERY_MODULE);
 
-    await service.updateDeliveries({
+    await deliverModuleService.updateDeliveries({
       id: delivery_id,
       transaction_id: null,
     });

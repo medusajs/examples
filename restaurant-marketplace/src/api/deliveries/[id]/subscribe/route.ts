@@ -7,12 +7,13 @@ import {
 } from "@medusajs/framework/utils";
 import { DELIVERY_MODULE } from "../../../../modules/delivery";
 import { handleDeliveryWorkflowId } from "../../../../workflows/delivery/workflows/handle-delivery";
+import DeliveryModuleService from "../../../../modules/delivery/service";
 
 export const GET = async (
   req: MedusaRequest,
   res: MedusaResponse
 ) => {
-  const deliveryModuleService = req.scope.resolve(
+  const deliveryModuleService: DeliveryModuleService = req.scope.resolve(
     DELIVERY_MODULE
   )
 

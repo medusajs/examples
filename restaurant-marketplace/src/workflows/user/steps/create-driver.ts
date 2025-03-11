@@ -1,6 +1,6 @@
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk";
-import { RESTAURANT_MODULE } from "../../../modules/restaurant";
 import { DELIVERY_MODULE } from "../../../modules/delivery";
+import DeliveryModuleService from "../../../modules/delivery/service";
 
 export type CreateDriverInput = {
   email: string;
@@ -16,7 +16,7 @@ export const createDriverStep = createStep(
     data: CreateDriverInput,
     { container }
   ) => {
-    const deliveryModuleService = container.resolve(DELIVERY_MODULE)
+    const deliveryModuleService: DeliveryModuleService = container.resolve(DELIVERY_MODULE)
     
     const driver = await deliveryModuleService.createDrivers(data);
 
@@ -27,8 +27,10 @@ export const createDriverStep = createStep(
       return
     }
 
-    const service = container.resolve(RESTAURANT_MODULE);
+    const deliveryModuleService: DeliveryModuleService = container.resolve(
+      DELIVERY_MODULE
+    );
 
-    await service.deleteRestaurantAdmins(id);
+    await deliveryModuleService.deleteDrivers(id);
   }
 );

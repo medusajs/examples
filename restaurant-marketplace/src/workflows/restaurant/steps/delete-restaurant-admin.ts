@@ -4,11 +4,12 @@ import {
 } from "@medusajs/framework/workflows-sdk"
 import { RESTAURANT_MODULE } from "../../../modules/restaurant"
 import { DeleteRestaurantAdminWorkflow } from "../workflows/delete-restaurant-admin"
+import RestaurantModuleService from "../../../modules/restaurant/service"
 
 export const deleteRestaurantAdminStep = createStep(
   "delete-restaurant-admin",
   async ({ id }: DeleteRestaurantAdminWorkflow, { container }) => {
-    const restaurantModuleService = container.resolve(
+    const restaurantModuleService: RestaurantModuleService = container.resolve(
       RESTAURANT_MODULE
     )
 
@@ -19,7 +20,7 @@ export const deleteRestaurantAdminStep = createStep(
     return new StepResponse(undefined, { admin })
   },
   async ({ admin }, { container }) => {
-    const restaurantModuleService = container.resolve(
+    const restaurantModuleService: RestaurantModuleService = container.resolve(
       RESTAURANT_MODULE
     )
 
