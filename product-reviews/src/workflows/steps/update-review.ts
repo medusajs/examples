@@ -11,7 +11,7 @@ export type UpdateReviewsStepInput = {
 }[]
 
 export const updateReviewsStep = createStep(
-  "update-review-step",
+  "update-review",
   async (input: UpdateReviewsStepInput, { container }) => {
     const reviewModuleService: ProductReviewModuleService = container.resolve(
       PRODUCT_REVIEW_MODULE
@@ -22,9 +22,9 @@ export const updateReviewsStep = createStep(
       id: input.map((review) => review.id)
     })
 
-    const review = await reviewModuleService.updateReviews(input)
+    const reviews = await reviewModuleService.updateReviews(input)
 
-    return new StepResponse(review, originalReviews)
+    return new StepResponse(reviews, originalReviews)
   },
   async (originalData, { container }) => {
     if (!originalData) {

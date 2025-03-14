@@ -17,7 +17,7 @@ export type CreateReviewStepInput = {
 }
 
 export const createReviewStep = createStep(
-  "create-review-step",
+  "create-review",
   async (input: CreateReviewStepInput, { container }) => {
     const reviewModuleService: ProductReviewModuleService = container.resolve(
       PRODUCT_REVIEW_MODULE

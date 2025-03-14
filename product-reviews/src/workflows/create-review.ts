@@ -35,6 +35,7 @@ export const createReviewWorkflow = createWorkflow(
     // Create the review
     const review = createReviewStep(input)
 
+    // @ts-ignore
     return new WorkflowResponse({
       review
     })

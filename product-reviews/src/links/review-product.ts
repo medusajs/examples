@@ -5,12 +5,10 @@ import ProductModule from "@medusajs/medusa/product"
 export default defineLink(
   {
     linkable: ProductReviewModule.linkable.review,
-    field: "product_id"
+    field: "product_id",
+    isList: false,
   },
-  {
-    linkable: ProductModule.linkable.product,
-    isList: true,
-  },
+  ProductModule.linkable.product,
   {
     readOnly: true
   }
