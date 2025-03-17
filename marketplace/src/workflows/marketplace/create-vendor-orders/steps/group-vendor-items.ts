@@ -3,7 +3,7 @@ import {
   StepResponse,
 } from "@medusajs/framework/workflows-sdk"
 import { CartDTO, CartLineItemDTO } from "@medusajs/framework/types"
-import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
+import { ContainerRegistrationKeys, promiseAll } from "@medusajs/framework/utils"
 
 type StepInput = {
   cart: CartDTO
@@ -16,7 +16,7 @@ const groupVendorItemsStep = createStep(
 
     const vendorsItems: Record<string, CartLineItemDTO[]> = {}
 
-    await Promise.all(cart.items?.map(async (item) => {
+    await promiseAll(cart.items?.map(async (item) => {
       const { data: [product] } = await query.graph({
         entity: "product",
         fields: ["vendor.*"],
