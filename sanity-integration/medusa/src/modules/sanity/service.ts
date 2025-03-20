@@ -1,8 +1,6 @@
 import {
-  ModuleJoinerConfig,
   ProductDTO,
   Logger,
-  FindConfig
 } from "@medusajs/framework/types";
 import {
   createClient,
