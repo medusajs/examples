@@ -8,8 +8,8 @@ export default async function abandonedCartJob(
   const query = container.resolve("query")
 
   const oneDayAgo = new Date()
-  // oneDayAgo.setDate(oneDayAgo.getDate() - 1)
-  oneDayAgo.setMinutes(oneDayAgo.getMinutes() - 1) // For testing
+  oneDayAgo.setDate(oneDayAgo.getDate() - 1)
+  // oneDayAgo.setMinutes(oneDayAgo.getMinutes() - 1) // For testing
   const limit = 100
   let offset = 0
   let totalCount = 0
@@ -69,6 +69,6 @@ export default async function abandonedCartJob(
 
 export const config = {
   name: "abandoned-cart-notification",
-  // schedule: "0 0 * * *" // Run at midnight every day
-  schedule: "* * * * *" // Run every minute for testing
+  schedule: "0 0 * * *" // Run at midnight every day
+  // schedule: "* * * * *" // Run every minute for testing
 }
