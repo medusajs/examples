@@ -17,4 +17,3 @@ export const config = {
   name: "migrate-magento-job",
   schedule: "0 0 * * *"
 }
-

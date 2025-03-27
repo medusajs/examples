@@ -5,8 +5,6 @@ export const AdminMagentoMigrationsPost = z.object({
   type: z.enum(["category", "product"]).array()
 })
 
-console.log("here")
-
 export default defineMiddlewares({
   routes: [
     {

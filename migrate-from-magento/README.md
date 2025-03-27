@@ -7,6 +7,8 @@ You can either:
 - [install and use it as a plugin in the Medusa application](#installation);
 - or [copy its source files into an existing Medusa application, without using them as a plugin](#copy-into-existing-medusa-application).
 
+Then, learn how to test it out in the [Test it Out](#test-it-out) section.
+
 ## Prerequisites
 
 - [Node.js v20+](https://nodejs.org/en/download)

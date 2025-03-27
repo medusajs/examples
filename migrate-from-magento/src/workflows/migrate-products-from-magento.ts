@@ -138,7 +138,7 @@ export const migrateProductsFromMagentoWorkflow = createWorkflow(
           })
 
           const variantExternalId = child.id.toString()
-          const existingVariant = existingProduct.variants.find((v) => v.metadata.external_id === variantExternalId)
+          const existingVariant = existingProduct?.variants.find((v) => v.metadata.external_id === variantExternalId)
 
           return {
             title: child.name,
