@@ -14,6 +14,7 @@ medusaIntegrationTestRunner({
         const regionModuleService = container.resolve("region")
         const salesChannelModuleService = container.resolve("sales_channel")
         const apiKeyModuleService = container.resolve("api_key")
+        const fulfillmentModuleService = container.resolve("fulfillment")
 
         const [defaultSalesChannel] = await salesChannelModuleService.listSalesChannels({
           name: "Default Sales Channel",
@@ -21,6 +22,9 @@ medusaIntegrationTestRunner({
         pak = (await apiKeyModuleService.listApiKeys({
           type: "publishable"
         }))[0]
+        const [shippingProfile] = await fulfillmentModuleService.listShippingProfiles({
+          name: "Default"
+        })
         
         await createProductsWorkflow(container).run({
           input: {
@@ -53,7 +57,8 @@ medusaIntegrationTestRunner({
                   {
                     id: defaultSalesChannel.id,
                   }
-                ]
+                ],
+                shipping_profile_id: shippingProfile.id,
               },
             ]
           }
@@ -74,6 +79,7 @@ medusaIntegrationTestRunner({
         const container = getContainer()
         const productModuleService = container.resolve("product")
         const [variant] = await productModuleService.listProductVariants({
+          // @ts-ignore
           title: "Gold Variant"
         })
         const response = await api.post(

@@ -15,12 +15,16 @@ You are an expert senior software engineer specializing in modern web developmen
 - In workflows, use `transform` for any data transformation.
 - In workflows, use `when` to define conditions.
 - Don't use `await` when calling steps.
+- In workflows, don't make the workflow function async.
+- Don't add typing to compenstion function's input.
+- Only use steps in a workflow.
 
 ### Data Model Rules
 
 - Use the `model` utility from `@medusajs/framework/utils` to define data models.
 - Data model variables should be camelCase. Data model names as passed to `model.define` should be snake case.
 - When adding an `id` field to a data model, always make it a primary key with `.primaryKey()`.
+- A data model can have one `id` only, other IDs should be `text` instead.
 - Data model fields should be snake case.
 
 ### Service Rules

@@ -1,95 +1,50 @@
-import { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework";
-import { createProductsWorkflow } from "@medusajs/medusa/core-flows"
 import { 
-  CreateProductWorkflowInputDTO,
-  IProductModuleService,
-  ISalesChannelModuleService
+  AuthenticatedMedusaRequest, 
+  MedusaResponse
+} from "@medusajs/framework/http";
+import { 
+  HttpTypes,
 } from "@medusajs/framework/types"
 import { 
-  Modules, 
   ContainerRegistrationKeys
 } from "@medusajs/framework/utils"
-import MarketplaceModuleService from "../../../modules/marketplace/service";
-import { MARKETPLACE_MODULE } from "../../../modules/marketplace";
+import createVendorProductWorkflow from "../../../workflows/marketplace/create-vendor-product";
 
 export const GET = async (
   req: AuthenticatedMedusaRequest,
   res: MedusaResponse
 ) => {
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
-  const marketplaceModuleService: MarketplaceModuleService = 
-    req.scope.resolve(MARKETPLACE_MODULE)
 
-  const vendorAdmin = await marketplaceModuleService.retrieveVendorAdmin(
-    req.auth_context.actor_id,
-    {
-      relations: ["vendor"]
-    }
-  )
-
-  const { data: [vendor] } = await query.graph({
-    entity: "vendor",
-    fields: ["products.*"],
+  const { data: [vendorAdmin] } = await query.graph({
+    entity: "vendor_admin",
+    fields: ["vendor.products.*"],
     filters: {
-      id: [vendorAdmin.vendor.id],
+      id: [
+        // ID of the authenticated vendor admin
+        req.auth_context.actor_id
+      ],
     },
   })
 
   res.json({
-    products: vendor.products
+    products: vendorAdmin.vendor.products
   })
 }
 
-type RequestType = CreateProductWorkflowInputDTO
-
 export const POST = async (
-  req: AuthenticatedMedusaRequest<RequestType>,
+  req: AuthenticatedMedusaRequest<HttpTypes.AdminCreateProduct>,
   res: MedusaResponse
 ) => {
-  const link = req.scope.resolve("link")
-  const marketplaceModuleService: MarketplaceModuleService = 
-    req.scope.resolve(MARKETPLACE_MODULE)
-  const productModuleService: IProductModuleService = req.scope
-    .resolve(Modules.PRODUCT)
-  const salesChannelModuleService: ISalesChannelModuleService = req.scope
-    .resolve(Modules.SALES_CHANNEL)
-  // Retrieve default sales channel to make the product available in.
-  // Alternatively, you can link sales channels to vendors and allow vendors
-  // to manage sales channels
-  const salesChannels = await salesChannelModuleService.listSalesChannels()
-  const vendorAdmin = await marketplaceModuleService.retrieveVendorAdmin(
-    req.auth_context.actor_id,
-    {
-      relations: ["vendor"]
-    }
-  )
-  
-  const { result } = await createProductsWorkflow(req.scope)
+  const { result } = await createVendorProductWorkflow(req.scope)
     .run({
       input: {
-        products: [{
-          ...req.body,
-          sales_channels: salesChannels
-        }]
+        vendor_admin_id: req.auth_context.actor_id,
+        product: req.validatedBody
       }
     })
 
-  // link product to vendor
-  await link.create({
-    [MARKETPLACE_MODULE]: {
-      vendor_id: vendorAdmin.vendor.id
-    },
-    [Modules.PRODUCT]: {
-      product_id: result[0].id
-    }
-  })
-
-  // retrieve product again
-  const product = await productModuleService.retrieveProduct(
-    result[0].id
-  )
-
   res.json({
-    product
+    product: result.product
   })
 }

@@ -12,6 +12,7 @@ export default defineMiddlewares({
       matcher: "/deliveries/:id/accept",
       middlewares: [
         authenticate("restaurant", "bearer"),
+        // @ts-ignore
         isDeliveryRestaurant
       ]
     },
@@ -19,6 +20,7 @@ export default defineMiddlewares({
       matcher: "/deliveries/:id/prepare",
       middlewares: [
         authenticate("restaurant", "bearer"),
+        // @ts-ignore
         isDeliveryRestaurant
       ]
     },
@@ -26,6 +28,7 @@ export default defineMiddlewares({
       matcher: "/deliveries/:id/ready",
       middlewares: [
         authenticate("restaurant", "bearer"),
+        // @ts-ignore
         isDeliveryRestaurant
       ]
     },
@@ -40,6 +43,7 @@ export default defineMiddlewares({
       matcher: "/deliveries/:id/pick-up",
       middlewares: [
         authenticate("driver", "bearer"),
+        // @ts-ignore
         isDeliveryDriver
       ]
     },
@@ -47,6 +51,7 @@ export default defineMiddlewares({
       matcher: "/deliveries/:id/complete",
       middlewares: [
         authenticate("driver", "bearer"),
+        // @ts-ignore
         isDeliveryDriver
       ]
     },

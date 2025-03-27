@@ -4,13 +4,14 @@ import {
   MedusaResponse
 } from "@medusajs/framework";
 import { DELIVERY_MODULE } from "../../modules/delivery";
+import DeliveryModuleService from "../../modules/delivery/service";
 
 export const isDeliveryDriver = async (
   req: AuthenticatedMedusaRequest,
   res: MedusaResponse,
   next: MedusaNextFunction
 ) => {
-  const deliveryModuleService = req.scope.resolve(
+  const deliveryModuleService: DeliveryModuleService = req.scope.resolve(
     DELIVERY_MODULE
   )
 

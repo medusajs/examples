@@ -77,4 +77,4 @@ npx medusa db:migrate
 
 ## More Resources
 
-- [Medusa Documentatin](https://docs.medusajs.com)
+- [Medusa Documentation](https://docs.medusajs.com)

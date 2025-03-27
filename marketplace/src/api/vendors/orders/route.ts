@@ -1,29 +1,18 @@
-import { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework";
+import { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
 import { getOrdersListWorkflow } from "@medusajs/medusa/core-flows"
-import MarketplaceModuleService from "../../../modules/marketplace/service";
-import { MARKETPLACE_MODULE } from "../../../modules/marketplace";
 
 export const GET = async (
   req: AuthenticatedMedusaRequest,
   res: MedusaResponse
 ) => {
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
-  const marketplaceModuleService: MarketplaceModuleService = 
-    req.scope.resolve(MARKETPLACE_MODULE)
 
-  const vendorAdmin = await marketplaceModuleService.retrieveVendorAdmin(
-    req.auth_context.actor_id,
-    {
-      relations: ["vendor"]
-    }
-  )
-
-  const { data: [vendor] } = await query.graph({
-    entity: "vendor",
-    fields: ["orders.*"],
+  const { data: [vendorAdmin] } = await query.graph({
+    entity: "vendor_admin",
+    fields: ["vendor.orders.*"],
     filters: {
-      id: [vendorAdmin.vendor.id]
+      id: [req.auth_context.actor_id]
     }
   })
 
@@ -48,7 +37,7 @@ export const GET = async (
         ],
         variables: {
           filters: {
-            id: vendor.orders.map((order) => order.id)
+            id: vendorAdmin.vendor.orders.map((order) => order.id)
           }
         }
       }

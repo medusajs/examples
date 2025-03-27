@@ -1,13 +1,14 @@
 import { 
   AuthenticatedMedusaRequest, 
   MedusaResponse
-} from "@medusajs/framework"
+} from "@medusajs/framework/http"
 import { MedusaError } from "@medusajs/framework/utils"
 import { z } from "zod"
-import MarketplaceModuleService from "../../modules/marketplace/service";
-import createVendorAdminWorkflow from "../../workflows/marketplace/create-vendor-admin";
+import createVendorWorkflow, { 
+  CreateVendorWorkflowInput
+} from "../../workflows/marketplace/create-vendor";
 
-const schema = z.object({
+export const PostVendorCreateSchema = z.object({
   name: z.string(),
   handle: z.string().optional(),
   logo: z.string().optional(),
@@ -18,16 +19,7 @@ const schema = z.object({
   }).strict()
 }).strict()
 
-type RequestBody = {
-  name: string,
-  handle?: string,
-  logo?: string,
-  admin: {
-    email: string,
-    first_name?: string,
-    last_name?: string
-  }
-}
+type RequestBody = z.infer<typeof PostVendorCreateSchema>
 
 export const POST = async (
   req: AuthenticatedMedusaRequest<RequestBody>,
@@ -42,32 +34,18 @@ export const POST = async (
     )
   }
 
-  const { admin, ...vendorData } = schema.parse(req.body) as RequestBody
-
-  const marketplaceModuleService: MarketplaceModuleService = req.scope
-    .resolve("marketplaceModuleService")
-
-  // create vendor
-  let vendor = await marketplaceModuleService.createVendors([vendorData])
+  const vendorData = req.validatedBody
 
   // create vendor admin
-  await createVendorAdminWorkflow(req.scope)
+  const { result } = await createVendorWorkflow(req.scope)
     .run({
       input: {
-        admin: {
-          ...admin,
-          vendor_id: vendor[0].id
-        },
+        ...vendorData,
         authIdentityId: req.auth_context.auth_identity_id,
-      }
+      } as CreateVendorWorkflowInput
     })
 
-  // retrieve vendor again with admins
-  vendor = await marketplaceModuleService.retrieveVendor(vendor[0].id, {
-    relations: ["admins"]
-  })
-
   res.json({
-    vendor,
+    vendor: result.vendor,
   })
 }

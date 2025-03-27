@@ -1,4 +1,4 @@
-import { createWorkflow, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
+import { createWorkflow, transform, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
 import { 
   useQueryGraphStep,
   createPaymentSessionsWorkflow,
@@ -14,6 +14,7 @@ import {
 } from "@medusajs/medusa/core-flows"
 import createSubscriptionOrderStep from "./steps/create-subscription-order"
 import updateSubscriptionStep from "./steps/update-subscription"
+import { getPaymentMethodStep } from "./steps/get-payment-method"
 
 type WorkflowInput = {
   subscription: SubscriptionData
@@ -22,7 +23,7 @@ type WorkflowInput = {
 const createSubscriptionOrderWorkflow = createWorkflow(
   "create-subscription-order",
   (input: WorkflowInput) => {
-    const { data: carts } = useQueryGraphStep({
+    const { data: subscriptions } = useQueryGraphStep({
       entity: "subscription",
       fields: [
         "*",
@@ -36,29 +37,57 @@ const createSubscriptionOrderWorkflow = createWorkflow(
         "cart.shipping_methods.tax_lines.*",
         "cart.shipping_methods.adjustments.*",
         "cart.payment_collection.*",
-        "cart.payment_collection.payment_sessions.*"
+        "cart.payment_collection.payment_sessions.*",
+        "cart.customer.*",
+        "cart.customer.account_holder.*",
       ],
       filters: {
-        id: [input.subscription.id]
+        id: input.subscription.id
       },
       options: {
         throwIfKeyNotFound: true
       }
     })
 
-    const payment_collection = createPaymentCollectionsStep([{
-      currency_code: carts[0].currency_code,
-      amount: carts[0].payment_collection.amount,
-      metadata: carts[0].payment_collection.metadata
-    }])[0]
+    const paymentCollectionData = transform({
+      subscriptions
+    }, (data) => {
+      const cart = data.subscriptions[0].cart
+      return {
+        currency_code: cart.currency_code,
+        amount: cart.payment_collection.amount,
+        metadata: cart.payment_collection.metadata
+      }
+    })
+
+    const payment_collection = createPaymentCollectionsStep([
+      paymentCollectionData
+    ])[0]
+
+    const defaultPaymentMethod = getPaymentMethodStep({
+      customer: subscriptions[0].cart.customer,
+    })
+
+    const paymentSessionData = transform({
+      payment_collection,
+      subscriptions,
+      defaultPaymentMethod
+    }, (data) => {
+      return {
+        payment_collection_id: data.payment_collection.id,
+        provider_id: "pp_stripe_stripe",
+        customer_id: data.subscriptions[0].cart.customer.id,
+        data: {
+          payment_method: data.defaultPaymentMethod.id,
+          off_session: true,
+          confirm: true,
+          capture_method: "automatic"
+        },
+      }
+    })
 
     const paymentSession = createPaymentSessionsWorkflow.runAsStep({
-      input: {
-        payment_collection_id: payment_collection.id,
-        provider_id: carts[0].payment_collection.payment_sessions[0].provider_id,
-        data: carts[0].payment_collection.payment_sessions[0].data,
-        context: carts[0].payment_collection.payment_sessions[0].context
-      }
+      input: paymentSessionData
     })
 
     const payment = authorizePaymentSessionStep({
@@ -68,7 +97,7 @@ const createSubscriptionOrderWorkflow = createWorkflow(
 
     const { order, linkDefs } = createSubscriptionOrderStep({
       subscription: input.subscription,
-      cart: carts[0],
+      cart: subscriptions[0].cart,
       payment_collection
     })
 

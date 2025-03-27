@@ -97,17 +97,28 @@
       "schema": "public",
       "indexes": [
         {
+          "keyName": "IDX_driver_deleted_at",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_driver_deleted_at\" ON \"driver\" (deleted_at) WHERE deleted_at IS NULL"
+        },
+        {
           "keyName": "driver_pkey",
           "columnNames": [
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
       ],
       "checks": [],
-      "foreignKeys": {}
+      "foreignKeys": {},
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -218,9 +229,19 @@
           "keyName": "IDX_delivery_driver_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_delivery_driver_id\" ON \"delivery\" (driver_id) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "IDX_delivery_deleted_at",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_delivery_deleted_at\" ON \"delivery\" (deleted_at) WHERE deleted_at IS NULL"
         },
         {
           "keyName": "delivery_pkey",
@@ -228,6 +249,7 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -247,7 +269,9 @@
           "deleteRule": "set null",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     }
-  ]
+  ],
+  "nativeEnums": {}
 }

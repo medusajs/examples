@@ -80,8 +80,8 @@ const createVendorOrdersStep = createStep(
     const createdOrders: VendorOrder[] = []
     const vendorIds = Object.keys(vendorsItems)
 
-    const marketplaceModuleService =
-      container.resolve<MarketplaceModuleService>(MARKETPLACE_MODULE)
+    const marketplaceModuleService: MarketplaceModuleService =
+      container.resolve(MARKETPLACE_MODULE)
 
     const vendors = await marketplaceModuleService.listVendors({
       id: vendorIds

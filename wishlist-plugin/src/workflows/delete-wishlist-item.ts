@@ -2,6 +2,7 @@ import { createWorkflow, WorkflowResponse } from "@medusajs/framework/workflows-
 import { deleteWishlistItemStep } from "./steps/delete-wishlist-item"
 import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
 import { validateItemInWishlistStep } from "./steps/validate-item-in-wishlist"
+import { validateWishlistExistsStep } from "./steps/validate-wishlist-exists"
 
 type DeleteWishlistItemWorkflowInput = {
   wishlist_item_id: string
@@ -17,9 +18,10 @@ export const deleteWishlistItemWorkflow = createWorkflow(
       filters: {
         customer_id: input.customer_id,
       },
-      options: {
-        throwIfKeyNotFound: true,
-      }
+    })
+    
+    validateWishlistExistsStep({
+      wishlists
     })
 
     validateItemInWishlistStep({
@@ -34,7 +36,7 @@ export const deleteWishlistItemWorkflow = createWorkflow(
       entity: "wishlist",
       fields: ["*", "items.*", "items.product_variant.*"],
       filters: {
-        id: wishlists[0].wishlist.id
+        id: wishlists[0].id
       }
     }).config({ name: "refetch-wishlist" })
 
