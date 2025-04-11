@@ -1,6 +1,6 @@
 {
   "name": "medusa-wishlist-plugin",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Plugin for wishlist functionality in Medusa.",
   "author": "Shahed Nasser <shahednasser@gmail.com>",
   "repository": {
@@ -12,8 +12,21 @@
   "files": [
     ".medusa/server"
   ],
+  "exports": {
+    "./package.json": "./package.json",
+    "./workflows": "./.medusa/server/src/workflows/index.js",
+    "./.medusa/server/src/modules/*": "./.medusa/server/src/modules/*/index.js",
+    "./modules/*": "./.medusa/server/src/modules/*/index.js",
+    "./providers/*": "./.medusa/server/src/providers/*/index.js",
+    "./*": "./.medusa/server/src/*.js",
+    "./admin": {
+      "import": "./.medusa/server/src/admin/index.mjs",
+      "require": "./.medusa/server/src/admin/index.js",
+      "default": "./.medusa/server/src/admin/index.js"
+    }
+  },
   "keywords": [
-    "medusa",
+    "medusa-v2",
     "plugin",
     "medusa-plugin-other"
   ],
@@ -23,13 +36,13 @@
     "prepublishOnly": "medusa plugin:build"
   },
   "devDependencies": {
-    "@medusajs/admin-sdk": "2.6.1",
-    "@medusajs/cli": "2.6.1",
-    "@medusajs/framework": "2.6.1",
-    "@medusajs/icons": "2.6.1",
-    "@medusajs/medusa": "2.6.1",
-    "@medusajs/test-utils": "2.6.1",
-    "@medusajs/js-sdk": "2.6.1",
+    "@medusajs/admin-sdk": "2.7.0",
+    "@medusajs/cli": "2.7.0",
+    "@medusajs/framework": "2.7.0",
+    "@medusajs/icons": "2.7.0",
+    "@medusajs/medusa": "2.7.0",
+    "@medusajs/test-utils": "2.7.0",
+    "@medusajs/js-sdk": "2.7.0",
     "@medusajs/ui": "4.0.6",
     "@mikro-orm/cli": "6.4.3",
     "@mikro-orm/core": "6.4.3",
@@ -52,14 +65,14 @@
     "yalc": "^1.0.0-pre.53"
   },
   "peerDependencies": {
-    "@medusajs/admin-sdk": "2.6.1",
-    "@medusajs/cli": "2.6.1",
-    "@medusajs/framework": "2.6.1",
-    "@medusajs/icons": "2.6.1",
-    "@medusajs/medusa": "2.6.1",
-    "@medusajs/test-utils": "2.6.1",
+    "@medusajs/admin-sdk": "2.7.0",
+    "@medusajs/cli": "2.7.0",
+    "@medusajs/framework": "2.7.0",
+    "@medusajs/icons": "2.7.0",
+    "@medusajs/medusa": "2.7.0",
+    "@medusajs/test-utils": "2.7.0",
     "@medusajs/ui": "4.0.6",
-    "@medusajs/js-sdk": "2.6.1",
+    "@medusajs/js-sdk": "2.7.0",
     "@mikro-orm/cli": "6.4.3",
     "@mikro-orm/core": "6.4.3",
     "@mikro-orm/knex": "6.4.3",
