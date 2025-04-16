@@ -15,6 +15,7 @@ To learn how to use an example, open its `README.md` file. You'll find the detai
 | [Custom Item Price](./custom-item-price/README.md) | Add items with custom prices from third-party service to the cart. |
 | [Digital Products](./digital-product/README.md) | Sell digital products in your Medusa application. |
 | [Express Checkout Storefront](./express-checkout-storefront/README.md) | Use a storefront with an express checkout experience. |
+| [Loyalty Points System](./loyalty-points/README.md) | Allow customers to earn and redeem loyalty points. |
 | [Marketplace](./marketplace/README.md) | Allow vendors to register and sell products. |
 | [Migrate from Magento](./migrate-from-magento/README.md) | Migrate products and categories from Magento |
 | [Product Reviews](./product-reviews/README.md) | Allow customers to add product reviews, and merchants to manage them. |
