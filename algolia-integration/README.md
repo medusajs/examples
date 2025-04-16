@@ -108,7 +108,7 @@ Where:
 
 Learn more about retrieving these variables in the [tutorial](https://docs.medusajs.com/resources/integrations/guides/algolia#add-environment-variables)
 
-After that, install the `algoliasearch` library:
+After that, install the `algoliasearch` package:
 
 ```bash
 yarn add algoliasearch # or npm install algoliasearch

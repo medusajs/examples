@@ -1,5 +1,5 @@
 {
-  "name": "medusa-starter-default",
+  "name": "localization-contentful",
   "version": "0.0.1",
   "description": "A starter for Medusa projects.",
   "author": "Medusa (https://medusajs.com)",
@@ -22,18 +22,19 @@
     "test:unit": "TEST_TYPE=unit NODE_OPTIONS=--experimental-vm-modules jest --silent --runInBand --forceExit"
   },
   "dependencies": {
+    "@contentful/node-apps-toolkit": "^3.13.0",
     "@medusajs/admin-sdk": "2.7.0",
+    "@medusajs/cli": "2.7.0",
     "@medusajs/framework": "2.7.0",
     "@medusajs/medusa": "2.7.0",
-    "@medusajs/cli": "2.7.0",
     "@mikro-orm/core": "6.4.3",
     "@mikro-orm/knex": "6.4.3",
     "@mikro-orm/migrations": "6.4.3",
     "@mikro-orm/postgresql": "6.4.3",
-    "@react-email/components": "^0.0.36",
     "awilix": "^8.0.1",
-    "pg": "^8.13.0",
-    "resend": "^4.2.0"
+    "contentful": "^11.5.13",
+    "contentful-management": "^11.52.1",
+    "pg": "^8.13.0"
   },
   "devDependencies": {
     "@medusajs/test-utils": "2.7.0",
@@ -50,7 +51,8 @@
     "react-dom": "^18.2.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2",
-    "vite": "^5.2.11"
+    "vite": "^5.2.11",
+    "yalc": "^1.0.0-pre.53"
   },
   "engines": {
     "node": ">=20"
