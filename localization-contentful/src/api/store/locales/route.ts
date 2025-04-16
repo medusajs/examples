@@ -9,12 +9,12 @@ export const GET = async (
   req: MedusaRequest,
   res: MedusaResponse
 ) => {
-  const contentfulService: ContentfulModuleService = req.scope.resolve(
+  const contentfulModuleService: ContentfulModuleService = req.scope.resolve(
     CONTENTFUL_MODULE
   )
 
-  const locales = await contentfulService.getLocales()
-  const defaultLocaleCode = await contentfulService.getDefaultLocaleCode()
+  const locales = await contentfulModuleService.getLocales()
+  const defaultLocaleCode = await contentfulModuleService.getDefaultLocaleCode()
 
   const formattedLocales = locales.items.map((locale) => {
     return {

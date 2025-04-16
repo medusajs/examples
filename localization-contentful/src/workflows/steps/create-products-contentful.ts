@@ -9,7 +9,7 @@ type StepInput = {
 }
 
 export const createProductsContentfulStep = createStep(
-  { name: "create-products-contentful-step", async: true },
+  "create-products-contentful-step",
   async (input: StepInput, { container }) => {
     const contentfulModuleService: ContentfulModuleService = 
       container.resolve(CONTENTFUL_MODULE)

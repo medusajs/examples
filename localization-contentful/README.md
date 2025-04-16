@@ -47,20 +47,22 @@ Where:
 
 Learn more about retrieving these variables in the [tutorial](https://docs.medusajs.com/resources/integrations/guides/contentful#add-environment-variables)
 
-5\. Install dependencies:
+5\. If the default locale in your Contentful space is different than `en-US`, change it in `medusa-config.ts`.
+
+6\. Install dependencies:
 
 ```bash
 yarn # or npm install
 ```
 
-6\. Setup and seed the database:
+7\. Setup and seed the database:
 
 ```bash
 npx medusa db:setup
 yarn seed # or npm run seed
 ```
 
-7\. Start the Medusa application:
+8\. Start the Medusa application:
 
 ```bash
 yarn dev # or npm run dev
@@ -91,7 +93,7 @@ module.exports = defineConfig({
         delivery_token: process.env.CONTENTFUL_DELIVERY_TOKEN,
         space_id: process.env.CONTENTFUL_SPACE_ID,
         environment: process.env.CONTENTFUL_ENVIRONMENT,
-        default_locale: "en-US",
+        default_locale: "en-US", // change if that's not the default locale
         webhook_secret: process.env.CONTENTFUL_WEBHOOK_SECRET,
       }
     }
