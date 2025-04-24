@@ -36,7 +36,8 @@ const createDigitalProductOrderWorkflow = createWorkflow(
         "*",
         "items.*",
         "items.variant.*",
-        "items.variant.digital_product.*"
+        "items.variant.digital_product.*",
+        "shipping_address.*",
       ],
       filters: {
         id

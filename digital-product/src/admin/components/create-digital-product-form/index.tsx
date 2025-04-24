@@ -130,6 +130,7 @@ const CreateDigitalProductForm = ({
               options: {
                 Default: "default"
               },
+              manage_inventory: false,
               // delegate setting the prices to the
               // product's page.
               prices: []
