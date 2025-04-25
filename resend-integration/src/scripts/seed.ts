@@ -122,18 +122,25 @@ export default async function seedDemoData({ container }: ExecArgs) {
   });
 
   logger.info("Seeding fulfillment data...");
-  const { result: shippingProfileResult } =
+  const shippingProfiles = await fulfillmentModuleService.listShippingProfiles({
+    type: "default"
+  })
+  let shippingProfile = shippingProfiles.length ? shippingProfiles[0] : null
+
+  if (!shippingProfile) {
+    const { result: shippingProfileResult } =
     await createShippingProfilesWorkflow(container).run({
       input: {
         data: [
           {
-            name: "Default",
+            name: "Default Shipping Profile",
             type: "default",
           },
         ],
       },
     });
-  const shippingProfile = shippingProfileResult[0];
+    shippingProfile = shippingProfileResult[0];
+  }
 
   const fulfillmentSet = await fulfillmentModuleService.createFulfillmentSets({
     name: "European Warehouse delivery",
@@ -214,7 +221,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
         rules: [
           {
             attribute: "enabled_in_store",
-            value: '"true"',
+            value: "true",
             operator: "eq",
           },
           {
@@ -252,7 +259,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
         rules: [
           {
             attribute: "enabled_in_store",
-            value: '"true"',
+            value: "true",
             operator: "eq",
           },
           {
