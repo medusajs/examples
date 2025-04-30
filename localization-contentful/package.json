@@ -1,5 +1,5 @@
 {
-  "name": "medusa-starter-default",
+  "name": "localization-contentful",
   "version": "0.0.1",
   "description": "A starter for Medusa projects.",
   "author": "Medusa (https://medusajs.com)",
@@ -17,27 +17,27 @@
     "seed": "medusa exec ./src/scripts/seed.ts",
     "start": "medusa start",
     "dev": "medusa develop",
-    "dev:email": "email dev --dir ./src/modules/resend/emails",
     "test:integration:http": "TEST_TYPE=integration:http NODE_OPTIONS=--experimental-vm-modules jest --silent=false --runInBand --forceExit",
     "test:integration:modules": "TEST_TYPE=integration:modules NODE_OPTIONS=--experimental-vm-modules jest --silent --runInBand --forceExit",
     "test:unit": "TEST_TYPE=unit NODE_OPTIONS=--experimental-vm-modules jest --silent --runInBand --forceExit"
   },
   "dependencies": {
-    "@medusajs/admin-sdk": "2.7.1",
-    "@medusajs/cli": "2.7.1",
-    "@medusajs/framework": "2.7.1",
-    "@medusajs/medusa": "2.7.1",
+    "@contentful/node-apps-toolkit": "^3.13.0",
+    "@medusajs/admin-sdk": "2.7.0",
+    "@medusajs/cli": "2.7.0",
+    "@medusajs/framework": "2.7.0",
+    "@medusajs/medusa": "2.7.0",
     "@mikro-orm/core": "6.4.3",
     "@mikro-orm/knex": "6.4.3",
     "@mikro-orm/migrations": "6.4.3",
     "@mikro-orm/postgresql": "6.4.3",
-    "@react-email/components": "^0.0.36",
     "awilix": "^8.0.1",
-    "pg": "^8.13.0",
-    "resend": "^4.2.0"
+    "contentful": "^11.5.13",
+    "contentful-management": "^11.52.1",
+    "pg": "^8.13.0"
   },
   "devDependencies": {
-    "@medusajs/test-utils": "2.7.1",
+    "@medusajs/test-utils": "2.7.0",
     "@mikro-orm/cli": "6.4.3",
     "@swc/core": "1.5.7",
     "@swc/jest": "^0.2.36",
@@ -52,7 +52,7 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2",
     "vite": "^5.2.11",
-    "react-email": "^4.0.7"
+    "yalc": "^1.0.0-pre.53"
   },
   "engines": {
     "node": ">=20"
