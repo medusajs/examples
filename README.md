@@ -12,6 +12,7 @@ To learn how to use an example, open its `README.md` file. You'll find the detai
 |---------|-------------|
 | [Abandoned Cart Notification](./abandoned-cart/README.md) | Send abandoned carts notifications. |
 | [Algolia Integration](./algolia-integration/README.md) | Integrate Algolia into Medusa to allow searching through products. |
+| [Bundled Products](./bundled-products/README.md) | Sell bundled products in your Medusa application. |
 | [Custom Item Price](./custom-item-price/README.md) | Add items with custom prices from third-party service to the cart. |
 | [Digital Products](./digital-product/README.md) | Sell digital products in your Medusa application. |
 | [Express Checkout Storefront](./express-checkout-storefront/README.md) | Use a storefront with an express checkout experience. |
