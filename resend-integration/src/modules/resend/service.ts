@@ -101,24 +101,33 @@ class ResendNotificationProviderService extends AbstractNotificationProviderServ
       return {}
     }
 
-    const emailOptions: CreateEmailOptions = {
+    const commonOptions = {
       from: this.options.from,
       to: [notification.to],
       subject: this.getTemplateSubject(notification.template as Templates),
-      html: ""
     }
 
+    let emailOptions: CreateEmailOptions
     if (typeof template === "string") {
-      emailOptions.html = template
+      emailOptions = {
+        ...commonOptions,
+        html: template,
+      }
     } else {
-      emailOptions.react = template(notification.data)
-      delete emailOptions.html
+      emailOptions = {
+        ...commonOptions,
+        react: template(notification.data),
+      }
     }
 
     const { data, error } = await this.resendClient.emails.send(emailOptions)
 
-    if (error) {
-      this.logger.error(`Failed to send email`, error)
+    if (error || !data) {
+      if (error) {
+        this.logger.error("Failed to send email", error)
+      } else {
+        this.logger.error("Failed to send email: unknown error")
+      }
       return {}
     }
 
