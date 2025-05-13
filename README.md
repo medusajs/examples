@@ -22,6 +22,7 @@ To learn how to use an example, open its `README.md` file. You'll find the detai
 | [Migrate from Magento](./migrate-from-magento/README.md) | Migrate products and categories from Magento |
 | [Product Reviews](./product-reviews/README.md) | Allow customers to add product reviews, and merchants to manage them. |
 | [Quotes Management](./quotes-management/README.md) | Allow customers to send quotes, and merchants to manage and accept them. |
+| [Re-order Feature](./re-order/README.md) | Allow customers to re-order a previous order. |
 | [Resend Integration](./resend-integration/README.md) | Integrate Resend to send notifications in Medusa. |
 | [Restaurant Marketplace](./restaurant-marketplace/README.md) | Build an Uber-Eats clone with Medusa. |
 | [Restock Notification](./restock-notification/README.md) | Allow customers to subscribe to product restock notifications. |
