@@ -22,7 +22,7 @@ medusaIntegrationTestRunner({
       })
 
     describe("Store routes", () => {
-      describe("POST /store/carts/:id/complete", () => {
+      describe("POST /store/carts/:id/complete-digital", () => {
         let cart
         beforeEach(async () => {
           const container = getContainer()
@@ -147,7 +147,7 @@ medusaIntegrationTestRunner({
         })
         it("creates digital product order", async () => {
           const response = await api.post(
-            `/store/carts/${cart.id}/complete`, {},
+            `/store/carts/${cart.id}/complete-digital`, {},
             {
               headers: {
                 "x-publishable-api-key": pak.token,

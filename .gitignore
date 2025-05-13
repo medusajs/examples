@@ -1,9 +1,10 @@
 /dist
+.env
 .env.*
 !.env.template
 .DS_Store
 /uploads
-/node_modules
+node_modules
 yarn-error.log
 
 .idea

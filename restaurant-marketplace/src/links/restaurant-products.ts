@@ -5,7 +5,7 @@ import { defineLink } from "@medusajs/framework/utils";
 export default defineLink(
   RestaurantModule.linkable.restaurant,
   {
-    linkable: ProductModule.linkable.product,
+    linkable: ProductModule.linkable.product.id,
     isList: true,
   }
 );

@@ -4,7 +4,7 @@ import SalesChannelModule from "@medusajs/medusa/sales-channel"
 
 export default defineLink(
   {
-    ...WishlistModule.linkable.wishlist.id,
+    linkable: WishlistModule.linkable.wishlist.id,
     field: "sales_channel_id"
   },
   SalesChannelModule.linkable.salesChannel,
