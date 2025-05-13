@@ -4,7 +4,7 @@ import CustomerModule from "@medusajs/medusa/customer"
 
 export default defineLink(
   {
-    ...WishlistModule.linkable.wishlist.id,
+    linkable: WishlistModule.linkable.wishlist.id,
     field: "customer_id"
   },
   CustomerModule.linkable.customer.id,

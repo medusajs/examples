@@ -4,7 +4,7 @@ import { SANITY_MODULE } from "../modules/sanity";
 
 defineLink(
   {
-    ...ProductModule.linkable.product.id,
+    linkable: ProductModule.linkable.product.id,
     field: "id",
   },
   {

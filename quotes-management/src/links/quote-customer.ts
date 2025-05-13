@@ -4,7 +4,7 @@ import CustomerModule from "@medusajs/medusa/customer"
 
 export default defineLink(
   {
-    ...QuoteModule.linkable.quote,
+    linkable: QuoteModule.linkable.quote.id,
     field: "customer_id"
   },
   CustomerModule.linkable.customer,
