@@ -1,62 +1,135 @@
-<p align="center">
-  <a href="https://www.medusajs.com">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/59018053/229103275-b5e482bb-4601-46e6-8142-244f531cebdb.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
-    <img alt="Medusa logo" src="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
-    </picture>
-  </a>
-</p>
-<h1 align="center">
-  Medusa
-</h1>
+# Medusa v2 Example: Klarna Payment Integration
 
-<h4 align="center">
-  <a href="https://docs.medusajs.com">Documentation</a> |
-  <a href="https://www.medusajs.com">Website</a>
-</h4>
+This directory holds the code for the [Klarna Payment Integration Tutorial](https://docs.medusajs.com/resources/integrations/guides/klarna).
 
-<p align="center">
-  Building blocks for digital commerce
-</p>
-<p align="center">
-  <a href="https://github.com/medusajs/medusa/blob/master/CONTRIBUTING.md">
-    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat" alt="PRs welcome!" />
-  </a>
-    <a href="https://www.producthunt.com/posts/medusa"><img src="https://img.shields.io/badge/Product%20Hunt-%231%20Product%20of%20the%20Day-%23DA552E" alt="Product Hunt"></a>
-  <a href="https://discord.gg/xpCwq3Kfn8">
-    <img src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg" alt="Discord Chat" />
-  </a>
-  <a href="https://twitter.com/intent/follow?screen_name=medusajs">
-    <img src="https://img.shields.io/twitter/follow/medusajs.svg?label=Follow%20@medusajs" alt="Follow @medusajs" />
-  </a>
-</p>
+You can either:
 
-## Compatibility
+- [install and use it as a Medusa application](#installation);
+- or [copy its source files into an existing Medusa application](#copy-into-existing-medusa-application).
 
-This starter is compatible with versions >= 2 of `@medusajs/medusa`. 
+## Prerequisites
 
-## Getting Started
+- [Node.js v20+](https://nodejs.org/en/download)
+- [Git CLI](https://git-scm.com/downaloads)
+- [PostgreSQL](https://www.postgresql.org/download/)
+- [Klarna](https://www.klarna.com/) merchant or [playground](https://portal.playground.klarna.com/) account.
 
-Visit the [Quickstart Guide](https://docs.medusajs.com/learn/installation) to set up a server.
+## Installation
 
-Visit the [Docs](https://docs.medusajs.com/learn/installation#get-started) to learn more about our system requirements.
+1. Clone the repository and change to the `klarna-integration` directory:
 
-## What is Medusa
+```bash
+git clone https://github.com/medusajs/examples.git
+cd examples/klarna-integration
+```
 
-Medusa is a set of commerce modules and tools that allow you to build rich, reliable, and performant commerce applications without reinventing core commerce logic. The modules can be customized and used to build advanced ecommerce stores, marketplaces, or any product that needs foundational commerce primitives. All modules are open-source and freely available on npm.
+2\. Rename the `.env.template` file to `.env`.
 
-Learn more about [Medusa’s architecture](https://docs.medusajs.com/learn/introduction/architecture) and [commerce modules](https://docs.medusajs.com/learn/fundamentals/modules/commerce-modules) in the Docs.
+3\. If necessary, change the PostgreSQL username, password, and host in the `DATABASE_URL` environment variable.
 
-## Community & Contributions
+4\. Set the Klarna environment variables:
 
-The community and core team are available in [GitHub Discussions](https://github.com/medusajs/medusa/discussions), where you can ask for support, discuss roadmap, and share ideas.
+```bash
+KLARNA_USERNAME=
+KLARNA_PASSWORD=
+KLARNA_BASE_URL=
+KLARNA_AUTHORIZATION_CALLBACK=
+```
 
-Join our [Discord server](https://discord.com/invite/medusajs) to meet other community members.
+Where:
 
-## Other channels
+- `KLARNA_USERNAME` and `KLARNA_PASSWORD` are the Klarna API credentials
+- `KLARNA_BASE_URL` is the [Klarna API URL](https://docs.klarna.com/api/api-urls/)
+- `KLARNA_AUTHORIZATION_CALLBACK` is the webhook endpoint that Klarna will call on successful authentication. It's of the format `{public_url}/hooks/payment/klarna_klarna`.
+  - In development, you can use tools like [ngrok](https://ngrok.com/) to get a public URL.
+  - In production, replace `{public_url}` with the URL of the deployed Medusa server.
+- You can optionally enable the `KLARNA_AUTO_CAPTURE` to automatically capture payments when the order is placed.
 
-- [GitHub Issues](https://github.com/medusajs/medusa/issues)
-- [Twitter](https://twitter.com/medusajs)
-- [LinkedIn](https://www.linkedin.com/company/medusajs)
-- [Medusa Blog](https://medusajs.com/blog/)
+Learn more about retrieving these variables in the [tutorial](https://docs.medusajs.com/resources/integrations/guides/klarna#p-add-environment-variables)
+
+5\. Install dependencies:
+
+```bash
+yarn # or npm install
+```
+
+6\. Setup and seed the database:
+
+```bash
+npx medusa db:setup
+yarn seed # or npm run seed
+```
+
+7\. Start the Medusa application:
+
+```bash
+yarn dev # or npm run dev
+```
+
+Refer to the [Next Steps](#next-steps) on what you should do after integrating Klarna.
+
+## Copy into Existing Medusa Application
+
+If you have an existing Medusa application, copy the `src/modules/klarna` directory to your application.
+
+Then, add the Klarna Module to `medusa-config.ts`:
+
+```ts
+module.exports = defineConfig({
+  // ...
+  modules: [
+    {
+      resolve: "@medusajs/medusa/payment",
+      options: {
+        providers: [
+          {
+            resolve: "./src/modules/klarna",
+            id: "klarna",
+            options: {
+              baseUrl: process.env.KLARNA_BASE_URL,
+              username: process.env.KLARNA_USERNAME,
+              password: process.env.KLARNA_PASSWORD,
+              auto_capture: process.env.KLARNA_AUTO_CAPTURE === "true",
+              merchant_urls: {
+                authorization: process.env.KLARNA_AUTHORIZATION_CALLBACK,
+                push: process.env.KLARNA_AUTHORIZATION_CALLBACK,
+                notification: process.env.KLARNA_AUTHORIZATION_CALLBACK,
+              },
+            }
+          }
+        ]
+      }
+    }
+  ]
+})
+```
+
+Next, add the following environment variables:
+
+```bash
+KLARNA_USERNAME=
+KLARNA_PASSWORD=
+KLARNA_BASE_URL=
+KLARNA_AUTHORIZATION_CALLBACK=
+```
+
+Where:
+
+- `KLARNA_USERNAME` and `KLARNA_PASSWORD` are the Klarna API credentials
+- `KLARNA_BASE_URL` is the [Klarna API URL](https://docs.klarna.com/api/api-urls/)
+- `KLARNA_AUTHORIZATION_CALLBACK` is the webhook endpoint that Klarna will call on successful authentication. It's of the format `{public_url}/hooks/payment/klarna_klarna`.
+  - In development, you can use tools like [ngrok](https://ngrok.com/) to get a public URL.
+  - In production, replace `{public_url}` with the URL of the deployed Medusa server.
+- You can optionally enable the `KLARNA_AUTO_CAPTURE` to automatically capture payments when the order is placed.
+
+Learn more about retrieving these variables in the [tutorial](https://docs.medusajs.com/resources/integrations/guides/klarna#p-add-environment-variables)
+
+## Next Steps
+
+- Make sure to enable Klarna as a payment provider in a region using the [Medusa Admin dashboard](https://docs.medusajs.com/user-guide/settings/regions#edit-region-details).
+- Customize the [Next.js Starter Storefront](https://docs.medusajs.com/resources/nextjs-starter) as explained in the [tutorial](https://docs.medusajs.com/resources/integrations/guides/klarna#step-4-customize-nextjs-storefront-for-klarna) to support Klarna payments
+
+## More Resources
+
+- [Medusa Documentatin](https://docs.medusajs.com)
+- [Klarna Documentation](https://docs.klarna.com)

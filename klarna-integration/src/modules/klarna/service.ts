@@ -104,9 +104,7 @@ class KlarnaPaymentProviderService extends AbstractPaymentProvider<
 
       return {
         id: response.session_id,
-        data: {
-          session_id: response.session_id,
-        },
+        data: response,
       }
     } catch (error) {
       throw new MedusaError(MedusaError.Types.UNEXPECTED_STATE, `Failed to initiate Klarna payment: ${error.response.data}`)
@@ -196,7 +194,7 @@ class KlarnaPaymentProviderService extends AbstractPaymentProvider<
 
       if (orderResponse.status !== "CAPTURED" && orderResponse.status !== "PARTIALLY_CAPTURED") {
         await this.client.post(`/ordermanagement/v1/orders/${data.order_id}/captures`, {
-          captured_amount: orderResponse.order_amount,
+          captured_amount: orderResponse.remaining_authorized_amount,
         }, {
           headers: {
             "Klarna-Idempotency-Key": context?.idempotency_key || "",
@@ -242,15 +240,24 @@ class KlarnaPaymentProviderService extends AbstractPaymentProvider<
       data
     } = input
 
-    if (!data?.authorization_token) {
+    if (!data?.session_id) {
       // no payment to delete
       return {
         data,
       }
     }
 
+    const { data: sessionResponse } = await this.client.get(`/payments/v1/sessions/${data.session_id}`)
+
+    if (!sessionResponse.authorization_token) {
+      // no authorization to cancel
+      return {
+        data,
+      }
+    }
+
     try {
-      await this.client.post(`/payments/v1/authorizations/${data.authorization_token}`)
+      await this.client.delete(`/payments/v1/authorizations/${sessionResponse.authorization_token}`)
 
       return {
         data,
@@ -273,7 +280,10 @@ class KlarnaPaymentProviderService extends AbstractPaymentProvider<
       const { data: response } = await this.client.get(`/payments/v1/sessions/${data.session_id}`)
 
       return {
-        status: response.status === "completed" ? "authorized" : "pending",
+        status: response.status === "completed" ? 
+          this.options.auto_capture ? 
+            "captured" : "authorized" 
+          : response.status,
       }
     } catch (error) {
       throw new MedusaError(MedusaError.Types.UNEXPECTED_STATE, `Failed to get Klarna payment status: ${error.response.data}`)
@@ -286,12 +296,12 @@ class KlarnaPaymentProviderService extends AbstractPaymentProvider<
       amount,
       context
     } = input
-
-    const normalizedAmount = new BigNumber(amount).bigNumber?.multipliedBy(100).toNumber()
     
     if (!data?.order_id) {
       throw new MedusaError(MedusaError.Types.INVALID_DATA, "order_id is required to refund payment")
     }
+
+    const normalizedAmount = new BigNumber(amount).bigNumber?.multipliedBy(100).toNumber()
 
     try {
       await this.client.post(`/ordermanagement/v1/orders/${data.order_id}/refunds`, {

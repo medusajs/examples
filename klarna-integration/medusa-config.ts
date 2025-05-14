@@ -25,16 +25,16 @@ module.exports = defineConfig({
               baseUrl: process.env.KLARNA_BASE_URL,
               username: process.env.KLARNA_USERNAME,
               password: process.env.KLARNA_PASSWORD,
-              // auto_capture: true,
+              auto_capture: process.env.KLARNA_AUTO_CAPTURE === "true",
               merchant_urls: {
                 authorization: process.env.KLARNA_AUTHORIZATION_CALLBACK,
                 push: process.env.KLARNA_AUTHORIZATION_CALLBACK,
+                notification: process.env.KLARNA_AUTHORIZATION_CALLBACK,
               },
             }
           }
         ]
       }
     }
-
   ]
 })
