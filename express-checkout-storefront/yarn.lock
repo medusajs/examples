@@ -361,26 +361,31 @@
   resolved "https://registry.yarnpkg.com/@medusajs/icons/-/icons-2.8.0.tgz#2ee2cf39d31b2f3239dd409a1362b6a53415a49a"
   integrity sha512-o+0nbPCLPT9oyMbw1jSGH/hPui/2DpsYXiKZxYgyVvtpxq985WsLw9nxsyEK5/fspy+2jvthqn1jsRtgp5ZSIw==
 
-"@medusajs/js-sdk@2.8.0":
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/@medusajs/js-sdk/-/js-sdk-2.8.0.tgz#21195cc047bd2208ee0921f51bf3940679961d4a"
-  integrity sha512-/oM9AjODr413q8+SHei4mGyr+j+8kI2Bg3Fqp9nnxDWjBiypgRq/zR+p+NS5mjko6SZwq0lezeqjW5sRXcOLQA==
+"@medusajs/icons@2.8.2":
+  version "2.8.2"
+  resolved "https://registry.yarnpkg.com/@medusajs/icons/-/icons-2.8.2.tgz#410000fefa4802afc6f06b9d6baa1298e6e042a3"
+  integrity sha512-Rr+6kWdRUfUAmHU2SB1sAR1cRts15gJyGXIGoJ1r074WtCsvU1ZLr8Xn//oohaGkJ/Oq2fO5HGU2HinJUaErDw==
+
+"@medusajs/js-sdk@2.8.2":
+  version "2.8.2"
+  resolved "https://registry.yarnpkg.com/@medusajs/js-sdk/-/js-sdk-2.8.2.tgz#491d695146eb0c7ff3194871d486b79e8c86947d"
+  integrity sha512-coaiCi8oNZ5Ga6uUbKgxGzXmlVNKri3N56NaHy57C5WqsA2EBxxffbxulazx1TjnX7GwszYZBu9aZDuEhqcc4w==
   dependencies:
-    "@medusajs/types" "2.8.0"
+    "@medusajs/types" "2.8.2"
     fetch-event-stream "^0.1.5"
     qs "^6.12.1"
 
-"@medusajs/types@2.8.0":
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-2.8.0.tgz#033f492c8cba07f9f009cb73613f61575660dfe6"
-  integrity sha512-/NHuSeuUVV5YTlUIS79XjCzMi16ybPD1qbutM9h30cCkwRuey25p0elrh/zweH05qMSBs3fvP2Z+Dn5NH3Uakw==
+"@medusajs/types@2.8.2":
+  version "2.8.2"
+  resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-2.8.2.tgz#200c923cc208fdb8be35784972e0dd038cdc7694"
+  integrity sha512-0x64cc30Of4oBQRPMIvHx154Fm/XT6uJLKIa6OqPgL4MEmVjhrhGJ/sTT8F0jZHB8cunXtyeB1ULFHMeT6uJEw==
   dependencies:
     bignumber.js "^9.1.2"
 
-"@medusajs/ui-preset@2.8.0":
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/@medusajs/ui-preset/-/ui-preset-2.8.0.tgz#4621171d8f18398c548ce55e03d5fc9b0ec547fb"
-  integrity sha512-97aFcKZdcuBiBoTWS9ht63EGaSF6fN2RqdEq2mhrBIFWrcum/NweiuetCqe/YFOcTmx/CnZgcNm1bG/p63TrmA==
+"@medusajs/ui-preset@2.8.2":
+  version "2.8.2"
+  resolved "https://registry.yarnpkg.com/@medusajs/ui-preset/-/ui-preset-2.8.2.tgz#646a04411a0a72f1083e4a3509a1f7d885fb0174"
+  integrity sha512-fA+QUOHilgNc1oXBGJM9ChdK1NcQLBEbP4ie83sB6DVbau6hXXP6QXbXFhRpP59JN7QRioKG4S5HNG+qAwOugA==
   dependencies:
     "@tailwindcss/forms" "^0.5.3"
     tailwindcss-animate "^1.0.6"
