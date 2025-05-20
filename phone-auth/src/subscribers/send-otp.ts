@@ -26,5 +26,5 @@ export default async function sendOtpHandler({
 }
 
 export const config: SubscriberConfig = {
-  event: "phone-auth.otp.generated1",
+  event: "phone-auth.otp.generated",
 }
