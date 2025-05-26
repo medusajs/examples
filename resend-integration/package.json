@@ -23,10 +23,10 @@
     "test:unit": "TEST_TYPE=unit NODE_OPTIONS=--experimental-vm-modules jest --silent --runInBand --forceExit"
   },
   "dependencies": {
-    "@medusajs/admin-sdk": "2.8.2",
-    "@medusajs/cli": "2.8.2",
-    "@medusajs/framework": "2.8.2",
-    "@medusajs/medusa": "2.8.2",
+    "@medusajs/admin-sdk": "2.8.3",
+    "@medusajs/cli": "2.8.3",
+    "@medusajs/framework": "2.8.3",
+    "@medusajs/medusa": "2.8.3",
     "@mikro-orm/core": "6.4.3",
     "@mikro-orm/knex": "6.4.3",
     "@mikro-orm/migrations": "6.4.3",
@@ -37,7 +37,7 @@
     "resend": "^4.2.0"
   },
   "devDependencies": {
-    "@medusajs/test-utils": "2.8.2",
+    "@medusajs/test-utils": "2.8.3",
     "@mikro-orm/cli": "6.4.3",
     "@swc/core": "1.5.7",
     "@swc/jest": "^0.2.36",

@@ -361,31 +361,31 @@
   resolved "https://registry.yarnpkg.com/@medusajs/icons/-/icons-2.8.0.tgz#2ee2cf39d31b2f3239dd409a1362b6a53415a49a"
   integrity sha512-o+0nbPCLPT9oyMbw1jSGH/hPui/2DpsYXiKZxYgyVvtpxq985WsLw9nxsyEK5/fspy+2jvthqn1jsRtgp5ZSIw==
 
-"@medusajs/icons@2.8.2":
-  version "2.8.2"
-  resolved "https://registry.yarnpkg.com/@medusajs/icons/-/icons-2.8.2.tgz#410000fefa4802afc6f06b9d6baa1298e6e042a3"
-  integrity sha512-Rr+6kWdRUfUAmHU2SB1sAR1cRts15gJyGXIGoJ1r074WtCsvU1ZLr8Xn//oohaGkJ/Oq2fO5HGU2HinJUaErDw==
+"@medusajs/icons@2.8.3":
+  version "2.8.3"
+  resolved "https://registry.yarnpkg.com/@medusajs/icons/-/icons-2.8.3.tgz#3cbcf7f6637d4153377f877d2e83ce4560a4f01b"
+  integrity sha512-kPF6vuEIaRhV5+V529iAvVUyAiVji878MYZxzPIb1MYtPUAXiqwv8g3KIBEH8tWfUqBi+Xad+ZT41u5nckljxQ==
 
-"@medusajs/js-sdk@2.8.2":
-  version "2.8.2"
-  resolved "https://registry.yarnpkg.com/@medusajs/js-sdk/-/js-sdk-2.8.2.tgz#491d695146eb0c7ff3194871d486b79e8c86947d"
-  integrity sha512-coaiCi8oNZ5Ga6uUbKgxGzXmlVNKri3N56NaHy57C5WqsA2EBxxffbxulazx1TjnX7GwszYZBu9aZDuEhqcc4w==
+"@medusajs/js-sdk@2.8.3":
+  version "2.8.3"
+  resolved "https://registry.yarnpkg.com/@medusajs/js-sdk/-/js-sdk-2.8.3.tgz#c8b42ace428703555a716c272589cf5b75ab4836"
+  integrity sha512-CcN1oIWdAyElPVgMJ/Lm8FA1y5TqcL0NABAttj55iZvCrAkJF0ML0GJKY6STXNHRdKZaxI3+j9hZiMuo5yXqGg==
   dependencies:
-    "@medusajs/types" "2.8.2"
+    "@medusajs/types" "2.8.3"
     fetch-event-stream "^0.1.5"
     qs "^6.12.1"
 
-"@medusajs/types@2.8.2":
-  version "2.8.2"
-  resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-2.8.2.tgz#200c923cc208fdb8be35784972e0dd038cdc7694"
-  integrity sha512-0x64cc30Of4oBQRPMIvHx154Fm/XT6uJLKIa6OqPgL4MEmVjhrhGJ/sTT8F0jZHB8cunXtyeB1ULFHMeT6uJEw==
+"@medusajs/types@2.8.3":
+  version "2.8.3"
+  resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-2.8.3.tgz#8013d89a69fe94453fc596ed42cd0682e3b9c13b"
+  integrity sha512-VCgoyYM9yMY9U7EcejerhniVzG0+ZETQhi30Ho8ifrH+I0KnecB3i99vP2dD6pOzbPj7XrbK+KzItBi80o9yqQ==
   dependencies:
     bignumber.js "^9.1.2"
 
-"@medusajs/ui-preset@2.8.2":
-  version "2.8.2"
-  resolved "https://registry.yarnpkg.com/@medusajs/ui-preset/-/ui-preset-2.8.2.tgz#646a04411a0a72f1083e4a3509a1f7d885fb0174"
-  integrity sha512-fA+QUOHilgNc1oXBGJM9ChdK1NcQLBEbP4ie83sB6DVbau6hXXP6QXbXFhRpP59JN7QRioKG4S5HNG+qAwOugA==
+"@medusajs/ui-preset@2.8.3":
+  version "2.8.3"
+  resolved "https://registry.yarnpkg.com/@medusajs/ui-preset/-/ui-preset-2.8.3.tgz#4851c6fe0800b23650452f20b33f79aef29afd08"
+  integrity sha512-ebjQAb2hbz0430MY4aPRVJEViOi/FhWbBcK2OF70sZKBtsnX31W8mJnLYVsMvK3B6r7OhUpGsaDhI/ykpcsq8Q==
   dependencies:
     "@tailwindcss/forms" "^0.5.3"
     tailwindcss-animate "^1.0.6"
