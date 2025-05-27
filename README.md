@@ -20,6 +20,7 @@ To learn how to use an example, open its `README.md` file. You'll find the detai
 | [Loyalty Points System](./loyalty-points/README.md) | Allow customers to earn and redeem loyalty points. |
 | [Marketplace](./marketplace/README.md) | Allow vendors to register and sell products. |
 | [Migrate from Magento](./migrate-from-magento/README.md) | Migrate products and categories from Magento |
+| [Phone Authentication + Twilio SMS Integration](./phone-auth/README.md) | Authenticate users with their phone number + send OTPs with Twilio. |
 | [Product Reviews](./product-reviews/README.md) | Allow customers to add product reviews, and merchants to manage them. |
 | [Quotes Management](./quotes-management/README.md) | Allow customers to send quotes, and merchants to manage and accept them. |
 | [Re-order Feature](./re-order/README.md) | Allow customers to re-order a previous order. |
