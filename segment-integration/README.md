@@ -56,14 +56,12 @@ yarn seed # or npm run seed
 yarn dev # or npm run dev
 ```
 
-You can test the integration out by placing an order or sending a `POST` request to the `/store/products/:id/viewed` API route.
+You can test the integration out by placing an order.
 
 ## Copy into Existing Medusa Application
 
 If you have an existing Medusa application, copy the following directories and files into your project:
 
-- `src/api/store`
-- `src/api/middlewares.ts`
 - `src/modules/segment`
 - `src/subscribers`
 - `src/workflows`
@@ -110,7 +108,7 @@ yarn add @segment/analytics-node # or npm install @segment/analytics-node
 
 > This guide was implemented with `@segment/analytics-node@^2.2.1`.
 
-You can test the integration out by placing an order or sending a `POST` request to the `/store/products/:id/viewed` API route.
+You can test the integration out by placing an order.
 
 ## More Resources
 

@@ -24,16 +24,27 @@ class SegmentAnalyticsProviderService extends AbstractAnalyticsProviderService {
   }
 
   async identify(data: ProviderIdentifyAnalyticsEventDTO): Promise<void> {
-    const userId = "group" in data ? data.actor_id || data.group.id : data.actor_id
     const anonymousId = data.properties && "anonymousId" in data.properties ? 
       data.properties.anonymousId : undefined
+    const traits = data.properties && "traits" in data.properties ? 
+        data.properties.traits : undefined
 
-    this.client.identify({
-      userId,
-      anonymousId,
-      traits: "group" in data ? data.group : undefined,
-      context: data.properties
-    })
+    if ("group" in data) {
+      this.client.group({
+        groupId: data.group.id,
+        userId: data.actor_id,
+        anonymousId,
+        traits,
+        context: data.properties
+      })
+    } else {
+      this.client.identify({
+        userId: data.actor_id,
+        anonymousId,
+        traits,
+        context: data.properties
+      })
+    }
   }
 
   async track(data: ProviderTrackAnalyticsEventDTO): Promise<void> {
