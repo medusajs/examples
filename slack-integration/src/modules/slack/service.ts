@@ -124,7 +124,7 @@ class SlackNotificationProviderService extends AbstractNotificationProviderServi
           text: {
             type: "mrkdwn",
             text: `*${item.title}*\n${item.quantity} x ${await this.getDisplayAmount(
-              order.original_total as number,
+              item.unit_price as number,
               order.currency_code
             )}`,
           },
