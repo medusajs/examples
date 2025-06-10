@@ -23,10 +23,10 @@
     "test:unit": "TEST_TYPE=unit NODE_OPTIONS=--experimental-vm-modules jest --silent --runInBand --forceExit"
   },
   "dependencies": {
-    "@medusajs/admin-sdk": "2.8.3",
-    "@medusajs/cli": "2.8.3",
-    "@medusajs/framework": "2.8.3",
-    "@medusajs/medusa": "2.8.3",
+    "@medusajs/admin-sdk": "2.8.4",
+    "@medusajs/cli": "2.8.4",
+    "@medusajs/framework": "2.8.4",
+    "@medusajs/medusa": "2.8.4",
     "@mikro-orm/core": "6.4.3",
     "@mikro-orm/knex": "6.4.3",
     "@mikro-orm/migrations": "6.4.3",
@@ -37,7 +37,7 @@
     "resend": "^4.2.0"
   },
   "devDependencies": {
-    "@medusajs/test-utils": "2.8.3",
+    "@medusajs/test-utils": "2.8.4",
     "@mikro-orm/cli": "6.4.3",
     "@swc/core": "1.5.7",
     "@swc/jest": "^0.2.36",
@@ -49,10 +49,10 @@
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-email": "^4.0.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2",
-    "vite": "^5.2.11",
-    "react-email": "^4.0.7"
+    "vite": "^5.2.11"
   },
   "engines": {
     "node": ">=20"
