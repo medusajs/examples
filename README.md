@@ -29,6 +29,7 @@ To learn how to use an example, open its `README.md` file. You'll find the detai
 | [Restock Notification](./restock-notification/README.md) | Allow customers to subscribe to product restock notifications. |
 | [Sanity Integration](./sanity-integration/README.md) | Integrate Sanity for rich content-management features. |
 | [Segment Integration](./segment-integration/README.md) | Integrate Segment to track events. |
+| [Sentry Integration](./sentry-integration/) | Integrate Sentry to monitor performance and track errors. |
 | [Slack Integration](./slack-integration/README.md) | Integrate Slack to send order notifications. |
 | [ShipStation Integration](./shipstation-integration/README.md) | Integrate ShipStation as a fulfillment provider. |
 | [Stripe Saved Payment Methods](./stripe-saved-payment/README.md) | Implement saved payment methods with Stripe. |
