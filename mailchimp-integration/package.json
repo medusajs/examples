@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "@mailchimp/mailchimp_marketing": "^3.0.80",
-    "@mailchimp/mailchimp_transactional": "^1.0.59",
     "@medusajs/admin-sdk": "2.8.4",
     "@medusajs/cli": "2.8.4",
     "@medusajs/framework": "2.8.4",

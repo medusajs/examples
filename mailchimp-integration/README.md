@@ -1,62 +1,144 @@
-<p align="center">
-  <a href="https://www.medusajs.com">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/59018053/229103275-b5e482bb-4601-46e6-8142-244f531cebdb.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
-    <img alt="Medusa logo" src="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
-    </picture>
-  </a>
-</p>
-<h1 align="center">
-  Medusa
-</h1>
+# Medusa v2 Example: Mailchimp Integration
 
-<h4 align="center">
-  <a href="https://docs.medusajs.com">Documentation</a> |
-  <a href="https://www.medusajs.com">Website</a>
-</h4>
+This directory holds the code for the [Mailchimp Integration Tutorial](https://docs.medusajs.com/resources/integrations/guides/mailchimp).
 
-<p align="center">
-  Building blocks for digital commerce
-</p>
-<p align="center">
-  <a href="https://github.com/medusajs/medusa/blob/master/CONTRIBUTING.md">
-    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat" alt="PRs welcome!" />
-  </a>
-    <a href="https://www.producthunt.com/posts/medusa"><img src="https://img.shields.io/badge/Product%20Hunt-%231%20Product%20of%20the%20Day-%23DA552E" alt="Product Hunt"></a>
-  <a href="https://discord.gg/xpCwq3Kfn8">
-    <img src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg" alt="Discord Chat" />
-  </a>
-  <a href="https://twitter.com/intent/follow?screen_name=medusajs">
-    <img src="https://img.shields.io/twitter/follow/medusajs.svg?label=Follow%20@medusajs" alt="Follow @medusajs" />
-  </a>
-</p>
+You can either:
 
-## Compatibility
+- [install and use it as a Medusa application](#installation);
+- or [copy its source files into an existing Medusa application](#copy-into-existing-medusa-application).
 
-This starter is compatible with versions >= 2 of `@medusajs/medusa`. 
+## Prerequisites
 
-## Getting Started
+- [Node.js v20+](https://nodejs.org/en/download)
+- [Git CLI](https://git-scm.com/downaloads)
+- [PostgreSQL](https://www.postgresql.org/download/)
+- [Mailchimp](https://mailchimp.com/) account with an API key and an audience list.
 
-Visit the [Quickstart Guide](https://docs.medusajs.com/learn/installation) to set up a server.
+## Installation
 
-Visit the [Docs](https://docs.medusajs.com/learn/installation#get-started) to learn more about our system requirements.
+1. Clone the repository and change to the `mailchimp-integration` directory:
 
-## What is Medusa
+```bash
+git clone https://github.com/medusajs/examples.git
+cd examples/mailchimp-integration
+```
 
-Medusa is a set of commerce modules and tools that allow you to build rich, reliable, and performant commerce applications without reinventing core commerce logic. The modules can be customized and used to build advanced ecommerce stores, marketplaces, or any product that needs foundational commerce primitives. All modules are open-source and freely available on npm.
+2\. Rename the `.env.template` file to `.env`.
 
-Learn more about [Medusa’s architecture](https://docs.medusajs.com/learn/introduction/architecture) and [commerce modules](https://docs.medusajs.com/learn/fundamentals/modules/commerce-modules) in the Docs.
+3\. If necessary, change the PostgreSQL username, password, and host in the `DATABASE_URL` environment variable.
 
-## Community & Contributions
+4\. Set the Mailchimp environment variables:
 
-The community and core team are available in [GitHub Discussions](https://github.com/medusajs/medusa/discussions), where you can ask for support, discuss roadmap, and share ideas.
+```bash
+MAILCHIMP_API_KEY=
+MAILCHIMP_SERVER=
+MAILCHIMP_LIST_ID=
+MAILCHIMP_NEW_PRODUCTS_SUBJECT_LINE=
+MAILCHIMP_NEW_PRODUCTS_STOREFRONT_URL=
+```
 
-Join our [Discord server](https://discord.com/invite/medusajs) to meet other community members.
+Where:
 
-## Other channels
+- `MAILCHIMP_API_KEY` is your Mailchimp API key.
+- `MAILCHIMP_SERVER` is your Mailchimp server prefix. For example, `us5`.
+- `MAILCHIMP_LIST_ID` is the ID of the audience list.
+- `MAILCHIMP_NEW_PRODUCTS_SUBJECT_LINE` is an optional variable for the subject line of the products newsletter.
+- `MAILCHIMP_NEW_PRODUCTS_STOREFRONT_URL` is an optional storefront URL to be used in the products newsletter.
 
-- [GitHub Issues](https://github.com/medusajs/medusa/issues)
-- [Twitter](https://twitter.com/medusajs)
-- [LinkedIn](https://www.linkedin.com/company/medusajs)
-- [Medusa Blog](https://medusajs.com/blog/)
+Learn more about retrieving these variables in the [tutorial](https://docs.medusajs.com/resources/integrations/guides/mailchimp#h-set-environment-variables)
+
+5\. Install dependencies:
+
+```bash
+yarn # or npm install
+```
+
+6\. Setup and seed the database:
+
+```bash
+npx medusa db:setup
+yarn seed # or npm run seed
+```
+
+7\. Start the Medusa application:
+
+```bash
+yarn dev # or npm run dev
+```
+
+You can then use the [/store/newsletter API route](./src/api/store/newsletter/route.ts) to subscribe an email.
+
+## Copy into Existing Medusa Application
+
+If you have an existing Medusa application, copy the following directories and files into your project:
+
+- `src/api/store`
+- `src/api/middlewares.ts`
+- `src/modules/mailchimp`
+- `src/subscribers`
+- `src/workflows`
+
+Then, add the Mailchimp Module Provider to `medusa-config.ts`:
+
+```ts
+module.exports = defineConfig({
+  // ...
+  modules: [
+    {
+      resolve: "@medusajs/medusa/notification",
+      options: {
+        providers: [
+          {
+            resolve: "./src/modules/mailchimp",
+            id: "mailchimp",
+            options: {
+              channels: ["email"],
+              apiKey: process.env.MAILCHIMP_API_KEY!,
+              server: process.env.MAILCHIMP_SERVER!,
+              listId: process.env.MAILCHIMP_LIST_ID!,
+              templates: {
+                new_products: {
+                  subject_line: process.env.MAILCHIMP_NEW_PRODUCTS_SUBJECT_LINE!,
+                  storefront_url: process.env.MAILCHIMP_NEW_PRODUCTS_STOREFRONT_URL!,
+                }
+              }
+            },
+          },
+        ],
+      },
+    },
+  ]
+})
+```
+
+```bash
+MAILCHIMP_API_KEY=
+MAILCHIMP_SERVER=
+MAILCHIMP_LIST_ID=
+MAILCHIMP_NEW_PRODUCTS_SUBJECT_LINE=
+MAILCHIMP_NEW_PRODUCTS_STOREFRONT_URL=
+```
+
+Where:
+
+- `MAILCHIMP_API_KEY` is your Mailchimp API key.
+- `MAILCHIMP_SERVER` is your Mailchimp server prefix. For example, `us5`.
+- `MAILCHIMP_LIST_ID` is the ID of the audience list.
+- `MAILCHIMP_NEW_PRODUCTS_SUBJECT_LINE` is an optional variable for the subject line of the products newsletter.
+- `MAILCHIMP_NEW_PRODUCTS_STOREFRONT_URL` is an optional storefront URL to be used in the products newsletter.
+
+Learn more about retrieving these variables in the [tutorial](https://docs.medusajs.com/resources/integrations/guides/mailchimp#h-set-environment-variables)
+
+After that, install the Mailchimp SDK:
+
+```bash
+yarn add @mailchimp/mailchimp_marketing # or npm install @mailchimp/mailchimp_marketing
+yarn add -D @types/mailchimp__mailchimp_marketing # or npm install @types/mailchimp__mailchimp_marketing --save-dev
+```
+
+You can then use the [/store/newsletter API route](./src/api/store/newsletter/route.ts) to subscribe an email.
+
+## More Resources
+
+- [Medusa Documentatin](https://docs.medusajs.com)
+- [Mailchimp Documentation](https://mailchimp.com/developer/)

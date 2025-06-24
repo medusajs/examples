@@ -129,7 +129,7 @@ class MailchimpNotificationProviderService extends AbstractNotificationProviderS
         <html xmlns:mc="http://schemas.mailchimp.com/2006/hcm">
         <head>
           <meta charset="UTF-8">
-          <title>Product List</title>
+          <title>${this.options.templates?.new_products?.subject_line}</title>
           <style>
             body {
               font-family: Arial, sans-serif;
