@@ -22,6 +22,7 @@ To learn how to use an example, open its `README.md` file. You'll find the detai
 | [Mailchimp Integration](./mailchimp-integration/README.md) | Integrate Mailchimp to subscribe customers and automate newsletters. |
 | [Marketplace](./marketplace/README.md) | Allow vendors to register and sell products. |
 | [Migrate from Magento](./migrate-from-magento/README.md) | Migrate products and categories from Magento |
+| [Add Gift Messages to Line Items](./order-gift-message/) | Customize the Next.js Starter Storefront and Medusa Admin to support gift options for line items. |
 | [Phone Authentication + Twilio SMS Integration](./phone-auth/README.md) | Authenticate users with their phone number + send OTPs with Twilio. |
 | [Product Reviews](./product-reviews/README.md) | Allow customers to add product reviews, and merchants to manage them. |
 | [Quotes Management](./quotes-management/README.md) | Allow customers to send quotes, and merchants to manage and accept them. |
