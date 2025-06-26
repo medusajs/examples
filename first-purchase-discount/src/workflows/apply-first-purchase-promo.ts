@@ -10,7 +10,6 @@ type WorkflowInput = {
 export const applyFirstPurchasePromoWorkflow = createWorkflow(
   "apply-first-purchase-promo",
   (input: WorkflowInput) => {
-    // @ts-ignore
     const { data: carts } = useQueryGraphStep({
       entity: "cart",
       fields: ["promotions.*", "customer.*", "customer.orders.*"],
@@ -19,12 +18,10 @@ export const applyFirstPurchasePromoWorkflow = createWorkflow(
       }
     })
 
-    // @ts-ignore
     const { data: promotions } = useQueryGraphStep({
       entity: "promotion",
       fields: ["code"],
       filters: {
-        // @ts-ignore
         code: FIRST_PURCHASE_PROMOTION_CODE
       }
     }).config({ name: "retrieve-promotions" })
@@ -47,7 +44,6 @@ export const applyFirstPurchasePromoWorkflow = createWorkflow(
     })
 
     // retrieve updated cart
-    // @ts-ignore
     const { data: updatedCarts } = useQueryGraphStep({
       entity: "cart",
       fields: ["*", "promotions.*"],

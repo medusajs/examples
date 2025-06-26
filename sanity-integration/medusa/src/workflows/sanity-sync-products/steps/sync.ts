@@ -36,7 +36,6 @@ export const syncStep = createStep(
         fields: [
           "id",
           "title",
-          // @ts-ignore
           "sanity_product.*"
         ],
         filters,

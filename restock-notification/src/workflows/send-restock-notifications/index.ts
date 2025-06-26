@@ -28,7 +28,6 @@ export const sendRestockNotificationsWorkflow = createWorkflow(
       return filters
     })
 
-    // @ts-ignore
     const { data: restockedSubscriptionsWithEmails } = useQueryGraphStep({
       entity: "restock_subscription",
       fields: ["*", "product_variant.*"],

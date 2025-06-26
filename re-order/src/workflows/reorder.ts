@@ -16,7 +16,6 @@ type ReorderWorkflowInput = {
 export const reorderWorkflow = createWorkflow(
   "reorder",
   ({ order_id }: ReorderWorkflowInput) => {
-    // @ts-ignore
     const { data: orders } = useQueryGraphStep({
       entity: "order",
       fields: [
@@ -91,7 +90,6 @@ export const reorderWorkflow = createWorkflow(
       input: addShippingMethodToCartInput,
     })
 
-    // @ts-ignore
     const { data: carts } = useQueryGraphStep({
       entity: "cart",
       fields: [

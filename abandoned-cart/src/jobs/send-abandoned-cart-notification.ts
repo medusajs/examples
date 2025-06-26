@@ -31,11 +31,9 @@ export default async function abandonedCartJob(
         updated_at: {
           $lt: oneDayAgo
         },
-        // @ts-ignore
         email: {
           $ne: null
         },
-        // @ts-ignore
         completed_at: null,
       },
       pagination: {

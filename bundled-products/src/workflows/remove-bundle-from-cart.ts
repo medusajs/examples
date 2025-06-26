@@ -40,7 +40,6 @@ export const removeBundleFromCartWorkflow = createWorkflow(
     })
 
     // retrieve cart again
-    // @ts-ignore
     const { data: updatedCarts } = useQueryGraphStep({
       entity: "cart",
       fields: [

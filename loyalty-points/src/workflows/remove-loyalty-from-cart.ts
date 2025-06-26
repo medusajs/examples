@@ -32,7 +32,6 @@ const fields = [
 export const removeLoyaltyFromCartWorkflow = createWorkflow(
   "remove-loyalty-from-cart",
   (input: WorkflowInput) => {
-    // @ts-ignore
     const { data: carts } = useQueryGraphStep({
       entity: "cart",
       fields,
@@ -80,7 +79,6 @@ export const removeLoyaltyFromCartWorkflow = createWorkflow(
     ])
 
     // retrieve cart with updated promotions
-    // @ts-ignore
     const { data: updatedCarts } = useQueryGraphStep({
       entity: "cart",
       fields,

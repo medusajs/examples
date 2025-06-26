@@ -14,7 +14,6 @@ type WorkflowInput = {
 export const handleOrderPointsWorkflow = createWorkflow(
   "handle-order-points",
   ({ order_id }: WorkflowInput) => {
-    // @ts-ignore
     const { data: orders } = useQueryGraphStep({
       entity: "order",
       fields: [

@@ -17,7 +17,6 @@ type WorkflowInput = {
 export const customerAcceptQuoteWorkflow = createWorkflow(
   "customer-accept-quote-workflow",
   (input: WorkflowInput) => {
-    // @ts-ignore
     const { data: quotes } = useQueryGraphStep({
       entity: "quote",
       fields: ["id", "draft_order_id", "status"],

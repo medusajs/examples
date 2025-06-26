@@ -21,7 +21,6 @@ type WorkflowInput = {
 export const createRequestForQuoteWorkflow = createWorkflow(
   "create-request-for-quote",
   (input: WorkflowInput) => {
-    // @ts-ignore
     const { data: carts } = useQueryGraphStep({
       entity: "cart",
       fields: [

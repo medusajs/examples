@@ -20,7 +20,6 @@ export const createReviewWorkflow = createWorkflow(
   "create-review",
   (input: CreateReviewInput) => {
     // Check product exists
-    // @ts-ignore
     useQueryGraphStep({
       entity: "product",
       fields: ["id"],
@@ -35,7 +34,6 @@ export const createReviewWorkflow = createWorkflow(
     // Create the review
     const review = createReviewStep(input)
 
-    // @ts-ignore
     return new WorkflowResponse({
       review
     })

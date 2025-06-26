@@ -12,7 +12,6 @@ type WorkflowInput = {
 export const trackOrderPlacedWorkflow = createWorkflow(
   "track-order-placed",
   ({ id }: WorkflowInput) => {
-    // @ts-ignore
     const { data: orders } = useQueryGraphStep({
       entity: "order",
       fields: [

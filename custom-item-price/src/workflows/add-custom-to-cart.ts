@@ -15,7 +15,6 @@ type AddCustomToCartWorkflowInput = {
 export const addCustomToCartWorkflow = createWorkflow(
   "add-custom-to-cart",
   ({ cart_id, item }: AddCustomToCartWorkflowInput) => {
-    // @ts-ignore
     const { data: carts } = useQueryGraphStep({
       entity: "cart",
       filters: { id: cart_id },
@@ -66,7 +65,6 @@ export const addCustomToCartWorkflow = createWorkflow(
       }
     })
 
-    // @ts-ignore
     const { data: updatedCarts } = useQueryGraphStep({
       entity: "cart",
       filters: { id: cart_id },

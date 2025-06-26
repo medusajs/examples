@@ -15,7 +15,6 @@ type AddBundleToCartWorkflowInput = {
 export const addBundleToCartWorkflow = createWorkflow(
   "add-bundle-to-cart",
   ({ cart_id, bundle_id, quantity, items }: AddBundleToCartWorkflowInput) => {
-    // @ts-ignore
     const { data } = useQueryGraphStep({
       entity: "bundle",
       fields: [
@@ -45,7 +44,6 @@ export const addBundleToCartWorkflow = createWorkflow(
       }
     })
 
-    // @ts-ignore
     const { data: updatedCarts } = useQueryGraphStep({
       entity: "cart",
       filters: { id: cart_id },

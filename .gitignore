@@ -20,7 +20,7 @@ medusa-db.sql
 build
 .cache
 
-.yarn/*
+.yarn
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
@@ -28,3 +28,5 @@ build
 !.yarn/versions
 
 .medusa
+.next
+cache

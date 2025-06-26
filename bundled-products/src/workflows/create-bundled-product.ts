@@ -63,7 +63,6 @@ export const createBundledProductWorkflow = createWorkflow(
     })
 
     // retrieve bundle product wit items
-    // @ts-ignore
     const { data } = useQueryGraphStep({
       entity: "bundle",
       fields: ["*", "items.*"],

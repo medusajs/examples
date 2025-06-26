@@ -28,7 +28,6 @@ export const createRestockSubscriptionWorkflow = createWorkflow(
     const retrievedCustomer = when("retrieve-customer-by-id", { customer }, ({ customer }) => {
       return !customer.email
     }).then(() => {
-      // @ts-ignore
       const { data } = useQueryGraphStep({
         entity: "customer",
         fields: ["email"],
@@ -53,7 +52,6 @@ export const createRestockSubscriptionWorkflow = createWorkflow(
       sales_channel_id
     })
 
-    // @ts-ignore
     const { data: restockSubscriptions } = useQueryGraphStep({
       entity: "restock_subscription",
       fields: ["*"],
@@ -86,7 +84,6 @@ export const createRestockSubscriptionWorkflow = createWorkflow(
       })
     })
 
-    // @ts-ignore
     const { data: restockSubscription } = useQueryGraphStep({
       entity: "restock_subscription",
       fields: ["*"],

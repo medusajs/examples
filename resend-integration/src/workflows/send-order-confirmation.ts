@@ -9,7 +9,6 @@ type WorkflowInput = {
 export const sendOrderConfirmationWorkflow = createWorkflow(
   "send-order-confirmation",
   ({ id }: WorkflowInput) => {
-    // @ts-ignore
     const { data: orders } = useQueryGraphStep({
       entity: "order",
       fields: [

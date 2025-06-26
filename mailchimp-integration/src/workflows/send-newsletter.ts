@@ -4,7 +4,6 @@ import { sendNotificationsStep, useQueryGraphStep } from "@medusajs/medusa/core-
 export const sendNewProductsNewsletter = createWorkflow(
   "send-new-products-newsletter", 
   (input) => {
-    // @ts-ignore
     const { data: products } = useQueryGraphStep({
       entity: "product",
       fields: [

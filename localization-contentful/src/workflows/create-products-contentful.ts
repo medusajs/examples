@@ -10,7 +10,6 @@ type WorkflowInput = {
 export const createProductsContentfulWorkflow = createWorkflow(
   { name: "create-products-contentful-workflow" },
   (input: WorkflowInput) => {
-    // @ts-ignore
     const { data } = useQueryGraphStep({
       entity: "product",
       fields: [
