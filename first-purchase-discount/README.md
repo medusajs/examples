@@ -12,7 +12,6 @@ You can either:
 - [Node.js v20+](https://nodejs.org/en/download)
 - [Git CLI](https://git-scm.com/downaloads)
 - [PostgreSQL](https://www.postgresql.org/download/)
-- [Algolia](https://www.algolia.com/) account with an application, index, and API key.
 
 ## Installation
 
