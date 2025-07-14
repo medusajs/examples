@@ -49,6 +49,8 @@ const createVendorOrdersWorkflow = createWorkflow(
           "shipping_address.*",
           "billing_address.*",
           "shipping_methods.*",
+          "shipping_methods.tax_lines.*",
+          "shipping_methods.adjustments.*"
         ]
       }
     })
