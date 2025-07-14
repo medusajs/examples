@@ -29,9 +29,6 @@ export const setStepSuccessStep = createStep(
         workflowId: handleDeliveryWorkflowId,
       },
       stepResponse: new StepResponse(updatedDelivery, updatedDelivery.id),
-      options: {
-        container,
-      },
     });
   }
 );
