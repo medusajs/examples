@@ -28,6 +28,7 @@ export const createRestockSubscriptionWorkflow = createWorkflow(
     const retrievedCustomer = when("retrieve-customer-by-id", { customer }, ({ customer }) => {
       return !customer.email
     }).then(() => {
+      // @ts-ignore
       const { data } = useQueryGraphStep({
         entity: "customer",
         fields: ["email"],
