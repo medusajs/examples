@@ -5,7 +5,9 @@ export const Wishlist = model.define("wishlist", {
   id: model.id().primaryKey(),
   customer_id: model.text(),
   sales_channel_id: model.text(),
-  items: model.hasMany(() => WishlistItem),
+  items: model.hasMany(() => WishlistItem, {
+    mappedBy: "wishlist",
+  }),
 })
 .indexes([
   {
