@@ -24,6 +24,7 @@ To learn how to use an example, open its `README.md` file. You'll find the detai
 | [Migrate from Magento](./migrate-from-magento/README.md) | Migrate products and categories from Magento |
 | [Add Gift Messages to Line Items](./order-gift-message/) | Customize the Next.js Starter Storefront and Medusa Admin to support gift options for line items. |
 | [Phone Authentication + Twilio SMS Integration](./phone-auth/README.md) | Authenticate users with their phone number + send OTPs with Twilio. |
+| [Pre-orders](./preorder/README.md) | Allow customers to pre-order products and automatically fulfill the pre-orders. |
 | [Product Reviews](./product-reviews/README.md) | Allow customers to add product reviews, and merchants to manage them. |
 | [Quotes Management](./quotes-management/README.md) | Allow customers to send quotes, and merchants to manage and accept them. |
 | [Re-order Feature](./re-order/README.md) | Allow customers to re-order a previous order. |
