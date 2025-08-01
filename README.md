@@ -17,6 +17,7 @@ To learn how to use an example, open its `README.md` file. You'll find the detai
 | [Digital Products](./digital-product/README.md) | Sell digital products in your Medusa application. |
 | [Express Checkout Storefront](./express-checkout-storefront/README.md) | Use a storefront with an express checkout experience. |
 | [First-Purchase Discounts](./first-purchase-discount/) | Apply a discount on a customer's first purchase. |
+| [Invoice Generator](./invoice-generator/README.md) | Generate PDF invoices for orders and email them to customers. |
 | [Localization with Contentful Integration](./localization-contentful/README.md) | Integrate Contentful to implement localization in Medusa. |
 | [Loyalty Points System](./loyalty-points/README.md) | Allow customers to earn and redeem loyalty points. |
 | [Mailchimp Integration](./mailchimp-integration/README.md) | Integrate Mailchimp to subscribe customers and automate newsletters. |
