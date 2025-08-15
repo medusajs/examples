@@ -157,10 +157,6 @@ export interface Product {
    */
   title: string;
   /**
-   * URL-friendly unique identifier
-   */
-  handle: string;
-  /**
    * Product subtitle
    */
   subtitle?: string | null;
@@ -378,7 +374,6 @@ export interface UsersSelect<T extends boolean = true> {
 export interface ProductsSelect<T extends boolean = true> {
   medusa_id?: T;
   title?: T;
-  handle?: T;
   subtitle?: T;
   description?: T;
   thumbnail?: T;

@@ -60,7 +60,6 @@ export const updatePayloadProductVariantsWorkflow = createWorkflow(
 
           items[payloadProduct.id].variants[existingVariantIndex] = {
             ...existingVariant,
-            title: variant.title,
             option_values: updatedOptionValues,
           }
         } else {

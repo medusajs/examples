@@ -1,6 +1,5 @@
 import { CollectionConfig } from 'payload'
-import { payloadMedusaSdk } from '../lib/payload-sdk';
-import { convertLexicalToMarkdown, convertMarkdownToLexical, editorConfigFactory } from '@payloadcms/richtext-lexical';
+import { convertMarkdownToLexical, editorConfigFactory } from '@payloadcms/richtext-lexical';
 
 export const Products: CollectionConfig = {
   slug: 'products',
@@ -30,25 +29,6 @@ export const Products: CollectionConfig = {
       admin: {
         description: 'The product title',
       },
-    },
-    {
-      name: 'handle',
-      type: 'text',
-      label: 'Handle',
-      required: true,
-      admin: {
-        description: 'URL-friendly unique identifier',
-      },
-      validate: (value: any) => {
-        // validate URL-friendly handle
-        if (typeof value !== 'string') {
-          return 'Handle must be a string';
-        }
-        if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value)) {
-          return 'Handle must be URL-friendly (lowercase letters, numbers, and hyphens only)';
-        }
-        return true;
-      }
     },
     {
       name: 'subtitle',
@@ -281,62 +261,6 @@ export const Products: CollectionConfig = {
         }
 
         return data
-      }
-    ],
-    afterChange: [
-      async ({ doc, operation, req }) => {
-        if (operation !== "update" || req.query.is_from_medusa) {
-          return;
-        }
-
-        const optionValuesMap: Record<string, string[]> = {};
-        doc.options.forEach((option: any) => {
-          if (!optionValuesMap[option.title]) {
-            optionValuesMap[option.title] = [];
-          }
-
-          doc.variants.forEach((variant: any) => {
-            const optionValue = variant.option_values.find((ov: any) => ov.medusa_option_id === option.medusa_id);
-            if (optionValue) {
-              optionValuesMap[option.title].push(optionValue.value);
-            }
-          });
-        });
-
-        const variantOptions: Record<string, Record<string, string>> = {}
-
-        doc.variants.forEach((variant: any) => {
-          variantOptions[variant.medusa_id] = {};
-          variant.option_values.forEach((ov: any) => {
-            const optionTitle = doc.options.find((o: any) => o.medusa_id === ov.medusa_option_id)?.title;
-            if (optionTitle) {
-              variantOptions[variant.medusa_id][optionTitle] = ov.value;
-            }
-          });
-        });
-
-        await payloadMedusaSdk.admin.product.update(doc.medusa_id, {
-          title: doc.title,
-          handle: doc.handle,
-          subtitle: doc.subtitle,
-          description: convertLexicalToMarkdown({
-            data: doc.description,
-            editorConfig: await editorConfigFactory.default({
-              config: req.payload.config
-            }),
-          }),
-          options: doc.options.map((options: any) => ({
-            title: options.title,
-            values: optionValuesMap[options.title] || [],
-          })),
-          variants: doc.variants.map((variant: any) => ({
-            id: variant.medusa_id,
-            title: variant.title,
-            options: variantOptions[variant.medusa_id] || {},
-          }))
-        })
-
-        return doc
       }
     ]
   },

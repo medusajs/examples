@@ -43,7 +43,6 @@ export const createPayloadProductsWorkflow = createWorkflow(
           createdAt: product.created_at as string,
           updatedAt: product.updated_at as string,
           title: product.title,
-          handle: product.handle,
           subtitle: product.subtitle,
           description: product.description || "",
           options: product.options.map((option) => ({
