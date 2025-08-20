@@ -19,8 +19,6 @@ export const createPayloadItemsStep = createStep(
       ))
     )
 
-    console.log("///////", createdItems)
-
     return new StepResponse({
       items: createdItems.map(item => item.doc)
     }, {
