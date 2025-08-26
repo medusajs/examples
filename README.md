@@ -28,6 +28,7 @@ To learn how to use an example, open its `README.md` file. You'll find the detai
 | [Personalized Products](./personalized-products/README.md) | Custom Feature | Allow customers to personalize products with custom values and prices. |
 | [Phone Authentication + Twilio SMS Integration](./phone-auth/README.md) | Integration | Authenticate users with their phone number + send OTPs with Twilio. |
 | [Pre-orders](./preorder/README.md) | Custom Feature | Allow customers to pre-order products and automatically fulfill the pre-orders. |
+| [Product Builder](./product-builder/README.md) | Custom Feature | Manage builder configurations for products and allow customers to purchase products with these configurations |
 | [Product Reviews](./product-reviews/README.md) | Custom Feature | Allow customers to add product reviews, and merchants to manage them. |
 | [Quotes Management](./quotes-management/README.md) | Custom Feature | Allow customers to send quotes, and merchants to manage and accept them. |
 | [Re-order Feature](./re-order/README.md) | Custom Feature | Allow customers to re-order a previous order. |
