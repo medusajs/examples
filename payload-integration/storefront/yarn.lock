@@ -1550,12 +1550,12 @@
   resolved "https://registry.yarnpkg.com/@nolyfill/is-core-module/-/is-core-module-1.0.39.tgz#3dc35ba0f1e66b403c00b39344f870298ebb1c8e"
   integrity sha512-nn5ozdjYQpUCZlWGuxcJY/KpxkWQs4DcbMCmKojjyrYDEAGy4Ce19NN4v5MduafTwJlbKc99UA8YhSVqq9yPZA==
 
-"@payloadcms/db-postgres@^3.49.1":
-  version "3.49.1"
-  resolved "https://registry.yarnpkg.com/@payloadcms/db-postgres/-/db-postgres-3.49.1.tgz#c87c5e60583ce7f40c3f88f5b81b1a9ff980c525"
-  integrity sha512-ytrMLrw796Z95yCAGaFIDl2YPYvkAAC9VcoErFgQ/ItgsB97X++ZnxpWljkN1flSVzbI5ZYPm/pq6vAN1VDbKg==
+"@payloadcms/db-postgres@^3.54.0":
+  version "3.54.0"
+  resolved "https://registry.yarnpkg.com/@payloadcms/db-postgres/-/db-postgres-3.54.0.tgz#0d97da4ce7f920cc28b1ed53c877f93224c298de"
+  integrity sha512-C1tADNHHRTfXyJ6UXTPrHhDVji8kQFKPmT3R/LxOfXwMX5SQanfGx4dGotug647EuZCLgP9YH/ASmGgSFG2RjQ==
   dependencies:
-    "@payloadcms/drizzle" "3.49.1"
+    "@payloadcms/drizzle" "3.54.0"
     "@types/pg" "8.10.2"
     console-table-printer "2.12.1"
     drizzle-kit "0.31.4"
@@ -1565,10 +1565,10 @@
     to-snake-case "1.0.0"
     uuid "10.0.0"
 
-"@payloadcms/drizzle@3.49.1":
-  version "3.49.1"
-  resolved "https://registry.yarnpkg.com/@payloadcms/drizzle/-/drizzle-3.49.1.tgz#35cd45fe9d261a11bbad00df50cb0633db66bd98"
-  integrity sha512-rOrmhWvsRO08tPuea2fNHf+cKwVwF6CuDhouJ5XouXgIzR0gyS1ryc/dmvSP/COFknObo52TQFHnb2oJm1Rifw==
+"@payloadcms/drizzle@3.54.0":
+  version "3.54.0"
+  resolved "https://registry.yarnpkg.com/@payloadcms/drizzle/-/drizzle-3.54.0.tgz#4de99dedcf0dd11610bf956b61be127a9dfb87e1"
+  integrity sha512-nz3luQKWav/CGfPKIRMl9lwmgs11HYWvlTpsGUnni8/cJl4EZgi05/Z4yLz3T6RJLbzyCpqvV1D+8tmdRPIHBw==
   dependencies:
     console-table-printer "2.12.1"
     dequal "2.0.3"
@@ -1577,25 +1577,25 @@
     to-snake-case "1.0.0"
     uuid "9.0.0"
 
-"@payloadcms/graphql@3.49.1":
-  version "3.49.1"
-  resolved "https://registry.yarnpkg.com/@payloadcms/graphql/-/graphql-3.49.1.tgz#c782e095c4078faf2b30d383ce99de91796faf67"
-  integrity sha512-L0FFRbYeVrVV5eFScJFKqxgxCsFGPnyjr0RThr159ZNO8JU43s9tLRwPbOxTPKjBIg7haoms/0zf+d6D+cTi5w==
+"@payloadcms/graphql@3.54.0":
+  version "3.54.0"
+  resolved "https://registry.yarnpkg.com/@payloadcms/graphql/-/graphql-3.54.0.tgz#5601060835621c4bfa3e299824e06e6e871f11ad"
+  integrity sha512-ODHig9spx8EN0GSp74PSKtDby+lDrZRh1M93AuPZNblheVs5SBuxzsyz5XmZhM8s70F/zn3h4CmGmGDEiSDr3w==
   dependencies:
     graphql-scalars "1.22.2"
     pluralize "8.0.0"
     ts-essentials "10.0.3"
     tsx "4.19.2"
 
-"@payloadcms/next@^3.49.1":
-  version "3.49.1"
-  resolved "https://registry.yarnpkg.com/@payloadcms/next/-/next-3.49.1.tgz#a6c3b9fc3a5c5792548b131efdaa8ee9fdaca4b9"
-  integrity sha512-UoMm9QKrs4nyWn9alDFHeqwG38syVh8RKZZcHPvXABBr9cD7Tw+tPLyZwXh5BBnFzrWDuwRJxfJLG6Bcsn6cbw==
+"@payloadcms/next@^3.54.0":
+  version "3.54.0"
+  resolved "https://registry.yarnpkg.com/@payloadcms/next/-/next-3.54.0.tgz#4a6976d7db4463f3303477bf3c8bd04db5ca633c"
+  integrity sha512-LgOvV4VIRlgyfp9sIBMg5llWfZMnMUmOwDbpq9n7tGAUhSb7MoOFfnEoGyAONHHJhH3/No8vtvpDGRpbFX9UJw==
   dependencies:
     "@dnd-kit/core" "6.0.8"
-    "@payloadcms/graphql" "3.49.1"
-    "@payloadcms/translations" "3.49.1"
-    "@payloadcms/ui" "3.49.1"
+    "@payloadcms/graphql" "3.54.0"
+    "@payloadcms/translations" "3.54.0"
+    "@payloadcms/ui" "3.54.0"
     busboy "^1.6.0"
     dequal "2.0.3"
     file-type "19.3.0"
@@ -1607,10 +1607,10 @@
     sass "1.77.4"
     uuid "10.0.0"
 
-"@payloadcms/richtext-lexical@^3.49.1":
-  version "3.49.1"
-  resolved "https://registry.yarnpkg.com/@payloadcms/richtext-lexical/-/richtext-lexical-3.49.1.tgz#2e8d48d1870906340cb1450bfbacdafba9a9243f"
-  integrity sha512-/Oa3VqaQvKryrOGTPQx8U18q7HcRbVpRW/yqZnQRLwOYE5jTR/6TVPQIb7sYdOxm+7u+S982h4AIGvOSpCFD5w==
+"@payloadcms/richtext-lexical@^3.54.0":
+  version "3.54.0"
+  resolved "https://registry.yarnpkg.com/@payloadcms/richtext-lexical/-/richtext-lexical-3.54.0.tgz#188e0d8f06a7bf538421a0bde3c9095bfea267b4"
+  integrity sha512-qyd3FQqj41zNE7eaIxkhAvQuX96FK5dfCF7bODQyT1Wb5R8OUKyM6tPVqUzuvo8Iz17xM0UqnNNaCjwKrxLj6Q==
   dependencies:
     "@lexical/headless" "0.28.0"
     "@lexical/html" "0.28.0"
@@ -1622,8 +1622,8 @@
     "@lexical/selection" "0.28.0"
     "@lexical/table" "0.28.0"
     "@lexical/utils" "0.28.0"
-    "@payloadcms/translations" "3.49.1"
-    "@payloadcms/ui" "3.49.1"
+    "@payloadcms/translations" "3.54.0"
+    "@payloadcms/ui" "3.54.0"
     "@types/uuid" "10.0.0"
     acorn "8.12.1"
     bson-objectid "2.0.4"
@@ -1640,17 +1640,17 @@
     ts-essentials "10.0.3"
     uuid "10.0.0"
 
-"@payloadcms/translations@3.49.1":
-  version "3.49.1"
-  resolved "https://registry.yarnpkg.com/@payloadcms/translations/-/translations-3.49.1.tgz#35fc951edbe58bfdb24747b0533e312c5d79c89a"
-  integrity sha512-1i+gTnAADoWNvpPA8ojXBTdEeU4moQdQ92KyXQ2E9tI6CNUj+iiDlb29dSkqM+UvdwKSrNDm+6nXy6gcJG+3kw==
+"@payloadcms/translations@3.54.0":
+  version "3.54.0"
+  resolved "https://registry.yarnpkg.com/@payloadcms/translations/-/translations-3.54.0.tgz#65f4929b2b9eb7e595d893f9bc27678004b53222"
+  integrity sha512-21DQ0LaM+6PljjuV8fVdfXq/Icpdaj9kzT3tOoVZumUtiqBYzYU//oVBe2z17lLcoJTRwaG+RK1Pq2oGY1lR1A==
   dependencies:
     date-fns "4.1.0"
 
-"@payloadcms/ui@3.49.1":
-  version "3.49.1"
-  resolved "https://registry.yarnpkg.com/@payloadcms/ui/-/ui-3.49.1.tgz#0e48445145c04854463491bf6dbd41ba3921f55f"
-  integrity sha512-4T5Jv3OSQ/Co4vRT3F95tDxc+qDxUmuosIpXeyqakKAyxG75BX042QrC11AHVoSk5JsCg2LP6INuFGL3Kd/XHg==
+"@payloadcms/ui@3.54.0":
+  version "3.54.0"
+  resolved "https://registry.yarnpkg.com/@payloadcms/ui/-/ui-3.54.0.tgz#83e5a7b03e1eae957373cf128c979d0336e05e22"
+  integrity sha512-Io+kUZ41gtFwAhAlLjWXqBww5pGv1h6a6Lbv4wNhOojYi0U9yAir4ddDdnkTs7UAmQlxXEQeQYbQ7z/CmdKHrA==
   dependencies:
     "@date-fns/tz" "1.2.0"
     "@dnd-kit/core" "6.0.8"
@@ -1660,7 +1660,7 @@
     "@faceless-ui/scroll-info" "2.0.0"
     "@faceless-ui/window-info" "3.0.1"
     "@monaco-editor/react" "4.7.0"
-    "@payloadcms/translations" "3.49.1"
+    "@payloadcms/translations" "3.54.0"
     bson-objectid "2.0.4"
     date-fns "4.1.0"
     dequal "2.0.3"
@@ -7107,13 +7107,13 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
-payload@^3.49.1:
-  version "3.49.1"
-  resolved "https://registry.yarnpkg.com/payload/-/payload-3.49.1.tgz#2e836a347a367e1fb8e0f06ad9127c8d26fd2cf7"
-  integrity sha512-+cc3gJG1jpZWzl9dGLoNyo75DaSqe5oib2eoHFk0lg2gmCSt3Ypk1RME2lpcxd5zwMWAJpx9KhBqtlCuRmc1SQ==
+payload@^3.54.0:
+  version "3.54.0"
+  resolved "https://registry.yarnpkg.com/payload/-/payload-3.54.0.tgz#40c7e47b20362876d861b164d98f3c86f0486f35"
+  integrity sha512-TQJptraB8bSnNlm/mCqVHHEdBUZLIQWpJsRdns7SggFIoewA/WLFX2LpLbjur8WY+4zhdaOUEm7GDzzRw506pw==
   dependencies:
     "@next/env" "^15.1.5"
-    "@payloadcms/translations" "3.49.1"
+    "@payloadcms/translations" "3.54.0"
     "@types/busboy" "1.5.4"
     ajv "8.17.1"
     bson-objectid "2.0.4"

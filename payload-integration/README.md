@@ -7,6 +7,8 @@ There are two directories:
 - `medusa` for the Medusa Application code. You can [install and use it](#installation), or [copy its source files into an existing Medusa application](#copy-into-existing-medusa-application).
 - `storefront` for the Next.js Starter storefront with Payload integration.
 
+> Note: This integration was built with Payload v3.54.0. If you face any issues with newer versions, please open an issue.
+
 ## Prerequisites
 
 - [Node.js v20+](https://nodejs.org/en/download)
