@@ -88,7 +88,7 @@ export const StripeCardContainer = ({
 }) => {
   const stripeReady = useContext(StripeContext)
   const [isUsingSavedPaymentMethod, setIsUsingSavedPaymentMethod] = useState(
-    paymentSession?.data?.payment_method_id !== undefined
+    paymentSession?.data?.payment_method !== null
   )
 
   const useOptions: StripeCardElementOptions = useMemo(() => {
@@ -183,8 +183,9 @@ const StripeSavedPaymentMethodsContainer = ({
   cart: HttpTypes.StoreCart
 }) => {
   const [savedPaymentMethods, setSavedPaymentMethods] = useState<SavedPaymentMethod[]>([])
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string | undefined>(
-    paymentSession?.data?.payment_method_id as string | undefined
+  console.log(paymentSession)
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string | null>(
+    paymentSession?.data?.payment_method as string | null
   )
 
   useEffect(() => {
@@ -223,7 +224,7 @@ const StripeSavedPaymentMethodsContainer = ({
     await initiatePaymentSession(cart, {
       provider_id: method.provider_id,
       data: {
-        payment_method_id: method.id,
+        payment_method: method.id,
       }
     }).catch((error) => {
       setError(error.message)
