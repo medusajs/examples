@@ -43,4 +43,5 @@ To learn how to use an example, open its `README.md` file. You'll find the detai
 | [ShipStation Integration](./shipstation-integration/README.md) | Integration | Integrate ShipStation as a fulfillment provider. |
 | [Stripe Saved Payment Methods](./stripe-saved-payment/README.md) | Custom Feature | Implement saved payment methods with Stripe. |
 | [Subscriptions](./subscription/README.md) | Custom Feature | Sell subscription-based purchases. |
+| [Ticket Booking System](./ticket-booking/README.md) | Custom Feature | Sell and manage tickets for shows or events. |
 | [Wishlist Plugin](./wishlist-plugin/README.md) | Plugin | Allow customers to manage and share wishlists. |

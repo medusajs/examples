@@ -1,0 +1,747 @@
+{
+  "namespaces": [
+    "public"
+  ],
+  "name": "public",
+  "tables": [
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "address": {
+          "name": "address",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "default": "now()",
+          "mappedType": "datetime"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "default": "now()",
+          "mappedType": "datetime"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 6,
+          "mappedType": "datetime"
+        }
+      },
+      "name": "venue",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "IDX_venue_deleted_at",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_venue_deleted_at\" ON \"venue\" (deleted_at) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "venue_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {},
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "product_id": {
+          "name": "product_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "venue_id": {
+          "name": "venue_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "dates": {
+          "name": "dates",
+          "type": "text[]",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "array"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "default": "now()",
+          "mappedType": "datetime"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "default": "now()",
+          "mappedType": "datetime"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 6,
+          "mappedType": "datetime"
+        }
+      },
+      "name": "ticket_product",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "IDX_ticket_product_product_id_unique",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_ticket_product_product_id_unique\" ON \"ticket_product\" (product_id) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "IDX_ticket_product_venue_id",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_ticket_product_venue_id\" ON \"ticket_product\" (venue_id) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "IDX_ticket_product_deleted_at",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_ticket_product_deleted_at\" ON \"ticket_product\" (deleted_at) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "IDX_ticket_product_venue_id_dates",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_ticket_product_venue_id_dates\" ON \"ticket_product\" (venue_id, dates) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "ticket_product_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "ticket_product_venue_id_foreign": {
+          "constraintName": "ticket_product_venue_id_foreign",
+          "columnNames": [
+            "venue_id"
+          ],
+          "localTableName": "public.ticket_product",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.venue",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "product_variant_id": {
+          "name": "product_variant_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "ticket_product_id": {
+          "name": "ticket_product_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "row_type": {
+          "name": "row_type",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "enumItems": [
+            "premium",
+            "balcony",
+            "standard",
+            "vip"
+          ],
+          "mappedType": "enum"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "default": "now()",
+          "mappedType": "datetime"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "default": "now()",
+          "mappedType": "datetime"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 6,
+          "mappedType": "datetime"
+        }
+      },
+      "name": "ticket_product_variant",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "IDX_ticket_product_variant_product_variant_id_unique",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_ticket_product_variant_product_variant_id_unique\" ON \"ticket_product_variant\" (product_variant_id) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "IDX_ticket_product_variant_ticket_product_id",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_ticket_product_variant_ticket_product_id\" ON \"ticket_product_variant\" (ticket_product_id) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "IDX_ticket_product_variant_deleted_at",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_ticket_product_variant_deleted_at\" ON \"ticket_product_variant\" (deleted_at) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "IDX_ticket_product_variant_ticket_product_id_row_type",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_ticket_product_variant_ticket_product_id_row_type\" ON \"ticket_product_variant\" (ticket_product_id, row_type) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "ticket_product_variant_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "ticket_product_variant_ticket_product_id_foreign": {
+          "constraintName": "ticket_product_variant_ticket_product_id_foreign",
+          "columnNames": [
+            "ticket_product_id"
+          ],
+          "localTableName": "public.ticket_product_variant",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.ticket_product",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "row_number": {
+          "name": "row_number",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "row_type": {
+          "name": "row_type",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "enumItems": [
+            "premium",
+            "balcony",
+            "standard",
+            "vip"
+          ],
+          "mappedType": "enum"
+        },
+        "seat_count": {
+          "name": "seat_count",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "venue_id": {
+          "name": "venue_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "default": "now()",
+          "mappedType": "datetime"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "default": "now()",
+          "mappedType": "datetime"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 6,
+          "mappedType": "datetime"
+        }
+      },
+      "name": "venue_row",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "IDX_venue_row_venue_id",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_venue_row_venue_id\" ON \"venue_row\" (venue_id) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "IDX_venue_row_deleted_at",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_venue_row_deleted_at\" ON \"venue_row\" (deleted_at) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "IDX_venue_row_venue_id_row_number_unique",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_venue_row_venue_id_row_number_unique\" ON \"venue_row\" (venue_id, row_number) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "venue_row_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "venue_row_venue_id_foreign": {
+          "constraintName": "venue_row_venue_id_foreign",
+          "columnNames": [
+            "venue_id"
+          ],
+          "localTableName": "public.venue_row",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.venue",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "order_id": {
+          "name": "order_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "ticket_product_id": {
+          "name": "ticket_product_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "ticket_variant_id": {
+          "name": "ticket_variant_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "venue_row_id": {
+          "name": "venue_row_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "seat_number": {
+          "name": "seat_number",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "show_date": {
+          "name": "show_date",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "'pending'",
+          "enumItems": [
+            "pending",
+            "scanned"
+          ],
+          "mappedType": "enum"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "default": "now()",
+          "mappedType": "datetime"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "default": "now()",
+          "mappedType": "datetime"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 6,
+          "mappedType": "datetime"
+        }
+      },
+      "name": "ticket_purchase",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "IDX_ticket_purchase_ticket_product_id",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_ticket_purchase_ticket_product_id\" ON \"ticket_purchase\" (ticket_product_id) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "IDX_ticket_purchase_ticket_variant_id",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_ticket_purchase_ticket_variant_id\" ON \"ticket_purchase\" (ticket_variant_id) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "IDX_ticket_purchase_venue_row_id",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_ticket_purchase_venue_row_id\" ON \"ticket_purchase\" (venue_row_id) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "IDX_ticket_purchase_deleted_at",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_ticket_purchase_deleted_at\" ON \"ticket_purchase\" (deleted_at) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "IDX_ticket_purchase_order_id",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_ticket_purchase_order_id\" ON \"ticket_purchase\" (order_id) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "IDX_ticket_purchase_ticket_product_id_venue_row_id_seat_number_show_date_unique",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_ticket_purchase_ticket_product_id_venue_row_id_seat_number_show_date_unique\" ON \"ticket_purchase\" (ticket_product_id, venue_row_id, seat_number, show_date) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "ticket_purchase_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "ticket_purchase_ticket_product_id_foreign": {
+          "constraintName": "ticket_purchase_ticket_product_id_foreign",
+          "columnNames": [
+            "ticket_product_id"
+          ],
+          "localTableName": "public.ticket_purchase",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.ticket_product",
+          "updateRule": "cascade"
+        },
+        "ticket_purchase_ticket_variant_id_foreign": {
+          "constraintName": "ticket_purchase_ticket_variant_id_foreign",
+          "columnNames": [
+            "ticket_variant_id"
+          ],
+          "localTableName": "public.ticket_purchase",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.ticket_product_variant",
+          "updateRule": "cascade"
+        },
+        "ticket_purchase_venue_row_id_foreign": {
+          "constraintName": "ticket_purchase_venue_row_id_foreign",
+          "columnNames": [
+            "venue_row_id"
+          ],
+          "localTableName": "public.ticket_purchase",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.venue_row",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    }
+  ],
+  "nativeEnums": {}
+}
