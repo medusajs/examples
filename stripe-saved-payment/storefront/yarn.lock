@@ -620,26 +620,26 @@
   resolved "https://registry.yarnpkg.com/@medusajs/icons/-/icons-2.8.0.tgz#2ee2cf39d31b2f3239dd409a1362b6a53415a49a"
   integrity sha512-o+0nbPCLPT9oyMbw1jSGH/hPui/2DpsYXiKZxYgyVvtpxq985WsLw9nxsyEK5/fspy+2jvthqn1jsRtgp5ZSIw==
 
-"@medusajs/js-sdk@latest":
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/@medusajs/js-sdk/-/js-sdk-2.8.0.tgz#21195cc047bd2208ee0921f51bf3940679961d4a"
-  integrity sha512-/oM9AjODr413q8+SHei4mGyr+j+8kI2Bg3Fqp9nnxDWjBiypgRq/zR+p+NS5mjko6SZwq0lezeqjW5sRXcOLQA==
+"@medusajs/js-sdk@2.10.2":
+  version "2.10.2"
+  resolved "https://registry.yarnpkg.com/@medusajs/js-sdk/-/js-sdk-2.10.2.tgz#aab15dd0f9183b066757fd4888e9e2f02bef77c9"
+  integrity sha512-P6A9E5LQkG/g9YiHlvUbH/k777XTfnY47neI1EmA56B66XBVIwzTqUglluREVZ+akjlI0eOxpwk2PDFPVaK1ZQ==
   dependencies:
-    "@medusajs/types" "2.8.0"
+    "@medusajs/types" "2.10.2"
     fetch-event-stream "^0.1.5"
     qs "^6.12.1"
 
-"@medusajs/types@2.8.0", "@medusajs/types@latest":
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-2.8.0.tgz#033f492c8cba07f9f009cb73613f61575660dfe6"
-  integrity sha512-/NHuSeuUVV5YTlUIS79XjCzMi16ybPD1qbutM9h30cCkwRuey25p0elrh/zweH05qMSBs3fvP2Z+Dn5NH3Uakw==
+"@medusajs/types@2.10.2":
+  version "2.10.2"
+  resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-2.10.2.tgz#d4cba3379ed19043c5ab401c2a7a897da7679610"
+  integrity sha512-yonCLLnO2FFDB+HCo6nAGz+I7u+7ux+HDJCT8KUPlZJ5/6AYZcgdsuNWMwaa441yjEXDDdZmGZtbSM37lBFoxA==
   dependencies:
     bignumber.js "^9.1.2"
 
-"@medusajs/ui-preset@latest":
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/@medusajs/ui-preset/-/ui-preset-2.8.0.tgz#4621171d8f18398c548ce55e03d5fc9b0ec547fb"
-  integrity sha512-97aFcKZdcuBiBoTWS9ht63EGaSF6fN2RqdEq2mhrBIFWrcum/NweiuetCqe/YFOcTmx/CnZgcNm1bG/p63TrmA==
+"@medusajs/ui-preset@2.10.2":
+  version "2.10.2"
+  resolved "https://registry.yarnpkg.com/@medusajs/ui-preset/-/ui-preset-2.10.2.tgz#db833e61a8f30dce3e4e9711cad9466d3a97c4f9"
+  integrity sha512-t3VmloSbeZOjfyYL+iQTU94wutX0/B+uv9wz8L1MK6CErHK4T4ox246QDsNAR2QrNE0EUEEy+SX0qiW+xHFsMQ==
   dependencies:
     "@tailwindcss/forms" "^0.5.3"
     tailwindcss-animate "^1.0.6"
@@ -6029,6 +6029,7 @@ streamsearch@^1.1.0:
   integrity sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==
 
 "string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0:
+  name string-width-cjs
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==

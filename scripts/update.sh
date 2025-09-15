@@ -117,10 +117,51 @@ handle_error() {
     exit 1
 }
 
+# Function to check if a directory is a medusa backend directory
+is_medusa_directory() {
+    local dir=$1
+    local dirname=$(basename "$dir")
+    
+    # Check if it's explicitly a medusa directory or contains medusa-config.ts
+    if [ "$dirname" = "medusa" ] || [ -f "$dir/medusa-config.ts" ]; then
+        return 0
+    fi
+    return 1
+}
+
+# Function to process nested directories (medusa and storefront)
+process_nested_directories() {
+    local parent_dir=$1
+    local processed_any=false
+    
+    # Process medusa directory if it exists
+    if [ -d "$parent_dir/medusa" ] && [ -f "$parent_dir/medusa/package.json" ]; then
+        if grep -q "\"@medusajs" "$parent_dir/medusa/package.json"; then
+            process_directory "$parent_dir/medusa" "medusa"
+            processed_any=true
+        fi
+    fi
+    
+    # Process storefront directory if it exists
+    if [ -d "$parent_dir/storefront" ] && [ -f "$parent_dir/storefront/package.json" ]; then
+        if grep -q "\"@medusajs" "$parent_dir/storefront/package.json"; then
+            process_directory "$parent_dir/storefront" "storefront"
+            processed_any=true
+        fi
+    fi
+    
+    if [ "$processed_any" = true ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 # Function to process a directory
 process_directory() {
     local dir=$1
-    log "$dir" "Processing directory"
+    local dir_type=${2:-"root"} # root, medusa, or storefront
+    log "$dir" "Processing directory (type: $dir_type)"
     
     # Change to the directory
     cd "$dir" || handle_error "$dir" "$LAST_SUCCESSFUL_DIR"
@@ -139,44 +180,47 @@ process_directory() {
         sed -i '' -e '/^[[:space:]]*$/d' package.json && \
         perl -i -pe 'chomp if eof' package.json || handle_error "$dir" "$LAST_SUCCESSFUL_DIR"
         
-        # Check if this directory should skip migrations
-        local dirname=$(basename "$dir")
-        local parent_dir=$(basename "$(dirname "$dir")")
-        local skip_migrations=false
-        
-        # Check if either the current directory or its parent is in SKIP_MIGRATIONS_DIRS
-        for skip_dir in "${SKIP_MIGRATIONS_DIRS[@]}"; do
-            if [ "$dirname" = "$skip_dir" ] || [ "$parent_dir" = "$skip_dir" ]; then
-                skip_migrations=true
-                warning "$dir" "Skipping migrations for this directory"
-                break
+        # Only run medusa-specific commands for medusa directories
+        if [ "$dir_type" = "medusa" ] || is_medusa_directory "$dir"; then
+            # Check if this directory should skip migrations
+            local dirname=$(basename "$dir")
+            local parent_dir=$(basename "$(dirname "$dir")")
+            local skip_migrations=false
+            
+            # Check if either the current directory or its parent is in SKIP_MIGRATIONS_DIRS
+            for skip_dir in "${SKIP_MIGRATIONS_DIRS[@]}"; do
+                if [ "$dirname" = "$skip_dir" ] || [ "$parent_dir" = "$skip_dir" ]; then
+                    skip_migrations=true
+                    warning "$dir" "Skipping migrations for this directory"
+                    break
+                fi
+            done
+            
+            # Run database migrations if not skipped
+            if [ "$skip_migrations" = false ]; then
+                log "$dir" "Running database migrations"
+                echo -e "\n${YELLOW}[$dir] Running: npx medusa db:migrate${NC}\n"
+                npx medusa db:migrate || handle_error "$dir" "$LAST_SUCCESSFUL_DIR"
             fi
-        done
-        
-        # Run database migrations if not skipped
-        if [ "$skip_migrations" = false ]; then
-            log "$dir" "Running database migrations"
-            echo -e "\n${YELLOW}[$dir] Running: npx medusa db:migrate${NC}\n"
-            npx medusa db:migrate || handle_error "$dir" "$LAST_SUCCESSFUL_DIR"
+            
+            # Check if this directory needs integration tests
+            for test_dir in "${INTEGRATION_TEST_DIRS[@]}"; do
+                if [ "$dirname" = "$test_dir" ] || [ "$parent_dir" = "$test_dir" ]; then
+                    log "$dir" "Running integration tests"
+                    echo -e "\n${YELLOW}[$dir] Running: yarn test:integration:http${NC}\n"
+                    yarn test:integration:http || handle_error "$dir" "$LAST_SUCCESSFUL_DIR"
+                    
+                    echo -e "\n${YELLOW}[$dir] Running: yarn test:integration:modules${NC}\n"
+                    yarn test:integration:modules || handle_error "$dir" "$LAST_SUCCESSFUL_DIR"
+                    break
+                fi
+            done
         fi
         
-        # Build the project
+        # Build the project (for all directory types)
         log "$dir" "Building project"
         echo -e "\n${YELLOW}[$dir] Running: yarn build${NC}\n"
         yarn build || handle_error "$dir" "$LAST_SUCCESSFUL_DIR"
-        
-        # Check if this directory needs integration tests
-        for test_dir in "${INTEGRATION_TEST_DIRS[@]}"; do
-            if [ "$dirname" = "$test_dir" ]; then
-                log "$dir" "Running integration tests"
-                echo -e "\n${YELLOW}[$dir] Running: yarn test:integration:http${NC}\n"
-                yarn test:integration:http || handle_error "$dir" "$LAST_SUCCESSFUL_DIR"
-                
-                echo -e "\n${YELLOW}[$dir] Running: yarn test:integration:modules${NC}\n"
-                yarn test:integration:modules || handle_error "$dir" "$LAST_SUCCESSFUL_DIR"
-                break
-            fi
-        done
         
         success "$dir" "Successfully updated and built"
     else
@@ -249,14 +293,32 @@ for dir in "${DIRS[@]}"; do
     fi
 
     if [ -f "$dir/package.json" ]; then
-        # Process the directory if it contains @medusajs dependencies
-        if grep -q "\"@medusajs" "$dir/package.json"; then
-            process_directory "$dir"
+        # Check if this is a project with nested medusa/storefront directories
+        if [ -d "$dir/medusa" ] || [ -d "$dir/storefront" ]; then
+            # Process nested directories
+            if process_nested_directories "$dir"; then
+                success "$dir" "Processed nested directories"
+            else
+                warning "$dir" "No @medusajs packages found in nested directories"
+            fi
+        else
+            # Process the root directory if it contains @medusajs dependencies
+            if grep -q "\"@medusajs" "$dir/package.json"; then
+                process_directory "$dir" "root"
+            else
+                warning "$dir" "No @medusajs packages found, skipping..."
+            fi
         fi
-        
-        # Check if this directory has a medusa subdirectory
-        if [ -d "$dir/medusa" ] && [ -f "$dir/medusa/package.json" ]; then
-            process_directory "$dir/medusa"
+    else
+        # Check for nested directories even if no root package.json
+        if [ -d "$dir/medusa" ] || [ -d "$dir/storefront" ]; then
+            if process_nested_directories "$dir"; then
+                success "$dir" "Processed nested directories"
+            else
+                warning "$dir" "No valid nested directories with @medusajs packages found"
+            fi
+        else
+            warning "$dir" "No package.json found, skipping..."
         fi
     fi
 done

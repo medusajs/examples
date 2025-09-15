@@ -1406,26 +1406,26 @@
   resolved "https://registry.yarnpkg.com/@medusajs/icons/-/icons-2.8.8.tgz#ad6118e1428a2cc80272bb3d5d53528db756adf1"
   integrity sha512-9O7XkkSxsJ5OkpKypGy5C8CtMdbJ+xfcC8X7ZOi44UGlOdV0QhapD36cCnJsNwK4Ox+KXH2iKU5Wl5VQCmrzow==
 
-"@medusajs/js-sdk@latest":
-  version "2.8.8"
-  resolved "https://registry.yarnpkg.com/@medusajs/js-sdk/-/js-sdk-2.8.8.tgz#eee989c1817d14ef64dd2d0b5b83325d6fc45450"
-  integrity sha512-hFPWCo42faRiBlXCJXnwU5AKqdOAYFyZMvkPEzhV3nTytnY/bSm4qVDiGC/TmUMtaEftlNFz2ga5ZOuT4e9gEQ==
+"@medusajs/js-sdk@2.10.2":
+  version "2.10.2"
+  resolved "https://registry.yarnpkg.com/@medusajs/js-sdk/-/js-sdk-2.10.2.tgz#aab15dd0f9183b066757fd4888e9e2f02bef77c9"
+  integrity sha512-P6A9E5LQkG/g9YiHlvUbH/k777XTfnY47neI1EmA56B66XBVIwzTqUglluREVZ+akjlI0eOxpwk2PDFPVaK1ZQ==
   dependencies:
-    "@medusajs/types" "2.8.8"
+    "@medusajs/types" "2.10.2"
     fetch-event-stream "^0.1.5"
     qs "^6.12.1"
 
-"@medusajs/types@2.8.8", "@medusajs/types@latest":
-  version "2.8.8"
-  resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-2.8.8.tgz#192e3b0a43f2b3b856bb866587edc8856186041a"
-  integrity sha512-rbOy+RRAC9T4ThjmkzUeDP3HfqNIbtUEFHaA7U5PBTIyhhdbIe3iZBRrFofv2tfkIO6SmBJA/h+LvJFL5+UcJA==
+"@medusajs/types@2.10.2":
+  version "2.10.2"
+  resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-2.10.2.tgz#d4cba3379ed19043c5ab401c2a7a897da7679610"
+  integrity sha512-yonCLLnO2FFDB+HCo6nAGz+I7u+7ux+HDJCT8KUPlZJ5/6AYZcgdsuNWMwaa441yjEXDDdZmGZtbSM37lBFoxA==
   dependencies:
     bignumber.js "^9.1.2"
 
-"@medusajs/ui-preset@latest":
-  version "2.8.8"
-  resolved "https://registry.yarnpkg.com/@medusajs/ui-preset/-/ui-preset-2.8.8.tgz#f1605768754c36986f158fc8429332c91a25d93b"
-  integrity sha512-TArKCObShQsd/1PJ6rL4VxST/KuKyucsOP24kQ4wORBOcIXAM9gwHq95NbZdoq/XOsg4rl+Em/01Y1i+684MOg==
+"@medusajs/ui-preset@2.10.2":
+  version "2.10.2"
+  resolved "https://registry.yarnpkg.com/@medusajs/ui-preset/-/ui-preset-2.10.2.tgz#db833e61a8f30dce3e4e9711cad9466d3a97c4f9"
+  integrity sha512-t3VmloSbeZOjfyYL+iQTU94wutX0/B+uv9wz8L1MK6CErHK4T4ox246QDsNAR2QrNE0EUEEy+SX0qiW+xHFsMQ==
   dependencies:
     "@tailwindcss/forms" "^0.5.3"
     tailwindcss-animate "^1.0.6"
