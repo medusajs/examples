@@ -83,7 +83,7 @@ const ReturnRequestTemplate: React.FC<ReturnRequestTemplateProps> = ({
               Your return request has been submitted. Return ID: <strong>{state.return.id}</strong>
             </p>
             <p className="text-small-regular text-ui-fg-subtle">
-              You will receive an email confirmation shortly with return instructions.
+              Our support team may contact you for further information regarding your return.
             </p>
           </div>
         </div>
