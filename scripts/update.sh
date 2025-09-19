@@ -9,7 +9,9 @@ NC='\033[0m' # No Color
 
 # Directories to skip
 SKIP_DIRS=(
-    "express-checkout-storefront"
+    "express-checkout-storefront",
+    "sanity-integration",
+    "stripe-saved-payment"
 )
 
 # Directories that need integration tests
@@ -327,3 +329,12 @@ done
 rm "$TEMP_DIRS"
 
 success "" "All directories processed successfully!"
+
+# Log which directories were skipped
+if [ ${#SKIP_DIRS[@]} -gt 0 ]; then
+    echo -e "\n${YELLOW}=== Skipped Directories ===${NC}"
+    for skip_dir in "${SKIP_DIRS[@]}"; do
+        echo -e "  - $skip_dir (configured to skip)"
+    done
+    echo -e "${YELLOW}===========================${NC}\n"
+fi

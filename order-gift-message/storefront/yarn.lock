@@ -822,20 +822,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@medusajs/js-sdk@npm:2.10.2":
-  version: 2.10.2
-  resolution: "@medusajs/js-sdk@npm:2.10.2"
+"@medusajs/js-sdk@npm:2.10.3":
+  version: 2.10.3
+  resolution: "@medusajs/js-sdk@npm:2.10.3"
   dependencies:
-    "@medusajs/types": 2.10.2
+    "@medusajs/types": 2.10.3
     fetch-event-stream: ^0.1.5
     qs: ^6.12.1
-  checksum: f0f2f37fbb79dce8aa22f4c76c0bc6158fa4879efe23adbb5d46af796ff23ae8b692ab4e5bb80d97be48303880ab3be3d3b126472c4fafbad6b97c31f8a07c5e
+  checksum: 395a7a9113cb8984426342ca7bf972457197089dd795c3b1ed59363d865cb4ce7315733ca16dafa438a3f2be57e2fd7ef634c8e82459a3d64e92dba4a55dd166
   languageName: node
   linkType: hard
 
-"@medusajs/types@npm:2.10.2":
-  version: 2.10.2
-  resolution: "@medusajs/types@npm:2.10.2"
+"@medusajs/types@npm:2.10.3":
+  version: 2.10.3
+  resolution: "@medusajs/types@npm:2.10.3"
   dependencies:
     bignumber.js: ^9.1.2
   peerDependencies:
@@ -847,19 +847,19 @@ __metadata:
       optional: true
     vite:
       optional: true
-  checksum: c754117d026b1ff4764d706f7879a370b4cc86ff2a104a76b12bd51bb9c33387aba837e8e2e71b18c6b2c52126dd2fb4119a0f40e3ab349a4ce236b41e03a974
+  checksum: 4d0f02c5694eaad6025cbe122c016f8e5ca476dd33a9e781e6a69d745d35b1cd6693a4f4be20b6d57dee2a0cf12a3250aeca17ca6ffb94595d416c9b7c486d41
   languageName: node
   linkType: hard
 
-"@medusajs/ui-preset@npm:2.10.2":
-  version: 2.10.2
-  resolution: "@medusajs/ui-preset@npm:2.10.2"
+"@medusajs/ui-preset@npm:2.10.3":
+  version: 2.10.3
+  resolution: "@medusajs/ui-preset@npm:2.10.3"
   dependencies:
     "@tailwindcss/forms": ^0.5.3
     tailwindcss-animate: ^1.0.6
   peerDependencies:
     tailwindcss: ">=3.0.0"
-  checksum: 086b70a32d576e01b4ca6503b580e696352804a6e9532f77d8954515daa063d37e88fcbda676a7a84f6a30bfd551af894b492e507e8aff8131a064d6b7bc5605
+  checksum: b031e17580c9d2ce88d6f093cd9dacae21f31c48e73f62438c4039c3e1b4698e3da6cc64d6e865da46a71f37e8813c151b8a7d2f3952be58dd0fa933fc166e12
   languageName: node
   linkType: hard
 
@@ -6396,10 +6396,10 @@ __metadata:
   dependencies:
     "@babel/core": ^7.17.5
     "@headlessui/react": ^2.2.0
-    "@medusajs/js-sdk": 2.10.2
-    "@medusajs/types": 2.10.2
+    "@medusajs/js-sdk": 2.10.3
+    "@medusajs/types": 2.10.3
     "@medusajs/ui": latest
-    "@medusajs/ui-preset": 2.10.2
+    "@medusajs/ui-preset": 2.10.3
     "@radix-ui/react-accordion": ^1.2.1
     "@stripe/react-stripe-js": ^1.7.2
     "@stripe/stripe-js": ^1.29.0

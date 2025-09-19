@@ -23,10 +23,10 @@
   },
   "dependencies": {
     "@mailchimp/mailchimp_marketing": "^3.0.80",
-    "@medusajs/admin-sdk": "2.10.2",
-    "@medusajs/cli": "2.10.2",
-    "@medusajs/framework": "2.10.2",
-    "@medusajs/medusa": "2.10.2",
+    "@medusajs/admin-sdk": "2.10.3",
+    "@medusajs/cli": "2.10.3",
+    "@medusajs/framework": "2.10.3",
+    "@medusajs/medusa": "2.10.3",
     "@mikro-orm/core": "6.4.3",
     "@mikro-orm/knex": "6.4.3",
     "@mikro-orm/migrations": "6.4.3",
@@ -35,7 +35,7 @@
     "pg": "^8.13.0"
   },
   "devDependencies": {
-    "@medusajs/test-utils": "2.10.2",
+    "@medusajs/test-utils": "2.10.3",
     "@mikro-orm/cli": "6.4.3",
     "@swc/core": "1.5.7",
     "@swc/jest": "^0.2.36",
