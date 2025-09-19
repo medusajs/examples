@@ -33,6 +33,7 @@ To learn how to use an example, open its `README.md` file. You'll find the detai
 | [Product Reviews](./product-reviews/README.md) | Custom Feature | Allow customers to add product reviews, and merchants to manage them. |
 | [Quotes Management](./quotes-management/README.md) | Custom Feature | Allow customers to send quotes, and merchants to manage and accept them. |
 | [Re-order Feature](./re-order/README.md) | Custom Feature | Allow customers to re-order a previous order. |
+| [Request Returns from Storefront](./returns-storefront/README.md) | Storefront | Let custmers request a return of their order from the storefront. |
 | [Resend Integration](./resend-integration/README.md) | Integration | Integrate Resend to send notifications in Medusa. |
 | [Restaurant Marketplace](./restaurant-marketplace/README.md) | Custom Feature | Build an Uber-Eats clone with Medusa. |
 | [Restock Notification](./restock-notification/README.md) | Custom Feature | Allow customers to subscribe to product restock notifications. |
