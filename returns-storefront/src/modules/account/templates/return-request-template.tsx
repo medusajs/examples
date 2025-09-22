@@ -61,6 +61,9 @@ const ReturnRequestTemplate: React.FC<ReturnRequestTemplateProps> = ({
     formData.append("order_id", order.id)
     formData.append("items", JSON.stringify(selectedItems))
     formData.append("return_shipping_option_id", selectedShippingOption)
+    // @ts-expect-error issue in HTTP types
+    const locationId = shippingOptions.find(opt => opt.id === selectedShippingOption)?.service_zone.fulfillment_set.location.id
+    formData.append("location_id", locationId)
     formAction(formData)
   }
 

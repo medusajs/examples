@@ -64,6 +64,7 @@ export const createReturnRequest = async (
   const orderId = formData.get("order_id") as string
   const items = JSON.parse(formData.get("items") as string)
   const returnShippingOptionId = formData.get("return_shipping_option_id") as string
+  const locationId = formData.get("location_id") as string
 
   if (!orderId || !items || !returnShippingOptionId) {
     return { 
@@ -84,6 +85,7 @@ export const createReturnRequest = async (
         return_shipping: {
           option_id: returnShippingOptionId,
         },
+        location_id: locationId
       },
       headers,
     })
