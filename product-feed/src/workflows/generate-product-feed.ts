@@ -1,6 +1,6 @@
 import { createWorkflow, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
 import { getProductFeedItemsStep } from "./steps/get-product-feed-items"
-import { buildProductFieldXmlStep } from "./steps/build-product-field-xml"
+import { buildProductFeedXmlStep } from "./steps/build-product-feed-xml"
 
 type GenerateProductFeedWorkflowInput = {
   currency_code: string
@@ -12,7 +12,7 @@ export const generateProductFeedWorkflow = createWorkflow(
   (input: GenerateProductFeedWorkflowInput) => {
     const { items: feedItems } = getProductFeedItemsStep(input)
 
-    const xml = buildProductFieldXmlStep({ 
+    const xml = buildProductFeedXmlStep({ 
       items: feedItems
     })
 

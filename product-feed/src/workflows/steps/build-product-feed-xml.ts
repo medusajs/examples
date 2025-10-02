@@ -5,7 +5,7 @@ type StepInput = {
   items: FeedItem[]
 }
 
-export const buildProductFieldXmlStep = createStep(
+export const buildProductFeedXmlStep = createStep(
   "build-product-feed-xml",
   async (input: StepInput) => {
     const escape = (str: string) =>
