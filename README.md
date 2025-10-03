@@ -11,6 +11,7 @@ To learn how to use an example, open its `README.md` file. You'll find the detai
 | Example | Category | Description |
 |---------|----------|-------------|
 | [Abandoned Cart Notification](./abandoned-cart/README.md) | Custom Feature | Send abandoned carts notifications. |
+| [Agentic Commerce](./agentic-commerce/README.md) | Integration | Sell with AI Agents like ChatGPT. |
 | [Algolia Integration](./algolia-integration/README.md) | Integration | Integrate Algolia into Medusa to allow searching through products. |
 | [Bundled Products](./bundled-products/README.md) | Custom Feature | Sell bundled products in your Medusa application. |
 | [Custom Item Price](./custom-item-price/README.md) | Custom Feature | Add items with custom prices from third-party service to the cart. |
