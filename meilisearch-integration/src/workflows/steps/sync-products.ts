@@ -1,6 +1,7 @@
 import { ProductDTO } from "@medusajs/framework/types"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 import { MEILISEARCH_MODULE } from "../../modules/meilisearch"
+import MeilisearchModuleService from "../../modules/meilisearch/service"
 
 export type SyncProductsStepInput = {
   products: ProductDTO[]
@@ -9,7 +10,7 @@ export type SyncProductsStepInput = {
 export const syncProductsStep = createStep(
   "sync-products",
   async ({ products }: SyncProductsStepInput, { container }) => {
-    const meilisearchModuleService = container.resolve(
+     const meilisearchModuleService = container.resolve<MeilisearchModuleService>((
       MEILISEARCH_MODULE
     )
     const existingProducts = await meilisearchModuleService.retrieveFromIndex(
@@ -34,7 +35,7 @@ export const syncProductsStep = createStep(
       return
     }
 
-    const meilisearchModuleService = container.resolve(
+     const meilisearchModuleService = container.resolve<MeilisearchModuleService>(
       MEILISEARCH_MODULE
     )
     
