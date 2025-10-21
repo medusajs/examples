@@ -34,12 +34,15 @@ const createDigitalProductMediasStep = createStep(
       digital_product_medias: digitalProductMedias
     })
   },
-  async ({ digital_product_medias }, { container }) => {
+  async (data, { container }) => {
+    if (!data) {
+      return
+    }
     const digitalProductModuleService: DigitalProductModuleService = 
       container.resolve(DIGITAL_PRODUCT_MODULE)
     
     await digitalProductModuleService.deleteDigitalProductMedias(
-      digital_product_medias.map((media) => media.id)
+      data.digital_product_medias.map((media) => media.id)
     )
   }
 )

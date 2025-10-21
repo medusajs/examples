@@ -12,9 +12,9 @@ import {
   authorizePaymentSessionStep,
   createPaymentCollectionsStep
 } from "@medusajs/medusa/core-flows"
-import createSubscriptionOrderStep from "./steps/create-subscription-order"
+import createSubscriptionOrderStep, { CreateSubscriptionOrderStepInput } from "./steps/create-subscription-order"
 import updateSubscriptionStep from "./steps/update-subscription"
-import { getPaymentMethodStep } from "./steps/get-payment-method"
+import { getPaymentMethodStep, GetPaymentMethodStepInput } from "./steps/get-payment-method"
 
 type WorkflowInput = {
   subscription: SubscriptionData
@@ -54,9 +54,9 @@ const createSubscriptionOrderWorkflow = createWorkflow(
     }, (data) => {
       const cart = data.subscriptions[0].cart
       return {
-        currency_code: cart.currency_code,
-        amount: cart.payment_collection.amount,
-        metadata: cart.payment_collection.metadata
+        currency_code: cart?.currency_code || "",
+        amount: cart?.payment_collection?.amount || 0,
+        metadata: cart?.payment_collection?.metadata || undefined,
       }
     })
 
@@ -65,8 +65,8 @@ const createSubscriptionOrderWorkflow = createWorkflow(
     ])[0]
 
     const defaultPaymentMethod = getPaymentMethodStep({
-      customer: subscriptions[0].cart.customer,
-    })
+      customer: subscriptions[0].cart?.customer,
+    } as GetPaymentMethodStepInput)
 
     const paymentSessionData = transform({
       payment_collection,
@@ -76,7 +76,7 @@ const createSubscriptionOrderWorkflow = createWorkflow(
       return {
         payment_collection_id: data.payment_collection.id,
         provider_id: "pp_stripe_stripe",
-        customer_id: data.subscriptions[0].cart.customer.id,
+        customer_id: data.subscriptions[0].cart?.customer?.id,
         data: {
           payment_method: data.defaultPaymentMethod.id,
           off_session: true,
@@ -99,7 +99,7 @@ const createSubscriptionOrderWorkflow = createWorkflow(
       subscription: input.subscription,
       cart: subscriptions[0].cart,
       payment_collection
-    })
+    } as unknown as CreateSubscriptionOrderStepInput)
 
     createRemoteLinkStep(linkDefs)
 

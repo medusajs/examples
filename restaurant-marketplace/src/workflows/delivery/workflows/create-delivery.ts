@@ -3,6 +3,7 @@ import {
   createWorkflow,
   transform,
 } from "@medusajs/framework/workflows-sdk";
+import { LinkDefinition } from "@medusajs/framework/types"
 import { Modules } from "@medusajs/framework/utils"
 import { createRemoteLinkStep } from "@medusajs/medusa/core-flows"
 import { DELIVERY_MODULE } from "../../../modules/delivery";
@@ -44,7 +45,7 @@ export const createDeliveryWorkflow = createWorkflow(
           delivery_id: data.delivery.id
         }
       }
-    ]))
+    ] as LinkDefinition[]))
 
     createRemoteLinkStep(links)
 

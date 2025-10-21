@@ -24,12 +24,15 @@ const createDigitalProductStep = createStep(
       digital_product: digitalProduct
     })
   },
-  async ({ digital_product }, { container }) => {
+  async (data, { container }) => {
+    if (!data) {
+      return
+    }
     const digitalProductModuleService: DigitalProductModuleService = 
       container.resolve(DIGITAL_PRODUCT_MODULE)
     
     await digitalProductModuleService.deleteDigitalProducts(
-      digital_product.id
+      data.digital_product.id
     )
   }
 )

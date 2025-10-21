@@ -1,7 +1,7 @@
 import { InjectManager, MedusaContext, MedusaService } from "@medusajs/framework/utils";
 import { Context } from "@medusajs/framework/types"
 import RestockSubscription from "./models/restock-subscription";
-import { EntityManager } from "@mikro-orm/knex";
+import { EntityManager } from "@medusajs/framework/mikro-orm/knex";
 
 class RestockModuleService extends MedusaService({
   RestockSubscription

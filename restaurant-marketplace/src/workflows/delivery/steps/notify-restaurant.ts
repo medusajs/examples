@@ -28,7 +28,7 @@ export const notifyRestaurantStep = createStep(
     await eventBus.emit({
       name: "notify.restaurant",
       data: {
-        restaurant_id: delivery.restaurant.id,
+        restaurant_id: delivery.restaurant?.id,
         delivery_id: delivery.id,
       },
     });

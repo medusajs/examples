@@ -24,7 +24,7 @@ export const setStepFailedStep = createStep(
     await engineService.setStepFailure({
       idempotencyKey: {
         action: TransactionHandlerType.INVOKE,
-        transactionId: updatedDelivery.transaction_id,
+        transactionId: updatedDelivery.transaction_id || "",
         stepId,
         workflowId: handleDeliveryWorkflowId,
       },

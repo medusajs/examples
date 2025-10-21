@@ -69,11 +69,14 @@ const createSubscriptionStep = createStep(
     }, {
       subscription: subscription[0]
     })
-  }, async ({ subscription }, { container }) => {
+  }, async (data, { container }) => {
+    if (!data) {
+      return
+    }
     const subscriptionModuleService: SubscriptionModuleService = 
       container.resolve(SUBSCRIPTION_MODULE)
 
-    await subscriptionModuleService.cancelSubscriptions(subscription.id)
+    await subscriptionModuleService.cancelSubscriptions(data.subscription.id)
   }
 )
 

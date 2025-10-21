@@ -22,6 +22,9 @@ const deleteVendorAdminStep = createStep(
     )
   },
   async (vendorAdmin, { container }) => {
+    if (!vendorAdmin) {
+      return
+    }
     const marketplaceModuleService: MarketplaceModuleService = 
       container.resolve(MARKETPLACE_MODULE)
 

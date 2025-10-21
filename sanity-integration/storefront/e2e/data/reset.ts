@@ -1,4 +1,4 @@
-import { Client } from "pg"
+import { Client } from "@medusajs/framework/pg"
 
 async function getDatabaseClient() {
   testEnvChecks()

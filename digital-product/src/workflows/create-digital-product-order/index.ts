@@ -14,7 +14,9 @@ import {
 import {
   Modules
 } from "@medusajs/framework/utils"
-import createDigitalProductOrderStep from "./steps/create-digital-product-order"
+import createDigitalProductOrderStep, { 
+  CreateDigitalProductOrderStepInput
+} from "./steps/create-digital-product-order"
 import { DIGITAL_PRODUCT_MODULE } from "../../modules/digital-product"
 
 type WorkflowInput = {
@@ -51,19 +53,19 @@ const createDigitalProductOrderWorkflow = createWorkflow(
       orders
     },
     (data) => {
-      return data.orders[0].items.filter((item) => item.variant.digital_product !== undefined)
+      return data.orders[0].items?.filter((item) => item?.variant?.digital_product !== undefined)
     }
     )
 
     const digital_product_order = when("create-digital-product-order-condition", itemsWithDigitalProducts, (itemsWithDigitalProducts) => {
-      return itemsWithDigitalProducts.length
+      return !!itemsWithDigitalProducts?.length
     })
     .then(() => {
       const { 
         digital_product_order,
       } = createDigitalProductOrderStep({
         items: orders[0].items
-      })
+      } as unknown as CreateDigitalProductOrderStepInput)
   
       createRemoteLinkStep([{
         [DIGITAL_PRODUCT_MODULE]: {
@@ -80,9 +82,9 @@ const createDigitalProductOrderWorkflow = createWorkflow(
           items: transform({
             itemsWithDigitalProducts
           }, (data) => {
-            return data.itemsWithDigitalProducts.map((item) => ({
-              id: item.id,
-              quantity: item.quantity
+            return data.itemsWithDigitalProducts!.map((item) => ({
+              id: item!.id,
+              quantity: item!.quantity
             }))
           })
         }

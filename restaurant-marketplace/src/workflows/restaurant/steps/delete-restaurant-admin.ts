@@ -19,12 +19,15 @@ export const deleteRestaurantAdminStep = createStep(
     
     return new StepResponse(undefined, { admin })
   },
-  async ({ admin }, { container }) => {
+  async (data, { container }) => {
+    if (!data) {
+      return
+    }
     const restaurantModuleService: RestaurantModuleService = container.resolve(
       RESTAURANT_MODULE
     )
 
-    const { restaurant: _, ...adminData } = admin
+    const { restaurant: _, ...adminData } = data.admin
 
     await restaurantModuleService.createRestaurantAdmins(adminData)
   }

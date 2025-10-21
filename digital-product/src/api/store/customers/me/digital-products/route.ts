@@ -25,8 +25,11 @@ export const GET = async (
 
   const digitalProducts = {}
 
-  customer.orders.forEach((order) => {
-    order.digital_product_order.products.forEach((product) => {
+  customer.orders?.forEach((order) => {
+    order?.digital_product_order?.products.forEach((product) => {
+      if (!product) {
+        return
+      }
       digitalProducts[product.id] = product
     })
   })

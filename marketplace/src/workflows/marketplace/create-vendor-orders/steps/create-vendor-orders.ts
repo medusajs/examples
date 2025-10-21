@@ -47,19 +47,19 @@ function prepareOrderData(
     // item/vendor. This requires changes in the storefront to commodate that
     // and passing the item/vendor ID in the `data` property, for example.
     // For simplicity here we just use the same shipping method.
-    shipping_methods: parentOrder.shipping_methods.map((shippingMethod) => ({
+    shipping_methods: parentOrder.shipping_methods?.map((shippingMethod) => ({
       name: shippingMethod.name,
       amount: shippingMethod.amount,
       shipping_option_id: shippingMethod.shipping_option_id,
       data: shippingMethod.data,
-      tax_lines: shippingMethod.tax_lines.map((taxLine) => ({
+      tax_lines: shippingMethod.tax_lines?.map((taxLine) => ({
         code: taxLine.code,
         rate: taxLine.rate,
         provider_id: taxLine.provider_id,
         tax_rate_id: taxLine.tax_rate_id,
         description: taxLine.description
       })),
-      adjustments: shippingMethod.adjustments.map((adjustment) => ({
+      adjustments: shippingMethod.adjustments?.map((adjustment) => ({
         code: adjustment.code,
         amount: adjustment.amount,
         description: adjustment.description,
@@ -155,8 +155,11 @@ const createVendorOrdersStep = createStep(
       created_orders: createdOrders
     })
   },
-  async ({ created_orders }, { container, context }) => {  
-    await Promise.all(created_orders.map((createdOrder) => {
+  async (data, { container, context }) => {  
+    if (!data) {
+      return
+    }
+    await promiseAll(data.created_orders.map((createdOrder) => {
       return cancelOrderWorkflow(container).run({
         input: {
           order_id: createdOrder.id,

@@ -3,7 +3,7 @@ import { AccountHolderDTO, CustomerDTO, PaymentMethodDTO } from "@medusajs/frame
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 
 export interface GetPaymentMethodStepInput {
-  customer: CustomerDTO & {
+  customer?: CustomerDTO & {
     account_holder: AccountHolderDTO
   }
 }
@@ -21,7 +21,7 @@ export const getPaymentMethodStep = createStep(
   async ({ customer }: GetPaymentMethodStepInput, { container }) => {
     const paymentModuleService = container.resolve(Modules.PAYMENT)
 
-    if (!customer.account_holder) {
+    if (!customer?.account_holder) {
       throw new MedusaError(
         MedusaError.Types.INVALID_DATA,
         "No account holder found for the customer while retrieving payment method"

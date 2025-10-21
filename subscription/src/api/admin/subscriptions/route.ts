@@ -12,7 +12,7 @@ export const GET = async (
   
   const { 
     data: subscriptions,
-    metadata: { count, take, skip },
+    metadata: { count, take, skip } = {},
   } = await query.graph({
     entity: "subscription",
     ...req.queryConfig,

@@ -14,10 +14,13 @@ export const createDeliveryStep = createStep(
       delivery_id: delivery.id,
     });
   },
-  async function ({ delivery_id }, { container }) {
+  async function (data, { container }) {
+    if (!data) {
+      return
+    }
     const deliverModuleService: DeliveryModuleService = 
       container.resolve(DELIVERY_MODULE);
 
-    deliverModuleService.softDeleteDeliveries(delivery_id);
+    deliverModuleService.softDeleteDeliveries(data.delivery_id);
   }
 );

@@ -23,14 +23,17 @@ export const updateDeliveryStep = createStep(
       prevDeliveryData
     });
   },
-  async ({ prevDeliveryData }, { container }) => {
+  async (data, { container }) => {
+    if (!data) {
+      return
+    }
     const deliverModuleService: DeliveryModuleService = 
       container.resolve(DELIVERY_MODULE);
 
     const { 
       driver, 
       ...prevDeliveryDataWithoutDriver
-    } = prevDeliveryData;
+    } = data.prevDeliveryData;
 
     await deliverModuleService.updateDeliveries(prevDeliveryDataWithoutDriver)
   }

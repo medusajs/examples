@@ -115,7 +115,7 @@ fi
 handle_error() {
     error "$1" "Error occurred in directory"
     warning "$1" "Last successful directory: $2"
-    echo -e "To resume from this directory, run: ${YELLOW}./update.sh $VERSION $1${NC}"
+    echo -e "To resume from this directory, run: ${YELLOW}./scripts/update.sh $VERSION $1${NC}"
     exit 1
 }
 

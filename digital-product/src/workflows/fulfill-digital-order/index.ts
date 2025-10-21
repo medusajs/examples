@@ -1,12 +1,16 @@
 import {
   createWorkflow,
+  when,
   WorkflowResponse
 } from "@medusajs/framework/workflows-sdk"
 import {
   markOrderFulfillmentAsDeliveredWorkflow,
   useQueryGraphStep,
 } from "@medusajs/medusa/core-flows"
-import { sendDigitalOrderNotificationStep } from "./steps/send-digital-order-notification"
+import { 
+  sendDigitalOrderNotificationStep, 
+  SendDigitalOrderNotificationStepInput
+} from "./steps/send-digital-order-notification"
 
 type FulfillDigitalOrderWorkflowInput = {
   id: string
@@ -34,14 +38,17 @@ export const fulfillDigitalOrderWorkflow = createWorkflow(
 
     sendDigitalOrderNotificationStep({
       digital_product_order: digitalProductOrders[0]
-    })
+    } as unknown as SendDigitalOrderNotificationStepInput)
 
-    markOrderFulfillmentAsDeliveredWorkflow.runAsStep({
-      input: {
-        orderId: digitalProductOrders[0].order.id,
-        fulfillmentId: digitalProductOrders[0].order.fulfillments[0].id
-      }
-    })
+    when({ digitalProductOrders }, (data) => !!data.digitalProductOrders[0].order?.fulfillments?.length)
+      .then(() => {
+        markOrderFulfillmentAsDeliveredWorkflow.runAsStep({
+          input: {
+            orderId: digitalProductOrders[0].order!.id,
+            fulfillmentId: digitalProductOrders[0].order!.fulfillments![0]!.id
+          }
+        })
+      })
 
     return new WorkflowResponse(
       digitalProductOrders[0]

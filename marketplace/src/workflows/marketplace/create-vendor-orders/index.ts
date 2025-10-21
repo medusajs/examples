@@ -8,7 +8,7 @@ import {
   completeCartWorkflow,
   getOrderDetailWorkflow
 } from "@medusajs/medusa/core-flows"
-import groupVendorItemsStep from "./steps/group-vendor-items"
+import groupVendorItemsStep, { GroupVendorItemsStepInput } from "./steps/group-vendor-items"
 import createVendorOrdersStep from "./steps/create-vendor-orders"
 
 type WorkflowInput = {
@@ -35,7 +35,7 @@ const createVendorOrdersWorkflow = createWorkflow(
 
     const { vendorsItems } = groupVendorItemsStep({
       cart: carts[0]
-    })
+    } as unknown as GroupVendorItemsStepInput)
     
     const order = getOrderDetailWorkflow.runAsStep({
       input: {

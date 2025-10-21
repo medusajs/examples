@@ -27,9 +27,9 @@ export const POST = async (
     },
   })
 
-  const customerDigitalOrderIds = customer.orders
-    .filter((order) => order.digital_product_order !== undefined)
-    .map((order) => order.digital_product_order.id)
+  const customerDigitalOrderIds = customer.orders?.filter(
+    (order) => order?.digital_product_order !== undefined
+  ).map((order) => order!.digital_product_order!.id)
 
   const { data: dpoResult } = await query.graph({
     entity: "digital_product_order",
@@ -48,11 +48,11 @@ export const POST = async (
     )
   }
 
-  let foundMedia = undefined
+  let foundMedia: any | undefined = undefined
 
   dpoResult[0].products.some((product) => {
-    return product.medias.some((media) => {
-      foundMedia = media.id === req.params.mediaId ? media : undefined
+    return product?.medias.some((media) => {
+      foundMedia = media?.id === req.params.mediaId ? media : undefined
 
       return foundMedia !== undefined
     })

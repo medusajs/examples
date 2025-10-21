@@ -15,7 +15,7 @@ export const validateVariantOutOfStockStep = createStep(
       sales_channel_id
     })
     
-    if (availability[variant_id].availability > 0) {
+    if ((availability[variant_id].availability || 0) > 0) {
       throw new MedusaError(
         MedusaError.Types.INVALID_DATA,
         "Variant isn't out of stock."

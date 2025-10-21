@@ -39,7 +39,7 @@ export const GET = async (
 
   await workflowEngine.subscribe({
     workflowId: handleDeliveryWorkflowId,
-    transactionId: delivery.transaction_id,
+    transactionId: delivery.transaction_id || undefined,
     subscriber: workflowSubHandler,
   });
 

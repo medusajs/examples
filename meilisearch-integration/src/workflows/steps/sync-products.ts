@@ -10,7 +10,7 @@ export type SyncProductsStepInput = {
 export const syncProductsStep = createStep(
   "sync-products",
   async ({ products }: SyncProductsStepInput, { container }) => {
-     const meilisearchModuleService = container.resolve<MeilisearchModuleService>((
+     const meilisearchModuleService = container.resolve<MeilisearchModuleService>(
       MEILISEARCH_MODULE
     )
     const existingProducts = await meilisearchModuleService.retrieveFromIndex(

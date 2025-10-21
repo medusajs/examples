@@ -1,5 +1,5 @@
 import { LoaderOptions } from "@medusajs/framework/types"
-import { asValue } from "awilix"
+import { asValue } from "@medusajs/framework/awilix"
 import { createClient } from "contentful-management"
 import { MedusaError } from "@medusajs/framework/utils"
 
