@@ -36,7 +36,7 @@ export const isDeliveryRestaurant = async (
     }
   })
 
-  if (delivery.restaurant.id !== restaurantAdmin.restaurant.id) {
+  if (delivery.restaurant?.id !== restaurantAdmin.restaurant.id) {
     return res.status(403).json({
       message: "unauthorized"
     })

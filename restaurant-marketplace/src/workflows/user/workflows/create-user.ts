@@ -42,13 +42,15 @@ export const createUserWorkflow = createWorkflow(
         authUserInput: {
           authIdentityId: data.input.auth_identity_id,
           actorType: data.input.user.actor_type,
-          value: user.id,
+          value: user?.id || "",
         }
       }
     });
 
     setAuthAppMetadataStep(authUserInput);
 
-    return new WorkflowResponse(user);
+    return new WorkflowResponse({
+      user
+    });
   }
 );

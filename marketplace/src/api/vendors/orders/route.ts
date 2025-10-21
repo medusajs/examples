@@ -37,7 +37,7 @@ export const GET = async (
         ],
         variables: {
           filters: {
-            id: vendorAdmin.vendor.orders.map((order) => order.id)
+            id: vendorAdmin.vendor.orders?.map((order) => order?.id)
           }
         }
       }

@@ -87,7 +87,7 @@ const createSubscriptionWorkflow = createWorkflow(
     const { subscription, linkDefs } = createSubscriptionStep({
       cart_id: input.cart_id,
       order_id: orders[0].id,
-      customer_id: orders[0].customer_id,
+      customer_id: orders[0].customer_id!,
       subscription_data: input.subscription_data
     })
 

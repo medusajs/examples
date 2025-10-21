@@ -23,5 +23,5 @@ export const POST = async (
     } as CreateUserWorkflowInput,
   })
 
-  res.status(201).json({ user: result });
+  res.status(201).json({ user: result.user });
 };

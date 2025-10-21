@@ -1,4 +1,4 @@
-import { createWorkflow, WorkflowResponse } from "@medusajs/framework/workflows-sdk";
+import { createWorkflow, when, WorkflowResponse } from "@medusajs/framework/workflows-sdk";
 import { useQueryGraphStep } from "@medusajs/medusa/core-flows";
 import { sendNotificationStep } from "./steps/send-notification";
 
@@ -33,18 +33,26 @@ export const sendOrderConfirmationWorkflow = createWorkflow(
       ],
       filters: {
         id
+      },
+      options: {
+        throwIfKeyNotFound: true
       }
     })
     
-    const notification = sendNotificationStep([{
-      to: orders[0].email,
-      channel: "email",
-      template: "order-placed",
-      data: {
-        order: orders[0]
-      }
-    }])
+    const notification = when({ orders }, (data) => !!data.orders[0].email)
+    .then(() => {
+      return sendNotificationStep([{
+        to: orders[0].email!,
+        channel: "email",
+        template: "order-placed",
+        data: {
+          order: orders[0]
+        }
+      }])
+    })
 
-    return new WorkflowResponse(notification)
+    return new WorkflowResponse({
+      notification
+    })
   }
 )

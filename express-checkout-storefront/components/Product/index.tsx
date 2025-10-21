@@ -177,7 +177,7 @@ export const Product = ({ handle, isActive }: ProductProps) => {
               placeholder="Quantity"
               type="number"
               min="1"
-              max={selectedVariant?.inventory_quantity}
+              max={selectedVariant?.inventory_quantity || undefined}
               value={quantity}
               onChange={(e) => setQuantity(parseInt(e.target.value))}
             />

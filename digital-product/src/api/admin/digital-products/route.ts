@@ -21,7 +21,7 @@ export const GET = async (
 
   const { 
     data: digitalProducts,
-    metadata: { count, take, skip },
+    metadata: { count, take, skip } = {},
   } = await query.graph({
     entity: "digital_product",
     fields: [

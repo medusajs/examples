@@ -7,6 +7,7 @@ import {
   MedusaError
 } from "@medusajs/framework/utils"
 import createSubscriptionWorkflow from "../../../../../workflows/create-subscription"
+import { SubscriptionInterval } from "../../../../../modules/subscription/types"
 
 export const POST = async (
   req: MedusaRequest,
@@ -39,8 +40,8 @@ export const POST = async (
     input: {
       cart_id: req.params.id,
       subscription_data: {
-        interval: metadata.subscription_interval,
-        period: metadata.subscription_period
+        interval: metadata.subscription_interval as SubscriptionInterval,
+        period: metadata.subscription_period as number,
       }
     }
   })

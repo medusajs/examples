@@ -35,18 +35,19 @@ const updateSubscriptionStep = createStep(
       prev_data: prevSubscriptionData
     })
   },
-  async ({ 
-    prev_data
-  }, { container }) => {
+  async (data, { container }) => {
+    if (!data) {
+      return
+    }
     const subscriptionModuleService: SubscriptionModuleService = 
       container.resolve(
         SUBSCRIPTION_MODULE
       )
 
     await subscriptionModuleService.updateSubscriptions({
-      id: prev_data.id,
-      last_order_date: prev_data.last_order_date,
-      next_order_date: prev_data.next_order_date,
+      id: data.prev_data.id,
+      last_order_date: data.prev_data.last_order_date,
+      next_order_date: data.prev_data.next_order_date,
     })
   }
 )

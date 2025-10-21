@@ -6,10 +6,10 @@ import {
   INotificationModuleService,
   IFileModuleService
 } from "@medusajs/framework/types"
-import { ModuleRegistrationName } from "@medusajs/framework/utils"
+import { MedusaError, ModuleRegistrationName, promiseAll } from "@medusajs/framework/utils"
 import { DigitalProductOrder, MediaType } from "../../../modules/digital-product/types"
 
-type SendDigitalOrderNotificationStepInput = {
+export type SendDigitalOrderNotificationStepInput = {
   digital_product_order: DigitalProductOrder
 }
 
@@ -25,11 +25,25 @@ export const sendDigitalOrderNotificationStep = createStep(
       ModuleRegistrationName.FILE
     )
 
-    const notificationData = await Promise.all(
+    if (!digitalProductOrder.order) {
+      throw new MedusaError(
+        MedusaError.Types.INVALID_DATA,
+        "Digital product order is missing associated order."
+      )
+    }
+
+    if (!digitalProductOrder.order.email) {
+      throw new MedusaError(
+        MedusaError.Types.INVALID_DATA,
+        "Order is missing email."
+      )
+    }
+
+    const notificationData = await promiseAll(
       digitalProductOrder.products.map(async (product) => {
-        const medias = []
+        const medias: string[] = []
   
-        await Promise.all(
+        await promiseAll(
           product.medias
           .filter((media) => media.type === MediaType.MAIN)
           .map(async (media) => {

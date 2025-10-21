@@ -26,6 +26,7 @@ export const deleteRestaurantAdminWorkflow = createWorkflow(
       entity: "auth_identity",
       fields: ["id"],
       filters: {
+        // @ts-ignore
         app_metadata: {
           restaurant_id: input.id,
         },

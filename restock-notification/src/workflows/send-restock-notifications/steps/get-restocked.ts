@@ -19,7 +19,7 @@ export const getRestockedStep = createStep(
           sales_channel_id: restockSubscription.sales_channel_id
         })
 
-        if (variantAvailability[restockSubscription.variant_id].availability > 0) {
+        if ((variantAvailability[restockSubscription.variant_id].availability || 0) > 0) {
           restocked.push(restockSubscription)
         }
       })

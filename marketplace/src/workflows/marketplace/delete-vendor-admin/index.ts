@@ -26,6 +26,7 @@ export const deleteVendorAdminWorkflow = createWorkflow(
       entity: "auth_identity",
       fields: ["id"],
       filters: {
+        // @ts-ignore
         app_metadata: {
           vendor_id: input.id,
         },

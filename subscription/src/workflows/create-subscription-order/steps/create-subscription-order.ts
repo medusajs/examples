@@ -12,7 +12,7 @@ import { createOrderWorkflow } from "@medusajs/medusa/core-flows"
 import { SubscriptionData } from "../../../modules/subscription/types"
 import { SUBSCRIPTION_MODULE } from "../../../modules/subscription"
 
-type StepInput = {
+export type CreateSubscriptionOrderStepInput = {
   subscription: SubscriptionData
   cart: CartWorkflowDTO
   payment_collection: PaymentCollectionDTO
@@ -34,20 +34,20 @@ function getOrderData (cart: CartWorkflowDTO) {
       id: null
     },
     items: cart.items,
-    shipping_methods: cart.shipping_methods.map((method) => ({
+    shipping_methods: cart.shipping_methods?.map((method) => ({
       name: method.name,
       amount: method.amount,
       is_tax_inclusive: method.is_tax_inclusive,
       shipping_option_id: method.shipping_option_id,
       data: method.data,
-      tax_lines: method.tax_lines.map((taxLine) => ({
+      tax_lines: method.tax_lines?.map((taxLine) => ({
         description: taxLine.description,
         tax_rate_id: taxLine.tax_rate_id,
         code: taxLine.code,
         rate: taxLine.rate,
         provider_id: taxLine.provider_id
       })),
-      adjustments: method.adjustments.map((adjustment) => ({
+      adjustments: method.adjustments?.map((adjustment) => ({
         code: adjustment.code,
         amount: adjustment.amount,
         description: adjustment.description,
@@ -62,7 +62,7 @@ const createSubscriptionOrderStep = createStep(
   "create-subscription-order",
   async ({ 
     subscription, cart, payment_collection
-  }: StepInput, { container, context }) => {
+  }: CreateSubscriptionOrderStepInput, { container, context }) => {
     const linkDefs: LinkDefinition[] = []
 
     const { result: order } = await createOrderWorkflow(container)
@@ -95,12 +95,15 @@ const createSubscriptionOrderStep = createStep(
       order
     })
   },
-  async ({ order }, { container }) => {
+  async (data, { container }) => {
+    if (!data) {
+      return
+    }
     const orderModuleService: IOrderModuleService = container.resolve(
       Modules.ORDER
     )
 
-    await orderModuleService.cancel(order.id)
+    await orderModuleService.cancel(data.order.id)
   }
 )
 

@@ -26,7 +26,7 @@ export const updateDeliveryWorkflow = createWorkflow(
     when(input, ({ stepIdToSucceed }) => stepIdToSucceed !== undefined)
       .then(() => {
         setStepSuccessStep({
-          stepId: input.stepIdToSucceed,
+          stepId: input.stepIdToSucceed!,
           updatedDelivery,
         });
       })
@@ -35,7 +35,7 @@ export const updateDeliveryWorkflow = createWorkflow(
     when(input, ({ stepIdToFail }) => stepIdToFail !== undefined)
       .then(() => {
         setStepFailedStep({
-          stepId: input.stepIdToFail,
+          stepId: input.stepIdToFail!,
           updatedDelivery,
         });
       })

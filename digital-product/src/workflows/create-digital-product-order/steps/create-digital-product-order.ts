@@ -12,7 +12,7 @@ import DigitalProductModuleService from "../../../modules/digital-product/servic
 import { DIGITAL_PRODUCT_MODULE } from "../../../modules/digital-product"
 import DigitalProduct from "../../../modules/digital-product/models/digital-product"
 
-type StepInput = {
+export type CreateDigitalProductOrderStepInput = {
   items: (OrderLineItemDTO & {
     variant: ProductVariantDTO & {
       digital_product: InferTypeOf<typeof DigitalProduct>
@@ -22,7 +22,7 @@ type StepInput = {
 
 const createDigitalProductOrderStep = createStep(
   "create-digital-product-order",
-  async ({ items }: StepInput, { container }) => {
+  async ({ items }: CreateDigitalProductOrderStepInput, { container }) => {
     const digitalProductModuleService: DigitalProductModuleService = 
       container.resolve(DIGITAL_PRODUCT_MODULE)
 
@@ -39,11 +39,14 @@ const createDigitalProductOrderStep = createStep(
       digital_product_order: digitalProductOrder,
     })
   },
-  async ({ digital_product_order }, { container }) => {
+  async (data, { container }) => {
+    if (!data) {
+      return
+    }
     const digitalProductModuleService: DigitalProductModuleService = 
       container.resolve(DIGITAL_PRODUCT_MODULE)
 
-    await digitalProductModuleService.deleteDigitalProductOrders(digital_product_order.id)
+    await digitalProductModuleService.deleteDigitalProductOrders(data.digital_product_order.id)
   }
 )
 

@@ -19,6 +19,6 @@ export default defineMiddlewares({
         authenticate(["restaurant", "user"], "bearer"),
       ],
     },
-    ...deliveriesMiddlewares.routes
+    ...deliveriesMiddlewares.routes!
   ],
 })

@@ -6,6 +6,7 @@ import {
 } from "@medusajs/framework/workflows-sdk"
 import { 
   createProductsWorkflow, 
+  CreateProductsWorkflowInput, 
   createRemoteLinkStep, 
   useQueryGraphStep
 } from "@medusajs/medusa/core-flows"
@@ -45,7 +46,7 @@ const createVendorProductWorkflow = createWorkflow(
     })
 
     const createdProducts = createProductsWorkflow.runAsStep({
-      input: productData
+      input: productData as CreateProductsWorkflowInput
     })
     
     const { data: vendorAdmins } = useQueryGraphStep({

@@ -19,9 +19,3 @@ export type UpdateDelivery = Partial<Omit<Delivery, "driver">> & {
   id: string;
   driver_id?: string
 }
-
-declare module "@medusajs/framework/types" {
-  export interface ModuleImplementations {
-    deliveryModuleService: DeliveryModuleService;
-  }
-}
