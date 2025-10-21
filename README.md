@@ -24,6 +24,7 @@ To learn how to use an example, open its `README.md` file. You'll find the detai
 | [Mailchimp Integration](./mailchimp-integration/README.md) | Integration | Integrate Mailchimp to subscribe customers and automate newsletters. |
 | [Marketplace](./marketplace/README.md) | Custom Feature | Allow vendors to register and sell products. |
 | [Meilisearch Integration](./meilisearch-integration/README.md) | Integration | Integrate Meilisearch into Medusa to allow searching through products. |
+| [Memcached Caching Module Provider](./memcached-caching/README.md) | Integration | Integrate Memcached as a Caching Module Provider. |
 | [Migrate from Magento](./migrate-from-magento/README.md) | Custom Feature | Migrate products and categories from Magento |
 | [Add Gift Messages to Line Items](./order-gift-message/README.md) | Custom Feature | Customize the Next.js Starter Storefront and Medusa Admin to support gift options for line items. |
 | [Payload Integration](./payload-integration/README.md) | Integration | Integrate Payload CMS with Medusa |
