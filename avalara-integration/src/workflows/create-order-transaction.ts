@@ -65,7 +65,7 @@ export const createOrderTransactionWorkflow = createWorkflow(
               taxCode: item?.tax_lines?.find(
                 (taxLine) => taxLine?.provider_id === providerId
               )?.code ?? "",
-              itemCode: item?.variant?.sku ?? "",
+              itemCode: item?.product_id ?? "",
             }
           }) ?? []),
           ...(orders[0]?.shipping_methods?.map((shippingMethod) => {

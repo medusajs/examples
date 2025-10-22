@@ -4,9 +4,10 @@ import AvalaraTaxModuleProvider from "../../modules/avalara/service"
 type StepInput = {
   item: {
     id: number
-    sku: string
-    upc?: string
-    title: string
+    medusaId: string
+    itemCode: string
+    description: string
+    [key: string]: unknown
   }
 }
 
@@ -41,9 +42,8 @@ export const updateItemStep = createStep(
     // Revert the updates by restoring original values
     await avalaraProviderService.updateItem({
       id: data.originalItem.id,
-      sku: data.originalItem.itemCode,
-      title: data.originalItem.description,
-      upc: data.originalItem.upc,
+      itemCode: data.originalItem.itemCode,
+      description: data.originalItem.description,
     })
   }
 )

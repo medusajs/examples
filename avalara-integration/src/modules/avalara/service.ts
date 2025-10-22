@@ -13,7 +13,7 @@ import { DocumentType } from "avatax/lib/enums/DocumentType";
 import { CreateTransactionModel } from "avatax/lib/models/CreateTransactionModel";
 
 type InjectedDependencies = {
-  avatax: Avatax
+  // Add any dependencies you want to inject via the module container
 }
 
 
@@ -22,9 +22,9 @@ class AvalaraTaxModuleProvider implements ITaxProvider {
   private readonly avatax: Avatax
   private readonly options: ModuleOptions
 
-  constructor(dependencies: InjectedDependencies, options: ModuleOptions) {
+  constructor({}: InjectedDependencies, options: ModuleOptions) {
     this.options = options
-    if (!options?.username || !options?.password) {
+    if (!options?.username || !options?.password || !options?.companyId) {
       throw new MedusaError(
         MedusaError.Types.INVALID_DATA,
         "Avalara module options are required: username, password and companyId"
@@ -79,6 +79,7 @@ class AvalaraTaxModuleProvider implements ITaxProvider {
               quantity,
               amount: quantity * (Number(line.line_item.unit_price) ?? 0),
               taxCode: line.rates.find((rate) => rate.is_default)?.code ?? "",
+              itemCode: line.line_item.product_id,
             }
           }) : []),
           ...(shippingLines.length ? shippingLines.map((line) => {
@@ -143,9 +144,8 @@ class AvalaraTaxModuleProvider implements ITaxProvider {
 
   async createItems(items: {
     medusaId: string
-    title: string
-    sku: string
-    upc?: string
+    itemCode: string
+    description: string
     [key: string]: unknown
   }[]) {
     try {
@@ -154,10 +154,10 @@ class AvalaraTaxModuleProvider implements ITaxProvider {
         model: await Promise.all(
           items.map(async (item) => {
             return {
+              ...item,
               id: 0, // Avalara will generate an ID for the item
-              itemCode: item.sku,
-              description: item.title,
-              upc: item.upc,
+              itemCode: item.itemCode,
+              description: item.description,
               source: "medusa",
               sourceEntityId: item.medusaId,
             }
@@ -193,9 +193,8 @@ class AvalaraTaxModuleProvider implements ITaxProvider {
 
   async updateItem(item: {
     id: number
-    title: string
-    sku: string
-    upc?: string
+    itemCode: string
+    description: string
     [key: string]: unknown
   }) {
     try {
@@ -203,11 +202,11 @@ class AvalaraTaxModuleProvider implements ITaxProvider {
         companyId: this.options.companyId!,
         id: item.id,
         model: {
+          ...item,
           id: item.id,
-          itemCode: item.sku,
-          description: item.title,
+          itemCode: item.itemCode,
+          description: item.description,
           source: "medusa",
-          upc: item.upc,
         }
       })
 

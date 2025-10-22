@@ -3,32 +3,32 @@ import { deleteItemStep } from "./steps/delete-item"
 import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
 
 type WorkflowInput = {
-  variant_id: string
+  product_id: string
 }
 
-export const deleteVariantItemWorkflow = createWorkflow(
-  "delete-item",
+export const deleteProductItemWorkflow = createWorkflow(
+  "delete-product-item",
   (input: WorkflowInput) => {
-    const { data: variants } = useQueryGraphStep({
-      entity: "product_variant",
+    const { data: products } = useQueryGraphStep({
+      entity: "product",
       fields: [
         "id",
         "metadata"
       ],
       filters: {
-        id: input.variant_id
+        id: input.product_id
       },
       withDeleted: true,
       options: {
         throwIfKeyNotFound: true
       }
     })
-    
-    when({ variants }, ({ variants }) => 
-      variants.length > 0 && !!variants[0].metadata?.avalara_item_id
+
+    when({ products }, ({ products }) =>
+      products.length > 0 && !!products[0].metadata?.avalara_item_id
     )
     .then(() => {
-      deleteItemStep({ item_id: variants[0].metadata!.avalara_item_id as number })
+      deleteItemStep({ item_id: products[0].metadata!.avalara_item_id as number })
     })
 
     return new WorkflowResponse(void 0)

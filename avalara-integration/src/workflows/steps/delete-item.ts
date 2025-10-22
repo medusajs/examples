@@ -41,9 +41,8 @@ export const deleteItemStep = createStep(
     await avalaraProviderService.createItems(
       [{
         medusaId: data.originalItem.sourceEntityId ?? "",
-        sku: data.originalItem.itemCode ?? "",
-        title: data.originalItem.description,
-        upc: data.originalItem.upc,
+        description: data.originalItem.description,
+        itemCode: data.originalItem.itemCode,
       }]
     )
   },

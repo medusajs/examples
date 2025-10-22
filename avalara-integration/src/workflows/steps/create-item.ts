@@ -4,10 +4,9 @@ import AvalaraTaxModuleProvider from "../../modules/avalara/service"
 type StepInput = {
   item: {
     medusaId: string
-    sku: string
-    country?: string | null
-    upc?: string
-    title: string
+    itemCode: string
+    description: string
+    [key: string]: unknown
   }
 }
 

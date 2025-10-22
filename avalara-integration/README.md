@@ -49,7 +49,7 @@ Where only the following are required:
 - `AVALARA_APP_ENVIRONMENT` is either `sandbox` or `production`, depending on your Avalara account type.
 - `AVALARA_COMPANY_ID` is the company ID to create Avalara items in.
 
-Learn more about retrieving these variables in the [tutorial](https://docs.medusajs.com/resources/integrations/guides/avalara#i-set-environment-variables)
+Learn more about retrieving these variables in the [tutorial](https://docs.medusajs.com/resources/integrations/guides/avalara#g-set-environment-variables)
 
 5\. Install dependencies:
 
