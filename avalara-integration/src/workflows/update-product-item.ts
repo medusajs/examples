@@ -40,17 +40,14 @@ export const updateProductItemWorkflow = createWorkflow(
       products.length > 0 && !!products[0].metadata?.avalara_item_id
     )
       .then(() => {
-        const item = transform({ products }, ({ products }) => {
-          const product = products[0]
-    
-          return {
-            id: product.metadata?.avalara_item_id as number,
-            medusaId: product.id,
-            itemCode: product.id,
-            description: product.title,
+        return updateItemStep({
+          item: {
+            id: products[0].metadata?.avalara_item_id as number,
+            medusaId: products[0].id,
+            itemCode: products[0].id,
+            description: products[0].title,
           }
         })
-        return updateItemStep({ item })
       })
 
     const response = transform({

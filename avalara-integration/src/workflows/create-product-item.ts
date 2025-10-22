@@ -1,4 +1,4 @@
-import { createWorkflow, WorkflowResponse, transform } from "@medusajs/framework/workflows-sdk"
+import { createWorkflow, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
 import { updateProductsWorkflow, useQueryGraphStep } from "@medusajs/medusa/core-flows"
 import { createItemStep } from "./steps/create-item"
 
@@ -23,19 +23,13 @@ export const createProductItemWorkflow = createWorkflow(
       }
     })
 
-    const stepInput = transform({ products }, ({ products }) => {
-      const product = products[0]
-
-      return {
-        item: {
-          medusaId: product.id,
-          itemCode: product.id,
-          description: product.title,
-        }
+    const response = createItemStep({
+      item: {
+        medusaId: products[0].id,
+        itemCode: products[0].id,
+        description: products[0].title,
       }
     })
-
-    const response = createItemStep(stepInput)
 
     updateProductsWorkflow.runAsStep({
       input: {
