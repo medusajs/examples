@@ -1,0 +1,18 @@
+import { SubscriberArgs, type SubscriberConfig } from "@medusajs/framework"
+import { updateVariantItemWorkflow } from "../workflows/update-variant-item"
+
+export default async function variantUpdatedHandler({
+  event: { data },
+  container,
+}: SubscriberArgs<{ id: string }>) {
+  await updateVariantItemWorkflow(container).run({
+    input: {
+      variant_id: data.id
+    }
+  })
+}
+
+export const config: SubscriberConfig = {
+  event: `product-variant.updated`,
+}
+

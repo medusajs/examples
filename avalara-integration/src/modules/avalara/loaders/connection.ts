@@ -4,7 +4,7 @@ import {
 import Avatax from "avatax"
 import { ModuleOptions } from "../types";
 import { MedusaError } from "@medusajs/framework/utils";
-import { asValue } from "awilix";
+import { asValue } from "@medusajs/framework/awilix";
 
 export default async function avalaraConnectionLoader({
   container,
@@ -12,10 +12,10 @@ export default async function avalaraConnectionLoader({
 }: LoaderOptions<ModuleOptions>) {
   const logger = container.resolve("logger")
 
-  if (!options?.username || !options?.password) {
+  if (!options?.username || !options?.password || !options?.companyId) {
     throw new MedusaError(
       MedusaError.Types.INVALID_DATA,
-      "Avalara module options are required: username and password"
+      "Avalara module options are required: username, password and companyId"
     )
   }
 
@@ -32,13 +32,13 @@ export default async function avalaraConnectionLoader({
     })
 
     // Test connection
-    // const pingResponse = await client.ping()
-    // if (!pingResponse.authenticated) {
-    //   throw new MedusaError(
-    //     MedusaError.Types.UNEXPECTED_STATE,
-    //     "Avalara (Avatax) authentication failed"
-    //   )
-    // }
+    const pingResponse = await client.ping()
+    if (!pingResponse.authenticated) {
+      throw new MedusaError(
+        MedusaError.Types.UNEXPECTED_STATE,
+        "Avalara (Avatax) authentication failed"
+      )
+    }
 
     logger.info("[AVALARA] Avalara (Avatax) connection established")
     container.register("avatax", asValue(client))

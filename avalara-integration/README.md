@@ -1,62 +1,172 @@
-<p align="center">
-  <a href="https://www.medusajs.com">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/59018053/229103275-b5e482bb-4601-46e6-8142-244f531cebdb.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
-    <img alt="Medusa logo" src="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
-    </picture>
-  </a>
-</p>
-<h1 align="center">
-  Medusa
-</h1>
+# Medusa v2 Example: Avalara Integration
 
-<h4 align="center">
-  <a href="https://docs.medusajs.com">Documentation</a> |
-  <a href="https://www.medusajs.com">Website</a>
-</h4>
+This directory holds the code for the [Avalara Integration Tutorial](https://docs.medusajs.com/resources/integrations/guides/avalara).
 
-<p align="center">
-  Building blocks for digital commerce
-</p>
-<p align="center">
-  <a href="https://github.com/medusajs/medusa/blob/master/CONTRIBUTING.md">
-    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat" alt="PRs welcome!" />
-  </a>
-    <a href="https://www.producthunt.com/posts/medusa"><img src="https://img.shields.io/badge/Product%20Hunt-%231%20Product%20of%20the%20Day-%23DA552E" alt="Product Hunt"></a>
-  <a href="https://discord.gg/xpCwq3Kfn8">
-    <img src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg" alt="Discord Chat" />
-  </a>
-  <a href="https://twitter.com/intent/follow?screen_name=medusajs">
-    <img src="https://img.shields.io/twitter/follow/medusajs.svg?label=Follow%20@medusajs" alt="Follow @medusajs" />
-  </a>
-</p>
+You can either:
 
-## Compatibility
+- [install and use it as a Medusa application](#installation);
+- or [copy its source files into an existing Medusa application](#copy-into-existing-medusa-application).
 
-This starter is compatible with versions >= 2 of `@medusajs/medusa`.
+## Prerequisites
 
-## Getting Started
+- [Node.js v20+](https://nodejs.org/en/download)
+- [Git CLI](https://git-scm.com/downaloads)
+- [PostgreSQL](https://www.postgresql.org/download/)
+- [Avalara](https://www.avalara.com/) sandbox or production account.
 
-Visit the [Quickstart Guide](https://docs.medusajs.com/learn/installation) to set up a server.
+## Installation
 
-Visit the [Docs](https://docs.medusajs.com/learn/installation#get-started) to learn more about our system requirements.
+1. Clone the repository and change to the `avalara-integration` directory:
 
-## What is Medusa
+```bash
+git clone https://github.com/medusajs/examples.git
+cd examples/avalara-integration
+```
 
-Medusa is a set of commerce modules and tools that allow you to build rich, reliable, and performant commerce applications without reinventing core commerce logic. The modules can be customized and used to build advanced ecommerce stores, marketplaces, or any product that needs foundational commerce primitives. All modules are open-source and freely available on npm.
+2\. Rename the `.env.template` file to `.env`.
 
-Learn more about [Medusa’s architecture](https://docs.medusajs.com/learn/introduction/architecture) and [commerce modules](https://docs.medusajs.com/learn/fundamentals/modules/commerce-modules) in the Docs.
+3\. If necessary, change the PostgreSQL username, password, and host in the `DATABASE_URL` environment variable.
 
-## Community & Contributions
+4\. Set the Avalara environment variables:
 
-The community and core team are available in [GitHub Discussions](https://github.com/medusajs/medusa/discussions), where you can ask for support, discuss roadmap, and share ideas.
+```bash
+AVALARA_USERNAME=
+AVALARA_PASSWORD=
+AVALARA_APP_ENVIRONMENT=
+AVALARA_COMPANY_ID=
+# Optional
+AVALARA_APP_NAME=
+AVALARA_APP_VERSION=
+AVALARA_MACHINE_NAME=
+AVALARA_TIMEOUT=
+AVALARA_COMPANY_CODE=
+```
 
-Join our [Discord server](https://discord.com/invite/medusajs) to meet other community members.
+Where only the following are required:
 
-## Other channels
+- `AVALARA_USERNAME` is your Avalara account ID.
+- `AVALARA_PASSWORD` is your Avalara license key.
+- `AVALARA_APP_ENVIRONMENT` is either `sandbox` or `production`, depending on your Avalara account type.
+- `AVALARA_COMPANY_ID` is the company ID to create Avalara items in.
 
-- [GitHub Issues](https://github.com/medusajs/medusa/issues)
-- [Twitter](https://twitter.com/medusajs)
-- [LinkedIn](https://www.linkedin.com/company/medusajs)
-- [Medusa Blog](https://medusajs.com/blog/)
+Learn more about retrieving these variables in the [tutorial](https://docs.medusajs.com/resources/integrations/guides/avalara#i-set-environment-variables)
+
+5\. Install dependencies:
+
+```bash
+yarn # or npm install
+```
+
+6\. Setup and seed the database:
+
+```bash
+npx medusa db:setup
+yarn seed # or npm run seed
+```
+
+7\. Start the Medusa application:
+
+```bash
+yarn dev # or npm run dev
+```
+
+Refer to the [Set Up and Testing](#set-up-and-testing) section for next steps.
+
+## Copy into Existing Medusa Application
+
+If you have an existing Medusa application, copy the following directories and files into your project:
+
+- `src/modules/avalara`
+- `src/subscribers`
+- `src/workflows`
+
+Then, add the Avalara Tax Module Provider to `medusa-config.ts`:
+
+```ts
+module.exports = defineConfig({
+  // ...
+  modules: [
+    {
+      resolve: "@medusajs/medusa/tax",
+      options: {
+        providers: [
+          // other providers...
+          {
+            resolve: "./src/modules/avalara",
+            id: "avalara",
+            options: {
+              username: process.env.AVALARA_USERNAME,
+              password: process.env.AVALARA_PASSWORD,
+              appName: process.env.AVALARA_APP_NAME,
+              appVersion: process.env.AVALARA_APP_VERSION,
+              appEnvironment: process.env.AVALARA_APP_ENVIRONMENT,
+              machineName: process.env.AVALARA_MACHINE_NAME,
+              timeout: process.env.AVALARA_TIMEOUT,
+              companyCode: process.env.AVALARA_COMPANY_CODE,
+              companyId: process.env.AVALARA_COMPANY_ID,
+            },
+          },
+        ],
+      },
+    },
+  ],
+})
+```
+
+Next, add the following environment variables:
+
+```bash
+ALGOLIA_APP_ID=
+ALGOLIA_API_KEY=
+ALGOLIA_PRODUCT_INDEX_NAME=
+```
+
+Where only the following are required:
+
+- `AVALARA_USERNAME` is your Avalara account ID.
+- `AVALARA_PASSWORD` is your Avalara license key.
+- `AVALARA_APP_ENVIRONMENT` is either `sandbox` or `production`, depending on your Avalara account type.
+- `AVALARA_COMPANY_ID` is the company ID to create Avalara items in.
+
+Learn more about retrieving these variables in the [tutorial](https://docs.medusajs.com/resources/integrations/guides/avalara#i-set-environment-variables)
+
+After that, install the `avatax` package:
+
+```bash
+yarn add avatax # or npm install avatax
+```
+
+> This guide was implemented with `avatax@^25.9.0`.
+
+## Set Up and Testing
+
+### Set Avalara as Tax Provider of Region
+
+Before you can use Avalara for tax calculation, you must set it as the default provider of regions in your store. To do that:
+
+1. Start the Medusa application with `yarn dev` or `npm run dev`.
+2. Go to `http://localhost:9000/admin` and log in to the Medusa Admin dashboard.
+3. Go to "Settings" → "Tax Regions."
+4. Select the country you want to configure Avalara for. You can repeat these steps for multiple countries.
+5. In the first section, click on the three-dots icon at the top right and choose "Edit."
+6. In the "Tax Provider" dropdown, select "Avalara (AVALARA)."
+7. Click on "Save."
+
+If you proceed through checkout now, the taxes will be calculated when you set the shipping address and method.
+
+### Testing Transaction Creation
+
+When you place an order, a transaction will be created in Avalara, which you can view in your Avalara dashboard.
+
+### Testing Avalara Items Management
+
+This integration is also set up to create and manage items in Avalara for your Medusa product variants.
+
+You can test this by creating a product or a single product variant in Medusa, you can then view the associated item in Avalara by going to Settings -> "What you sell and buy."
+
+You can also update or delete a product variant, and its item in Avalara will be updated or deleted, respectively. If you delete a product, the item of each variant is deleted as well from Avalara.
+
+## More Resources
+
+- [Medusa Documentatin](https://docs.medusajs.com)
+- [Avalara Documentation](https://developer.avalara.com/)

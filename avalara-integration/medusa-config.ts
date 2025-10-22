@@ -30,11 +30,11 @@ module.exports = defineConfig({
               machineName: process.env.AVALARA_MACHINE_NAME,
               timeout: process.env.AVALARA_TIMEOUT,
               companyCode: process.env.AVALARA_COMPANY_CODE,
+              companyId: process.env.AVALARA_COMPANY_ID,
             },
           },
         ],
       },
     },
-
   ],
 })

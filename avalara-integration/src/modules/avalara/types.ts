@@ -6,6 +6,6 @@ export type ModuleOptions = {
   appEnvironment?: string
   machineName?: string
   timeout?: number
-
   companyCode?: string
+  companyId?: number
 }
