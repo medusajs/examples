@@ -15,6 +15,7 @@ To learn how to use an example, open its `README.md` file. You'll find the detai
 | [Algolia Integration](./algolia-integration/README.md) | Integration | Integrate Algolia into Medusa to allow searching through products. |
 | [Avalara Integration](./avalara-integration/README.md) | Integration | Integrate Avalara as a Tax Module Provider in Medusa to calculate taxes. |
 | [Bundled Products](./bundled-products/README.md) | Custom Feature | Sell bundled products in your Medusa application. |
+| [Category Images](./category-images/README.md) | Custom Feature | Associate images like thumbnails and banners with categories. |
 | [Custom Item Price](./custom-item-price/README.md) | Custom Feature | Add items with custom prices from third-party service to the cart. |
 | [Digital Products](./digital-product/README.md) | Custom Feature | Sell digital products in your Medusa application. |
 | [Express Checkout Storefront](./express-checkout-storefront/README.md) | Storefront | Use a storefront with an express checkout experience. |
