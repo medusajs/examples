@@ -1,5 +1,4 @@
 import { SubscriberArgs, type SubscriberConfig } from "@medusajs/framework"
-import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
 import { updateRentalWorkflow } from "../workflows/update-rental"
 
 export default async function orderCanceledHandler({
@@ -7,7 +6,7 @@ export default async function orderCanceledHandler({
   container,
 }: SubscriberArgs<{ id: string }>) {
   const logger = container.resolve("logger")
-  const query = container.resolve(ContainerRegistrationKeys.QUERY)
+  const query = container.resolve("query")
 
   logger.info(`Processing rental cancellations for order ${data.id}`)
 

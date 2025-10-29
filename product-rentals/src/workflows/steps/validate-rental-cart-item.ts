@@ -31,7 +31,7 @@ export const validateRentalCartItemStep = createStep(
     const rentalModuleService: RentalModuleService = container.resolve(RENTAL_MODULE)
 
     // Skip validation if not a rental product or if rental config is not active
-    if (!rental_configuration || rental_configuration.status !== "active") {
+    if (rental_configuration?.status !== "active") {
       return new StepResponse({ is_rental: false, rental_days: 0, price: 0 })
     }
 
