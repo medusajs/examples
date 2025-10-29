@@ -33,6 +33,7 @@ export default function validateRentalDates(
 
   // validate that the dates aren't in the past
   const now = new Date()
+  now.setHours(0, 0, 0, 0) // Reset to start of day
   if (startDate < now || endDate < now) {
     throw new MedusaError(
       MedusaError.Types.INVALID_DATA,
