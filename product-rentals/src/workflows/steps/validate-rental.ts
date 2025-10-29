@@ -81,6 +81,22 @@ export const validateRentalStep = createStep(
         )
       }
 
+      // validate that the dates aren't in the past
+      const now = new Date()
+      if (startDate < now || endDate < now) {
+        throw new MedusaError(
+          MedusaError.Types.INVALID_DATA,
+          `Rental dates cannot be in the past. Received start date: ${startDate.toISOString()}, end date: ${endDate.toISOString()}`
+        )
+      }
+
+      if (endDate <= startDate) {
+        throw new MedusaError(
+          MedusaError.Types.INVALID_DATA,
+          `rental_end_date must be after rental_start_date for variant ${variant_id}`
+        )
+      }
+
       const hasCartOverlapResult = hasCartOverlap(
         {
           variant_id,

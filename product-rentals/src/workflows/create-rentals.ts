@@ -4,7 +4,9 @@ import {
   transform
 } from "@medusajs/framework/workflows-sdk"
 import { 
+  acquireLockStep,
   completeCartWorkflow, 
+  releaseLockStep, 
   useQueryGraphStep 
 } from "@medusajs/medusa/core-flows"
 import { 
@@ -67,6 +69,14 @@ export const createRentalsWorkflow = createWorkflow(
       return rentalItemsList
     })
 
+    const lockKey = transform({
+      cart_id
+    }, (data) => `cart_rentals_creation_${data.cart_id}`)
+
+    acquireLockStep({
+      key: lockKey,
+    })
+
     validateRentalStep({ 
       rental_items: rentalItems
     } as unknown as ValidateRentalInput)
@@ -92,6 +102,10 @@ export const createRentalsWorkflow = createWorkflow(
     createRentalsForOrderStep({
       order: orders[0],
     } as unknown as CreateRentalsForOrderInput)
+
+    releaseLockStep({
+      key: lockKey,
+    })
 
     // @ts-ignore
     return new WorkflowResponse({
