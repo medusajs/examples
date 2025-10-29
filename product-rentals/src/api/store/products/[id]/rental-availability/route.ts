@@ -3,6 +3,7 @@ import { MedusaError, QueryContext } from "@medusajs/framework/utils"
 import { z } from "zod"
 import { RENTAL_MODULE } from "../../../../../modules/rental"
 import RentalModuleService from "../../../../../modules/rental/service"
+import validateRentalDates from "../../../../../utils/validate-rental-dates"
 
 export const GetRentalAvailabilitySchema = z.object({
   variant_id: z.string(),
@@ -46,14 +47,6 @@ export const GET = async (
     rentalEndDate.setHours(23, 59, 59, 999)
   }
 
-  // Validate dates
-  if (rentalEndDate < rentalStartDate) {
-    throw new MedusaError(
-      MedusaError.Types.INVALID_DATA,
-      "end_date must be greater than or equal to start_date"
-    )
-  }
-
   // Get active rental configuration for the product
   const { data: [rentalConfig] } = await query.graph({
     entity: "rental_configuration",
@@ -71,24 +64,20 @@ export const GET = async (
     )
   }
 
-  // Calculate rental days
-  const timeDiff = rentalEndDate.getTime() - rentalStartDate.getTime()
-  const rentalDays = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) + 1
+  const rentalDays = Math.ceil(
+    (rentalEndDate.getTime() - rentalStartDate.getTime()) / 
+    (1000 * 60 * 60 * 24)
+  ) + 1 // +1 to include both start and end date
 
-  // Validate rental period meets configuration requirements
-  if (rentalDays < rentalConfig.min_rental_days) {
-    return res.json({
-      available: false,
-      message: `Rental period of ${rentalDays} days is less than the minimum of ${rentalConfig.min_rental_days} days`
-    })
-  }
-
-  if (rentalConfig.max_rental_days !== null && rentalDays > rentalConfig.max_rental_days) {
-    return res.json({
-      available: false,
-      message: `Rental period of ${rentalDays} days exceeds the maximum of ${rentalConfig.max_rental_days} days`
-    })
-  }
+  validateRentalDates(
+    rentalStartDate, 
+    rentalEndDate, 
+    {
+      min_rental_days: rentalConfig.min_rental_days,
+      max_rental_days: rentalConfig.max_rental_days,
+    }, 
+    rentalDays
+  )
 
   // Check if variant is already rented during the requested period
   const isAvailable = !await rentalModuleService.hasRentalOverlap(

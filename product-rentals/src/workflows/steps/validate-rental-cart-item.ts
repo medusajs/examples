@@ -5,6 +5,7 @@ import RentalModuleService from "../../modules/rental/service"
 import { InferTypeOf, ProductVariantDTO } from "@medusajs/framework/types"
 import { RentalConfiguration } from "../../modules/rental/models/rental-configuration"
 import hasCartOverlap from "../../utils/has-cart-overlap"
+import validateRentalDates from "../../utils/validate-rental-dates"
 
 export type ValidateRentalCartItemInput = {
   variant: ProductVariantDTO
@@ -54,40 +55,19 @@ export const validateRentalCartItemStep = createStep(
       )
     }
 
-    // Validate rental period meets configuration requirements
-    const days = Number(rentalDays)
-    if (days < rental_configuration.min_rental_days) {
-      throw new MedusaError(
-        MedusaError.Types.INVALID_DATA,
-        `Rental period of ${days} days is less than the minimum of ${rental_configuration.min_rental_days} days`
-      )
-    }
-
-    if (rental_configuration.max_rental_days !== null && days > rental_configuration.max_rental_days) {
-      throw new MedusaError(
-        MedusaError.Types.INVALID_DATA,
-        `Rental period of ${days} days exceeds the maximum of ${rental_configuration.max_rental_days} days`
-      )
-    }
-
     const startDate = new Date(rentalStartDate as string)
     const endDate = new Date(rentalEndDate as string)
+    const days = typeof rentalDays === 'number' ? rentalDays : Number(rentalDays)
 
-    // validate that the dates aren't in the past
-    const now = new Date()
-    if (startDate < now || endDate < now) {
-      throw new MedusaError(
-        MedusaError.Types.INVALID_DATA,
-        `Rental dates cannot be in the past. Received start date: ${startDate.toISOString()}, end date: ${endDate.toISOString()}`
-      )
-    }
-
-    if (endDate <= startDate) {
-      throw new MedusaError(
-        MedusaError.Types.INVALID_DATA,
-        `rental_end_date must be after rental_start_date for variant ${variant.id}`
-      )
-    }
+    validateRentalDates(
+      startDate, 
+      endDate, 
+      {
+        min_rental_days: rental_configuration.min_rental_days,
+        max_rental_days: rental_configuration.max_rental_days,
+      }, 
+      days
+    )
 
     // Check if this rental variant is already in the cart with overlapping dates
     const hasCartOverlapResult = hasCartOverlap(
