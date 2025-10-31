@@ -39,6 +39,7 @@ export const syncProductsWorkflow = createWorkflow(
       products: data
     } as SyncProductsStepInput)
 
+    // @ts-ignore
     return new WorkflowResponse({
       products: data,
       metadata

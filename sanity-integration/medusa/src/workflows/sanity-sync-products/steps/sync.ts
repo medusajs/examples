@@ -53,7 +53,7 @@ export const syncStep = createStep(
           products.map(async (prod) => {
             const after = await sanityModule.upsertSyncDocument(
               "product", 
-              prod as ProductDTO
+              prod as unknown as ProductDTO
             );
   
             upsertMap.push({

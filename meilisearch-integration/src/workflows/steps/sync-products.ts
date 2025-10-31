@@ -1,10 +1,24 @@
-import { ProductDTO } from "@medusajs/framework/types"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 import { MEILISEARCH_MODULE } from "../../modules/meilisearch"
 import MeilisearchModuleService from "../../modules/meilisearch/service"
 
 export type SyncProductsStepInput = {
-  products: ProductDTO[]
+  products: {
+    id: string
+    title: string
+    description?: string
+    handle: string
+    thumbnail?: string
+    categories: {
+      id: string
+      name: string
+      handle: string
+    }[]
+    tags: {
+      id: string
+      value: string
+    }[]
+  }[]
 }
 
 export const syncProductsStep = createStep(

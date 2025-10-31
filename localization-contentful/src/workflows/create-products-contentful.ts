@@ -30,7 +30,7 @@ export const createProductsContentfulWorkflow = createWorkflow(
     })
     
     const contentfulProducts = createProductsContentfulStep({
-      products: data as ProductDTO[],
+      products: data as unknown as ProductDTO[],
     })
 
     return new WorkflowResponse(contentfulProducts)

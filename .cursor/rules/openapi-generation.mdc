@@ -1,0 +1,488 @@
+# OpenAPI Generation Rules for Medusa Projects
+
+You are an expert in generating OpenAPI 3.0 specifications for Medusa.js projects. When asked to create an OpenAPI spec for a Medusa project, follow these comprehensive rules and patterns.
+
+## Core OpenAPI Structure
+
+### Basic Information
+
+- Always use OpenAPI 3.0.3
+- Set title to a descriptive name based on the project's main functionality
+- Set version to "1.0.0" unless specified otherwise
+- Include a clear description of the API's purpose
+
+### Server Configuration
+
+- Use `{BACKEND_URL}` as the server URL variable
+- Set default to `http://localhost:9000` (Medusa's default)
+- Include description: "Base URL of the backend server"
+
+### Security Schemes
+
+- Always include `bearerAuth` security scheme:
+
+  ```yaml
+  bearerAuth:
+    type: http
+    scheme: bearer
+    bearerFormat: JWT
+  ```
+
+- Apply `bearerAuth: []` globally unless specific endpoints don't require auth
+
+## Tag Organization
+
+### Standard Tags
+
+- **Admin**: For admin-only endpoints (`/admin/*`)
+- **Store**: For store/public endpoints (`/store/*`)
+- **Admin > Auth**: For admin authentication endpoints (`/auth/user/emailpass`) - **REQUIRED when `/admin/*` routes exist**
+- **Store > Auth**: For store authentication endpoints (`/auth/customer/emailpass`, `/store/customers`) - **REQUIRED when `/store/customers/me/*` routes exist OR when customer-specific store functionality requires authentication**
+- **Admin > [Feature]**: For specific admin feature groups
+- **Store > [Feature]**: For specific store feature groups
+
+### Tag Naming Convention
+
+- Use title case for main tags
+- Use "Admin > Feature" format for nested admin features
+- Use "Store > Feature" format for nested store features
+- Group related endpoints under the same tag
+
+## Schema Patterns
+
+### Authentication Schemas
+
+```yaml
+LoginRequest:
+  type: object
+  required: [email, password]
+  properties:
+    email:
+      type: string
+      format: email
+    password:
+      type: string
+      format: password
+  example:
+    email: admin@medusajs.com
+    password: supersecret
+
+LoginResponse:
+  type: object
+  properties:
+    token:
+      type: string
+      description: JWT access token
+  example:
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+### Request/Response Schemas
+
+- Use descriptive names ending with "Request" or "Response"
+- Include required fields explicitly
+- Add examples for all schemas
+- Use proper data types and formats
+- Include descriptions for complex fields
+
+### Common Response Patterns
+
+```yaml
+GenericSuccessResponse:
+  type: object
+  properties:
+    status:
+      type: string
+      example: success
+    message:
+      type: string
+
+GenericErrorResponse:
+  type: object
+  properties:
+    message:
+      type: string
+    code:
+      type: string
+    type:
+      type: string
+      enum: [error, warning]
+```
+
+## Path Patterns
+
+### Medusa Route Structure
+
+- **Admin routes**: `/admin/{resource}` or `/admin/{resource}/{id}`
+- **Store routes**: `/store/{resource}` or `/store/{resource}/{id}`
+- **Auth routes**: `/auth/{method}` (e.g., `/auth/user/emailpass`)
+- **Nested resources**: `/admin/{parent}/{id}/{child}`
+
+### Path Parameter Conventions
+
+- Use `{id}` for single resource identifiers
+- Use `{category_id}`, `{product_id}`, `{order_id}` for specific resource types
+- Use `{id}` for generic identifiers when context is clear
+
+### HTTP Method Mapping
+
+- **GET**: Retrieve resources (list or single)
+- **POST**: Create new resources or trigger actions
+- **PUT**: Update entire resources
+- **PATCH**: Partial updates
+- **DELETE**: Remove resources
+
+## Request/Response Patterns
+
+### Request Body Patterns
+
+- Always include `required: true` for POST/PUT/PATCH
+- Use `application/json` content type
+- Reference schema definitions
+- Include examples
+
+### Response Patterns
+
+- **200**: Successful GET requests
+- **201**: Successful POST requests (creation)
+- **400**: Bad request (validation errors)
+- **401**: Unauthorized (missing/invalid auth)
+- **403**: Forbidden (insufficient permissions)
+- **404**: Not found
+- **500**: Internal server error
+
+### Content Types
+
+- Use `application/json` for most responses
+- Use `application/pdf` for file downloads
+- Use `text/plain` for simple text responses
+
+## Medusa-Specific Patterns
+
+### Authentication Endpoints
+
+#### Admin Authentication (Required when `/admin/*` routes exist)
+
+```yaml
+/auth/user/emailpass:
+  post:
+    tags: [Admin > Auth]
+    summary: Login with email and password
+    security: []  # No auth required for login
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/LoginRequest'
+    responses:
+      '200':
+        description: Successful authentication
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginResponse'
+      '401':
+        description: Invalid credentials
+```
+
+#### Store Authentication (Required when `/store/customers/me/*` routes exist)
+
+```yaml
+/auth/customer/emailpass:
+  post:
+    tags: [Store > Auth]
+    summary: Get JWT / Login
+    security: []  # No auth required for login
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CustomerLoginRequest'
+    responses:
+      '200':
+        description: Successful authentication
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerLoginResponse'
+
+/store/customers:
+  post:
+    tags: [Store > Auth]
+    summary: Register Customer
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: x-publishable-api-key
+        in: header
+        schema:
+          type: string
+        example: '{{PUBLISHABLE_API_KEY}}'
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CustomerRegistrationRequest'
+    responses:
+      '200':
+        description: Customer registered
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerResponse'
+```
+
+### Admin Resource Endpoints
+
+```yaml
+/admin/{resource}:
+  get:
+    tags: [Admin]
+    summary: List {resource}
+    security:
+      - bearerAuth: []
+    responses:
+      '200':
+        description: List of {resource}
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/{Resource}ListResponse'
+  
+  post:
+    tags: [Admin]
+    summary: Create {resource}
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Create{Resource}Request'
+    responses:
+      '201':
+        description: {Resource} created
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/{Resource}Response'
+```
+
+### Store Resource Endpoints
+
+```yaml
+/store/{resource}:
+  get:
+    tags: [Store]
+    summary: List {resource}
+    parameters:
+      - name: x-publishable-api-key
+        in: header
+        schema:
+          type: string
+        example: '{{PUBLISHABLE_API_KEY}}'
+    responses:
+      '200':
+        description: List of {resource}
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/{Resource}ListResponse'
+
+/store/customers/me/{resource}:
+  get:
+    tags: [Store]
+    summary: Get customer's {resource}
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: x-publishable-api-key
+        in: header
+        schema:
+          type: string
+        example: '{{PUBLISHABLE_API_KEY}}'
+    responses:
+      '200':
+        description: Customer's {resource}
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/{Resource}Response'
+```
+
+### Resource with ID Endpoints
+
+```yaml
+/admin/{resource}/{id}:
+  get:
+    tags: [Admin]
+    summary: Get {resource} by ID
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    security:
+      - bearerAuth: []
+    responses:
+      '200':
+        description: {Resource} details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/{Resource}Response'
+      '404':
+        description: {Resource} not found
+```
+
+## Schema Generation Rules
+
+### From Zod Schemas
+
+When analyzing Medusa route files with Zod validation:
+
+1. **Convert Zod types to OpenAPI types**:
+   - `z.string()` → `type: string`
+   - `z.number()` → `type: number`
+   - `z.boolean()` → `type: boolean`
+   - `z.array()` → `type: array`
+   - `z.object()` → `type: object`
+   - `z.enum()` → `type: string` with `enum` array
+   - `z.optional()` → Remove from required array
+   - `z.nullable()` → Add `nullable: true`
+
+2. **Extract schema names**:
+   - `PostCreateSessionSchema` → `CreateSessionRequest`
+   - `GetRentalAvailabilitySchema` → `RentalAvailabilityQuery`
+   - `PostRentalConfigBodySchema` → `RentalConfigRequest`
+
+3. **Generate examples**:
+   - Use realistic sample data
+   - Match the expected data structure
+   - Include all required fields
+
+### From Medusa Request/Response Patterns
+
+1. **Analyze route handlers**:
+   - Extract request body structure from Zod schemas
+   - Extract response structure from `res.json()` calls
+   - Identify path parameters from `req.params`
+   - Identify query parameters from `req.query`
+
+2. **Generate comprehensive schemas**:
+   - Create request schemas for POST/PUT/PATCH
+   - Create response schemas for all endpoints
+   - Create query parameter schemas for GET endpoints
+   - Create error response schemas
+
+## File Organization
+
+### Directory Structure Analysis
+
+When analyzing a Medusa project:
+
+1. **Scan `/src/api/` directory**:
+   - Identify all route files (`route.ts`)
+   - Map file paths to API endpoints
+   - Identify admin vs store routes
+   - Extract nested resource patterns
+
+2. **Analyze middleware files**:
+   - Extract validation schemas
+   - Identify authentication requirements
+   - Map middleware to specific routes
+
+3. **Examine workflow files**:
+   - Understand business logic
+   - Identify input/output data structures
+   - Extract error handling patterns
+
+### Authentication Detection Logic
+
+**Admin Auth Detection:**
+
+- ✅ Include `Admin > Auth` tag and `/auth/user/emailpass` endpoint when ANY `/admin/*` routes exist
+
+**Store Auth Detection:**
+
+- ✅ Include `Store > Auth` tag and customer auth endpoints when:
+  - `/store/customers/me/*` routes exist, OR
+  - Store routes require customer authentication (check for `req.auth_context?.actor_id` usage or customer-specific logic)
+- ❌ Do NOT include Store Auth if only public store routes exist (like `/store/products/*` without customer context)
+
+### Route Discovery Process
+
+1. **Find all `route.ts` files** in `/src/api/`
+2. **Map file paths to URL patterns**:
+   - `src/api/admin/products/[id]/route.ts` → `/admin/products/{id}`
+   - `src/api/store/carts/[id]/line-items/route.ts` → `/store/carts/{id}/line-items`
+3. **Extract HTTP methods** from exported functions
+4. **Analyze request/response patterns** from code
+
+## Example Generation
+
+### Complete Example
+
+```yaml
+openapi: 3.0.3
+info:
+  title: Product Rentals API
+  version: 1.0.0
+  description: API for managing product rental functionality in Medusa.js
+servers:
+  - url: '{BACKEND_URL}'
+    description: Backend server
+    variables:
+      BACKEND_URL:
+        default: http://localhost:9000
+        description: Base URL of the backend server
+tags:
+  - name: Admin
+  - name: Store
+  - name: Admin > Auth  # Required when /admin/* routes exist
+  - name: Store > Auth  # Required when /store/customers/me/* routes exist
+  - name: Admin > Products
+  - name: Store > Products
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    # ... schemas here
+security:
+  - bearerAuth: []
+paths:
+  # ... paths here
+```
+
+## Best Practices
+
+1. **Consistency**: Use consistent naming conventions throughout
+2. **Completeness**: Include all endpoints found in the codebase
+3. **Accuracy**: Match the actual API behavior from the code
+4. **Documentation**: Add clear descriptions and examples
+5. **Validation**: Ensure all required fields are marked correctly
+6. **Error Handling**: Include appropriate error responses
+7. **Security**: Apply proper authentication requirements
+
+## Common Medusa Patterns to Look For
+
+1. **Workflow Integration**: Look for workflow calls in route handlers
+2. **Query Usage**: Identify database queries using `req.scope.resolve("query")`
+3. **Validation**: Find Zod schemas for request validation
+4. **Error Handling**: Look for MedusaError usage
+5. **Middleware**: Check for custom middleware and validation
+6. **File Operations**: Identify file upload/download endpoints
+7. **Batch Operations**: Look for batch update/delete patterns
+8. **Authentication Requirements**:
+   - **Admin Auth**: Include `Admin > Auth` tag and `/auth/user/emailpass` endpoint when `/admin/*` routes exist
+   - **Store Auth**: Include `Store > Auth` tag and `/auth/customer/emailpass`, `/store/customers` endpoints when `/store/customers/me/*` routes exist OR when store routes require customer authentication
+
+When generating an OpenAPI spec, always analyze the actual codebase structure and follow these patterns to create accurate, comprehensive documentation.

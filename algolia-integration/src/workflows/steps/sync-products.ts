@@ -1,10 +1,24 @@
-import { ProductDTO } from "@medusajs/framework/types"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 import { ALGOLIA_MODULE } from "../../modules/algolia"
 import AlgoliaModuleService from "../../modules/algolia/service"
 
 export type SyncProductsStepInput = {
-  products: ProductDTO[]
+  products: {
+    id: string
+    title: string
+    description?: string
+    handle: string
+    thumbnail?: string
+    categories: {
+      id: string
+      name: string
+      handle: string
+    }[]
+    tags: {
+      id: string
+      value: string
+    }[]
+  }[]
 }
 
 export const syncProductsStep = createStep(

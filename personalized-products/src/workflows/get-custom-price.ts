@@ -45,7 +45,7 @@ export const getCustomPriceWorkflow = createWorkflow(
     const price = getCustomPriceStep({
       variant: variants[0],
       metadata: input.metadata,
-    } as GetCustomPriceStepInput)
+    } as unknown as GetCustomPriceStepInput)
 
     return new WorkflowResponse(price)
   }
