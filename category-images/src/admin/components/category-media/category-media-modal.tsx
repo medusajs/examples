@@ -211,76 +211,73 @@ export const CategoryMediaModal = ({
   }
 
   return (
-    <>
-      <CommandBar open={selectedImageIds.size > 0}>
-        <CommandBar.Bar>
-          <CommandBar.Value>
-            {selectedImageIds.size} selected
-          </CommandBar.Value>
-          <CommandBar.Seperator />
-          <CommandBar.Command
-            action={handleSetAsThumbnail}
-            label="Set as thumbnail"
-            shortcut="t"
-            disabled={selectedImageIds.size !== 1}
-          />
-          <CommandBar.Seperator />
-          <CommandBar.Command
-            action={handleDelete}
-            label="Delete"
-            shortcut="d"
-          />
-        </CommandBar.Bar>
-      </CommandBar>
+    <FocusModal open={open} onOpenChange={handleOpenChange}>
+      <FocusModal.Trigger asChild>
+        <Button size="small" variant="secondary">
+          Edit
+        </Button>
+      </FocusModal.Trigger>
 
-      <FocusModal open={open} onOpenChange={handleOpenChange}>
-        <FocusModal.Trigger asChild>
-          <Button size="small" variant="secondary">
-            Edit
-          </Button>
-        </FocusModal.Trigger>
+      <FocusModal.Content>
+        <FocusModal.Header>
+          <Heading>Edit Media</Heading>
+        </FocusModal.Header>
 
-        <FocusModal.Content>
-          <FocusModal.Header>
-            <Heading>Edit Media</Heading>
-          </FocusModal.Header>
-
-          <FocusModal.Body className="flex h-full overflow-hidden">
-            <div className="flex w-full h-full flex-col-reverse lg:grid lg:grid-cols-[1fr_560px]">
-              <CategoryImageGallery
-                existingImages={existingImages}
-                uploadedFiles={uploadedFiles}
-                imagesToDelete={imagesToDelete}
-                currentThumbnailId={currentThumbnailId}
-                selectedImageIds={selectedImageIds}
-                onToggleSelect={handleImageSelection}
+        <FocusModal.Body className="flex h-full overflow-hidden">
+          <div className="flex w-full h-full flex-col-reverse lg:grid lg:grid-cols-[1fr_560px]">
+            <CategoryImageGallery
+              existingImages={existingImages}
+              uploadedFiles={uploadedFiles}
+              imagesToDelete={imagesToDelete}
+              currentThumbnailId={currentThumbnailId}
+              selectedImageIds={selectedImageIds}
+              onToggleSelect={handleImageSelection}
+            />
+            <CategoryImageUpload
+              fileInputRef={fileInputRef}
+              isUploading={uploadFilesMutation.isPending}
+              onFileSelect={handleUploadFile}
+            />
+          </div>
+          <CommandBar open={selectedImageIds.size > 0}>
+            <CommandBar.Bar>
+              <CommandBar.Value>
+                {selectedImageIds.size} selected
+              </CommandBar.Value>
+              <CommandBar.Seperator />
+              <CommandBar.Command
+                action={handleSetAsThumbnail}
+                label="Set as thumbnail"
+                shortcut="t"
+                disabled={selectedImageIds.size !== 1}
               />
-              <CategoryImageUpload
-                fileInputRef={fileInputRef}
-                isUploading={uploadFilesMutation.isPending}
-                onFileSelect={handleUploadFile}
+              <CommandBar.Seperator />
+              <CommandBar.Command
+                action={handleDelete}
+                label="Delete"
+                shortcut="d"
               />
-            </div>
-          </FocusModal.Body>
-          <FocusModal.Footer>
-            <div className="flex items-center justify-end gap-x-2">
-              <FocusModal.Close asChild>
-                <Button size="small" variant="secondary">
-                  Cancel
-                </Button>
-              </FocusModal.Close>
-              <Button
-                size="small"
-                onClick={handleSave}
-                isLoading={isSaving}
-              >
-                Save
+            </CommandBar.Bar>
+          </CommandBar>
+        </FocusModal.Body>
+        <FocusModal.Footer>
+          <div className="flex items-center justify-end gap-x-2">
+            <FocusModal.Close asChild>
+              <Button size="small" variant="secondary">
+                Cancel
               </Button>
-            </div>
-          </FocusModal.Footer>
-        </FocusModal.Content>
-      </FocusModal>
-    </>
+            </FocusModal.Close>
+            <Button
+              size="small"
+              onClick={handleSave}
+              isLoading={isSaving}
+            >
+              Save
+            </Button>
+          </div>
+        </FocusModal.Footer>
+      </FocusModal.Content>
+    </FocusModal>
   )
 }
 
