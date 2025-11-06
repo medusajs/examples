@@ -356,35 +356,35 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@medusajs/icons@2.11.2":
-  version "2.11.2"
-  resolved "https://registry.yarnpkg.com/@medusajs/icons/-/icons-2.11.2.tgz#826549895b10408d1b2d749977cdc068595255de"
-  integrity sha512-czNfFyxNrZa7uKrWh6WIAz04ZEG6baTVdxM9YZ9HI5saofjizJwbVa4Tswc7Zn0LZBZDLvFxRCLQKNw6vqzGhg==
+"@medusajs/icons@2.11.3":
+  version "2.11.3"
+  resolved "https://registry.yarnpkg.com/@medusajs/icons/-/icons-2.11.3.tgz#04584c5cbbaef2b368a2cffc25c34b8e83b36c74"
+  integrity sha512-WV+ZsjZiY3jQVYejPuyC09MbAb15eisQ+bY63GjGvYs4rirjIPxSH2Y6XADWDYQTdKoj3Ffy7c04hL9FgBQV6w==
 
 "@medusajs/icons@2.8.0":
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/@medusajs/icons/-/icons-2.8.0.tgz#2ee2cf39d31b2f3239dd409a1362b6a53415a49a"
   integrity sha512-o+0nbPCLPT9oyMbw1jSGH/hPui/2DpsYXiKZxYgyVvtpxq985WsLw9nxsyEK5/fspy+2jvthqn1jsRtgp5ZSIw==
 
-"@medusajs/js-sdk@2.11.2":
-  version "2.11.2"
-  resolved "https://registry.yarnpkg.com/@medusajs/js-sdk/-/js-sdk-2.11.2.tgz#cccded31698eb4f79aaa5c96d86eabe02dbf608b"
-  integrity sha512-UqmIV7w/nYTpRfMlaaDvNv8Flej75XDEtkXKlqJR5rUnQgUpk7Kto0wIxNuhZ3eBlRojHeNQ9G4nZiiuRt+8JQ==
+"@medusajs/js-sdk@2.11.3":
+  version "2.11.3"
+  resolved "https://registry.yarnpkg.com/@medusajs/js-sdk/-/js-sdk-2.11.3.tgz#09c98cc89f0e7e1d237c532847a70bfacda2cc55"
+  integrity sha512-AbIwi5BhIqmD4VS+T5WhA/VvMj2W7iuHVMV7TgPU+nIyioOCiz++M1ky+YxUthgzyf0TgwGbHKRVjawB9NAO1g==
   dependencies:
     fetch-event-stream "^0.1.5"
     qs "^6.12.1"
 
-"@medusajs/types@2.11.2":
-  version "2.11.2"
-  resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-2.11.2.tgz#840a13b05953d216cb43b12c1be0d47d9b9683c8"
-  integrity sha512-c9wrW8Abyia263MFvZAsZOc+ew5YoJm61QzA6BAbiicbWAg+A4NeOsLWmAwiEbP46kly/B6Fzi/AMuBLNRtK4A==
+"@medusajs/types@2.11.3":
+  version "2.11.3"
+  resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-2.11.3.tgz#4714bb911ad2b6c3e928a1838ce2534a9cf1a789"
+  integrity sha512-vtPvgUAyNqqSZeHeMA5KuYt0h2YIL5xtOKSc0/lwgThtZq2uM7hU85Jj8G80T/DrUvPGqYQHFqeaSzerm97F3g==
   dependencies:
     bignumber.js "^9.1.2"
 
-"@medusajs/ui-preset@2.11.2":
-  version "2.11.2"
-  resolved "https://registry.yarnpkg.com/@medusajs/ui-preset/-/ui-preset-2.11.2.tgz#f6b2a4c95258c99c1fe87e846843bbe42f8ef014"
-  integrity sha512-kKTG585M/7ZLjUxxEHPSFgQYpc4VDUFvWGXguvM9IIyVIiiYDOIOzwDCxRcKPZ0R4Bc685Gtlwv5uBDs1N161g==
+"@medusajs/ui-preset@2.11.3":
+  version "2.11.3"
+  resolved "https://registry.yarnpkg.com/@medusajs/ui-preset/-/ui-preset-2.11.3.tgz#8fb4853a16f5f08eaecda31ffd89edf7ed45b0ad"
+  integrity sha512-jixQAzy2BsidBfTZHnMvt17xx4kr6jLvbxop4gJA4rZou7eZIYbu7x/77vP+K9/8bVMVIJ6lCCwf+OTRrjx6Fw==
   dependencies:
     "@tailwindcss/forms" "^0.5.3"
     tailwindcss-animate "^1.0.6"

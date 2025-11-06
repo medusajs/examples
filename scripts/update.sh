@@ -11,7 +11,8 @@ NC='\033[0m' # No Color
 SKIP_DIRS=(
     "express-checkout-storefront",
     "sanity-integration",
-    "stripe-saved-payment"
+    "stripe-saved-payment",
+    "react-native-store"
 )
 
 # Directories that need integration tests
