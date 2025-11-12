@@ -86,9 +86,7 @@ export default function CartScreen() {
         </View>
         <Button
           title="Proceed to Checkout"
-          onPress={() =>  {
-            // TODO navigate to checkout screen
-          }}
+          onPress={() => router.push("/checkout")}
           loading={loading}
         />
       </View>
