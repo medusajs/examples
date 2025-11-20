@@ -48,6 +48,7 @@ To learn how to use an example, open its `README.md` file. You'll find the detai
 | [Segment Integration](./segment-integration/README.md) | Integration | Integrate Segment to track events. |
 | [Sentry Integration](./sentry-integration/) | Integration | Integrate Sentry to monitor performance and track errors. |
 | [Slack Integration](./slack-integration/README.md) | Integration | Integrate Slack to send order notifications. |
+| [Strapi Integration](./strapi-integration/README.md) | Integration | Integrate Strapi for rich CMS features. |
 | [ShipStation Integration](./shipstation-integration/README.md) | Integration | Integrate ShipStation as a fulfillment provider. |
 | [Stripe Saved Payment Methods](./stripe-saved-payment/README.md) | Custom Feature | Implement saved payment methods with Stripe. |
 | [Subscriptions](./subscription/README.md) | Custom Feature | Sell subscription-based purchases. |
