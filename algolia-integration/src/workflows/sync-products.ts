@@ -1,6 +1,7 @@
-import { createWorkflow, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
+import { createWorkflow, transform, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
 import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
 import { syncProductsStep, SyncProductsStepInput } from "./steps/sync-products"
+import { ProductStatus } from "@medusajs/framework/utils"
 
 type SyncProductsWorkflowInput = {
   filters?: Record<string, unknown>
@@ -11,6 +12,14 @@ type SyncProductsWorkflowInput = {
 export const syncProductsWorkflow = createWorkflow(
   "sync-products",
   ({ filters, limit, offset }: SyncProductsWorkflowInput) => {
+    const productFilters = transform({
+      filters
+    }, (data) => {
+      return {
+        status: ProductStatus.PUBLISHED,
+        ...data.filters
+      }
+    })
     const { data, metadata } = useQueryGraphStep({
       entity: "product",
       fields: [
@@ -29,10 +38,7 @@ export const syncProductsWorkflow = createWorkflow(
         take: limit,
         skip: offset
       },
-      filters: {
-        status: "published",
-        ...filters
-      }
+      filters: productFilters,
     })
 
     syncProductsStep({

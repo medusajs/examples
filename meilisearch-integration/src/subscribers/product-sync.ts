@@ -13,6 +13,7 @@ export default async function handleProductEvents({
       input: {
         filters: {
           id: data.id,
+          status: "published",
         },
       },
     })
