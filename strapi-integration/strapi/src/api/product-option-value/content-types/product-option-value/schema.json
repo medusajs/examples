@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "product_option_values",
+  "info": {
+    "singularName": "product-option-value",
+    "pluralName": "product-option-values",
+    "displayName": "Product Option Value",
+    "description": "Product option values from Medusa"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "medusaId": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "value": {
+      "type": "string",
+      "required": true
+    },
+    "locale": {
+      "type": "string",
+      "default": "en"
+    },
+    "option": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product-option.product-option",
+      "inversedBy": "values"
+    },
+    "variants": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::product-variant.product-variant",
+      "mappedBy": "option_values"
+    }
+  }
+}
+

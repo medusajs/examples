@@ -54,7 +54,7 @@ yarn seed # or npm run seed
 yarn dev # or npm run dev
 ```
 
-Then, start the Next.js Starter Storefront with the `dev` command. Try to create a product in Medusa. The product will be synced to Payload.
+Then, start the Next.js Starter Storefront with the `dev` command. Try to create a product in Medusa.
 
 ### Copy into Existing Medusa Application
 
