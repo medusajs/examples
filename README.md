@@ -17,6 +17,7 @@ To learn how to use an example, open its `README.md` file. You'll find the detai
 | [Bundled Products](./bundled-products/README.md) | Custom Feature | Sell bundled products in your Medusa application. |
 | [Category Images](./category-images/README.md) | Custom Feature | Associate images like thumbnails and banners with categories. |
 | [Custom Item Price](./custom-item-price/README.md) | Custom Feature | Add items with custom prices from third-party service to the cart. |
+| [Customer Tiers](./customer-tiers/README.md) | Custom Feature | Add customers to tiers based on their purchase and apply promotions automatically. |
 | [Digital Products](./digital-product/README.md) | Custom Feature | Sell digital products in your Medusa application. |
 | [Express Checkout Storefront](./express-checkout-storefront/README.md) | Storefront | Use a storefront with an express checkout experience. |
 | [First-Purchase Discounts](./first-purchase-discount/) | Custom Feature | Apply a discount on a customer's first purchase. |
