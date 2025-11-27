@@ -27,8 +27,8 @@
     "@medusajs/cli": "2.11.3",
     "@medusajs/framework": "2.11.3",
     "@medusajs/medusa": "2.11.3",
-    "@react-email/components": "^0.0.36",
-    "resend": "^4.2.0"
+    "@react-email/components": "1.0.1",
+    "resend": "6.5.2"
   },
   "devDependencies": {
     "@medusajs/test-utils": "2.11.3",
