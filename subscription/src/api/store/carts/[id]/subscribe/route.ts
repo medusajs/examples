@@ -48,6 +48,6 @@ export const POST = async (
 
   res.json({
     type: "order",
-    ...result
+    order: result.order
   })
 }

@@ -1,10 +1,12 @@
 import { createWorkflow, transform, when, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
 import { 
+  acquireLockStep,
   addShippingMethodToCartWorkflow, 
   createCartWorkflow, 
   CreateCartWorkflowInput, 
   createCustomersWorkflow, 
   listShippingOptionsForCartWithPricingWorkflow, 
+  releaseLockStep, 
   useQueryGraphStep
 } from "@medusajs/medusa/core-flows"
 import { prepareCheckoutSessionDataWorkflow } from "./prepare-checkout-session-data"
@@ -166,8 +168,16 @@ export const createCheckoutSessionWorkflow = createWorkflow(
           }]
         }
       })
+      acquireLockStep({
+        key: createdCart.id,
+        timeout: 2,
+        ttl: 10,
+      })
       addShippingMethodToCartWorkflow.runAsStep({
         input: shippingMethodData
+      })
+      releaseLockStep({
+        key: createdCart.id,
       })
     })
 

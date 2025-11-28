@@ -1,7 +1,8 @@
 import { 
   createWorkflow, 
   WorkflowResponse, 
-  transform
+  transform,
+  when
 } from "@medusajs/framework/workflows-sdk"
 import { 
   acquireLockStep,
@@ -69,17 +70,11 @@ export const createRentalsWorkflow = createWorkflow(
       return rentalItemsList
     })
 
-    const lockKey = transform({
-      cart_id
-    }, (data) => `cart_rentals_creation_${data.cart_id}`)
-
     acquireLockStep({
-      key: lockKey,
+      key: cart_id,
+      timeout: 2,
+      ttl: 10,
     })
-
-    validateRentalStep({ 
-      rental_items: rentalItems
-    } as unknown as ValidateRentalInput)
 
     const order = completeCartWorkflow.runAsStep({
       input: { id: cart_id },
@@ -99,12 +94,30 @@ export const createRentalsWorkflow = createWorkflow(
       options: { throwIfKeyNotFound: true },
     }).config({ name: "retrieve-order" })
 
-    createRentalsForOrderStep({
-      order: orders[0],
-    } as unknown as CreateRentalsForOrderInput)
+    const { data: rentals } = useQueryGraphStep({
+      entity: "rental",
+      fields: [
+        "id",
+      ],
+      filters: { order_id: order.id },
+    }).config({ name: "retrieve-rentals" })
+
+    when(
+      { rentals, rentalItems }, 
+      (data) => data.rentals.length === 0 && data.rentalItems.length > 0
+    )
+    .then(() => {
+      validateRentalStep({ 
+        rental_items: rentalItems,
+        order_id: order.id,
+      } as unknown as ValidateRentalInput)
+      createRentalsForOrderStep({
+        order: orders[0],
+      } as unknown as CreateRentalsForOrderInput)
+    })
 
     releaseLockStep({
-      key: lockKey,
+      key: cart_id,
     })
 
     // @ts-ignore

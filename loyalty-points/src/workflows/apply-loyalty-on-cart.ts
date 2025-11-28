@@ -4,10 +4,12 @@ import {
   WorkflowResponse,
 } from "@medusajs/framework/workflows-sdk"
 import { 
+  acquireLockStep,
   createPromotionsStep, 
+  releaseLockStep,
   updateCartPromotionsWorkflow, 
   updateCartsStep, 
-  useQueryGraphStep
+  useQueryGraphStep,
 } from "@medusajs/medusa/core-flows"
 import { 
   validateCustomerExistsStep, 
@@ -59,6 +61,12 @@ export const applyLoyaltyOnCartWorkflow = createWorkflow(
     getCartLoyaltyPromoStep({
       cart: carts[0] as unknown as CartData,
       throwErrorOn: "found"
+    })
+
+    acquireLockStep({
+      key: input.cart_id,
+      timeout: 2,
+      ttl: 10,
     })
 
     const amount = getCartLoyaltyPromoAmountStep({
@@ -144,6 +152,10 @@ export const applyLoyaltyOnCartWorkflow = createWorkflow(
       fields,
       filters: { id: input.cart_id },
     }).config({ name: "retrieve-cart" })
+
+    releaseLockStep({
+      key: input.cart_id,
+    })
 
     return new WorkflowResponse(updatedCarts[0])
   }

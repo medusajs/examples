@@ -3,7 +3,12 @@ import {
   WorkflowResponse,
   transform
 } from "@medusajs/framework/workflows-sdk"
-import { deleteLineItemsWorkflow, useQueryGraphStep } from "@medusajs/medusa/core-flows"
+import { 
+  deleteLineItemsWorkflow, 
+  useQueryGraphStep, 
+  acquireLockStep, 
+  releaseLockStep
+} from "@medusajs/medusa/core-flows"
 
 type RemoveProductBuilderFromCartInput = {
   cart_id: string
@@ -23,6 +28,12 @@ export const removeProductBuilderFromCartWorkflow = createWorkflow(
       options: {
         throwIfKeyNotFound: true,
       },
+    })
+
+    acquireLockStep({
+      key: input.cart_id,
+      timeout: 2,
+      ttl: 10,
     })
 
     // Step 2: Remove line item and its addons
@@ -69,6 +80,10 @@ export const removeProductBuilderFromCartWorkflow = createWorkflow(
         throwIfKeyNotFound: true,
       },
     }).config({ name: "get-updated-cart" })
+
+    releaseLockStep({
+      key: input.cart_id,
+    })
 
     return new WorkflowResponse({
       cart: updatedCart[0],

@@ -4,9 +4,17 @@ import {
   transform,
   when 
 } from "@medusajs/framework/workflows-sdk"
-import { addToCartWorkflow, useQueryGraphStep } from "@medusajs/medusa/core-flows"
+import { 
+  acquireLockStep, 
+  addToCartWorkflow, 
+  releaseLockStep, 
+  useQueryGraphStep
+} from "@medusajs/medusa/core-flows"
 import { QueryContext } from "@medusajs/framework/utils"
-import { ValidateRentalCartItemInput, validateRentalCartItemStep } from "./steps/validate-rental-cart-item"
+import { 
+  ValidateRentalCartItemInput, 
+  validateRentalCartItemStep
+} from "./steps/validate-rental-cart-item"
 
 type AddToCartWorkflowInput = {
   cart_id: string
@@ -25,7 +33,7 @@ export const addToCartWithRentalWorkflow = createWorkflow(
       options: {
         throwIfKeyNotFound: true,
       },
-    }).config({ name: "retrieve-cart" })
+    })
 
     const { data: variants } = useQueryGraphStep({
       entity: "product_variant",
@@ -59,6 +67,12 @@ export const addToCartWithRentalWorkflow = createWorkflow(
         rental_configuration: variants[0].product?.rental_configuration || null,
         existing_cart_items: carts[0].items,
       } as unknown as ValidateRentalCartItemInput)
+    })
+
+    acquireLockStep({
+      key: input.cart_id,
+      timeout: 2,
+      ttl: 10,
     })
 
     const itemToAdd = transform({
@@ -98,6 +112,10 @@ export const addToCartWithRentalWorkflow = createWorkflow(
         id: input.cart_id,
       },
     }).config({ name: "refetch-cart" })
+
+    releaseLockStep({
+      key: input.cart_id,
+    })
 
     return new WorkflowResponse({
       cart: updatedCart[0],

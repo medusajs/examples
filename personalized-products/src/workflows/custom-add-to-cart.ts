@@ -1,5 +1,10 @@
 import { createWorkflow, transform, WorkflowResponse } from "@medusajs/framework/workflows-sdk";
-import { addToCartWorkflow, useQueryGraphStep } from "@medusajs/medusa/core-flows";
+import { 
+  addToCartWorkflow, 
+  acquireLockStep, 
+  releaseLockStep, 
+  useQueryGraphStep
+} from "@medusajs/medusa/core-flows";
 import { getCustomPriceWorkflow } from "./get-custom-price";
 
 type CustomAddToCartWorkflowInput = {
@@ -31,6 +36,12 @@ export const customAddToCartWorkflow = createWorkflow(
         metadata: input.item.metadata,
       }
     })
+    
+    acquireLockStep({
+      key: input.cart_id,
+      timeout: 2,
+      ttl: 10,
+    })
 
     const itemData = transform({
       item: input.item,
@@ -54,11 +65,15 @@ export const customAddToCartWorkflow = createWorkflow(
     // refetch the updated cart
     const { data: updatedCart } = useQueryGraphStep({
       entity: "cart",
-      fields: ["*", "items.*",],
+      fields: ["*", "items.*"],
       filters: {
         id: input.cart_id,
       },
     }).config({ name: "refetch-cart" })
+
+    releaseLockStep({
+      key: input.cart_id,
+    })
 
     return new WorkflowResponse({
       cart: updatedCart[0],

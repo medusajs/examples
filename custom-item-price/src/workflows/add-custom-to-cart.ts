@@ -1,5 +1,5 @@
 import { createWorkflow, transform, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
-import { addToCartWorkflow, useQueryGraphStep } from "@medusajs/medusa/core-flows"
+import { acquireLockStep, addToCartWorkflow, releaseLockStep, useQueryGraphStep } from "@medusajs/medusa/core-flows"
 import { getVariantMetalPricesStep, GetVariantMetalPricesStepInput } from "./steps/get-variant-metal-prices"
 import { QueryContext } from "@medusajs/framework/utils"
 
@@ -19,6 +19,9 @@ export const addCustomToCartWorkflow = createWorkflow(
       entity: "cart",
       filters: { id: cart_id },
       fields: ["id", "currency_code"],
+      options: {
+        throwIfKeyNotFound: true
+      }
     })
 
     const { data: variants } = useQueryGraphStep({
@@ -58,6 +61,12 @@ export const addCustomToCartWorkflow = createWorkflow(
       }]
     })
 
+    acquireLockStep({
+      key: cart_id,
+      timeout: 2,
+      ttl: 10,
+    })
+
     addToCartWorkflow.runAsStep({
       input: {
         items: itemToAdd,
@@ -70,6 +79,10 @@ export const addCustomToCartWorkflow = createWorkflow(
       filters: { id: cart_id },
       fields: ["id", "items.*"],
     }).config({ name: "refetch-cart" })
+
+    releaseLockStep({
+      key: cart_id,
+    })
 
     return new WorkflowResponse({
       cart: updatedCarts[0]

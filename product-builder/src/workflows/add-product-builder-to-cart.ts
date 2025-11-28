@@ -4,8 +4,16 @@ import {
   transform,
   when
 } from "@medusajs/framework/workflows-sdk"
-import { addToCartWorkflow, updateLineItemInCartWorkflow, useQueryGraphStep } from "@medusajs/medusa/core-flows"
-import { validateProductBuilderConfigurationStep } from "./steps/validate-product-builder-configuration"
+import { 
+  addToCartWorkflow, 
+  updateLineItemInCartWorkflow, 
+  useQueryGraphStep, 
+  acquireLockStep, 
+  releaseLockStep
+} from "@medusajs/medusa/core-flows"
+import { 
+  validateProductBuilderConfigurationStep
+} from "./steps/validate-product-builder-configuration"
 
 type AddProductBuilderToCartInput = {
   cart_id: string
@@ -26,6 +34,12 @@ export const addProductBuilderToCartWorkflow = createWorkflow(
       custom_field_values: input.custom_field_values,
       complementary_product_variants: input.complementary_product_variants,
       addon_variants: input.addon_variants
+    })
+
+    acquireLockStep({
+      key: input.cart_id,
+      timeout: 2,
+      ttl: 10,
     })
 
     // Step 2: Add main product to cart
@@ -156,6 +170,10 @@ export const addProductBuilderToCartWorkflow = createWorkflow(
         throwIfKeyNotFound: true,
       },
     }).config({ name: "get-final-cart" })
+
+    releaseLockStep({
+      key: input.cart_id,
+    })
 
     return new WorkflowResponse({
       cart: updatedCart[0]

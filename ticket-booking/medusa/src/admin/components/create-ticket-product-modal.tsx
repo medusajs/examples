@@ -160,7 +160,7 @@ export const CreateTicketProductModal = ({
         
         return price
       }).filter(price => price.amount > 0) // Only include prices > 0
-    }))
+    })).filter(variant => variant.seat_count > 0)
 
     setIsLoading(true)
     try {

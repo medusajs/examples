@@ -1,13 +1,15 @@
 import {
   createWorkflow,
   transform,
-  WorkflowResponse
+  WorkflowResponse,
 } from "@medusajs/framework/workflows-sdk"
 import {
+  acquireLockStep,
+  releaseLockStep,
   useQueryGraphStep,
   updateCartPromotionsWorkflow,
   updateCartsStep,
-  updatePromotionsStep
+  updatePromotionsStep,
 } from "@medusajs/medusa/core-flows"
 import { getCartLoyaltyPromoStep } from "./steps/get-cart-loyalty-promo"
 import { PromotionActions } from "@medusajs/framework/utils"
@@ -26,7 +28,7 @@ const fields = [
   "promotions.rules.values.*",
   "currency_code",
   "total",
-  "metadata"
+  "metadata",
 ]
 
 export const removeLoyaltyFromCartWorkflow = createWorkflow(
@@ -36,46 +38,55 @@ export const removeLoyaltyFromCartWorkflow = createWorkflow(
       entity: "cart",
       fields,
       filters: {
-        id: input.cart_id
+        id: input.cart_id,
+      },
+      options: {
+        throwIfKeyNotFound: true
       }
     })
 
     const loyaltyPromo = getCartLoyaltyPromoStep({
       cart: carts[0] as unknown as CartData,
-      throwErrorOn: "not-found"
+      throwErrorOn: "not-found",
+    })
+
+    acquireLockStep({
+      key: input.cart_id,
+      timeout: 2,
+      ttl: 10,
     })
 
     updateCartPromotionsWorkflow.runAsStep({
       input: {
         cart_id: input.cart_id,
         promo_codes: [loyaltyPromo.code!],
-        action: PromotionActions.REMOVE
-      }
+        action: PromotionActions.REMOVE,
+      },
     })
 
     const newMetadata = transform({
-      carts
+      carts,
     }, (data) => {
       const { loyalty_promo_id, ...rest } = data.carts[0].metadata || {}
 
       return {
         ...rest,
-        loyalty_promo_id: null
+        loyalty_promo_id: null,
       }
     })
 
     updateCartsStep([
       {
         id: input.cart_id,
-        metadata: newMetadata
-      }
+        metadata: newMetadata,
+      },
     ])
 
     updatePromotionsStep([
       {
         id: loyaltyPromo.id,
-        status: "inactive"
-      }
+        status: "inactive",
+      },
     ])
 
     // retrieve cart with updated promotions
@@ -84,6 +95,10 @@ export const removeLoyaltyFromCartWorkflow = createWorkflow(
       fields,
       filters: { id: input.cart_id },
     }).config({ name: "retrieve-cart" })
+
+    releaseLockStep({
+      key: input.cart_id,
+    })
 
     return new WorkflowResponse(updatedCarts[0])
   }

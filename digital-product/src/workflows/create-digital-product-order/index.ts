@@ -9,7 +9,9 @@ import {
   useQueryGraphStep,
   createRemoteLinkStep,
   createOrderFulfillmentWorkflow,
-  emitEventStep
+  emitEventStep,
+  acquireLockStep,
+  releaseLockStep
 } from "@medusajs/medusa/core-flows"
 import {
   Modules
@@ -18,6 +20,7 @@ import createDigitalProductOrderStep, {
   CreateDigitalProductOrderStepInput
 } from "./steps/create-digital-product-order"
 import { DIGITAL_PRODUCT_MODULE } from "../../modules/digital-product"
+import digitalProductOrderOrderLink from "../../links/digital-product-order";
 
 type WorkflowInput = {
   cart_id: string
@@ -26,6 +29,11 @@ type WorkflowInput = {
 const createDigitalProductOrderWorkflow = createWorkflow(
   "create-digital-product-order",
   (input: WorkflowInput) => {
+    acquireLockStep({
+      key: input.cart_id,
+      timeout: 30,
+      ttl: 120,
+    });
     const { id } = completeCartWorkflow.runAsStep({
       input: {
         id: input.cart_id
@@ -49,17 +57,33 @@ const createDigitalProductOrderWorkflow = createWorkflow(
       }
     })
 
-    const itemsWithDigitalProducts = transform({
-      orders
-    },
-    (data) => {
-      return data.orders[0].items?.filter((item) => item?.variant?.digital_product !== undefined)
-    }
-    )
+    const { data: existingLinks } = useQueryGraphStep({
+      entity: digitalProductOrderOrderLink.entryPoint,
+      fields: ["digital_product_order.id"],
+      filters: { order_id: id },
+    }).config({ name: "retrieve-existing-links" });
 
-    const digital_product_order = when("create-digital-product-order-condition", itemsWithDigitalProducts, (itemsWithDigitalProducts) => {
-      return !!itemsWithDigitalProducts?.length
-    })
+    const itemsWithDigitalProducts = transform(
+      {
+        orders,
+      },
+      (data) => {
+        return data.orders[0].items?.filter(
+          (item) => item?.variant?.digital_product !== undefined
+        );
+      }
+    );
+
+    const digital_product_order = when(
+      "create-digital-product-order-condition",
+      { itemsWithDigitalProducts, existingLinks },
+      (data) => {
+        return (
+          !!data.itemsWithDigitalProducts?.length &&
+          data.existingLinks.length === 0
+        );
+      }
+    )
     .then(() => {
       const { 
         digital_product_order,
@@ -98,6 +122,10 @@ const createDigitalProductOrderWorkflow = createWorkflow(
       })
 
       return digital_product_order
+    })
+
+    releaseLockStep({
+      key: input.cart_id,
     })
 
     return new WorkflowResponse({

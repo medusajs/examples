@@ -6,6 +6,7 @@ import { InferTypeOf } from "@medusajs/framework/types"
 import { RentalConfiguration } from "../../modules/rental/models/rental-configuration"
 import hasCartOverlap from "../../utils/has-cart-overlap"
 import validateRentalDates from "../../utils/validate-rental-dates"
+import { cancelOrderWorkflow } from "@medusajs/medusa/core-flows"
 
 export type ValidateRentalInput = {
   rental_items: {
@@ -17,11 +18,12 @@ export type ValidateRentalInput = {
     rental_end_date: Date
     rental_days: number
   }[]
+  order_id: string
 }
 
 export const validateRentalStep = createStep(
   "validate-rental",
-  async ({ rental_items }: ValidateRentalInput, { container }) => {
+  async ({ rental_items, order_id }: ValidateRentalInput, { container }) => {
     const rentalModuleService: RentalModuleService = container.resolve(RENTAL_MODULE)
 
     for (let i = 0; i < rental_items.length; i++) {
@@ -105,7 +107,18 @@ export const validateRentalStep = createStep(
       }
     }
 
-    return new StepResponse({ validated: true })
+    return new StepResponse({ validated: true }, order_id)
+  },
+  async (order_id, { container, context }) => {
+    if (!order_id) return
+
+    cancelOrderWorkflow(container).run({
+      input: {
+        order_id,
+      },
+      context,
+      container,
+    })
   }
 )
 

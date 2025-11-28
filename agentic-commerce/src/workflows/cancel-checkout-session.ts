@@ -1,6 +1,6 @@
 import { createWorkflow, transform, when, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
 import { validateCartCancelationStep, ValidateCartCancelationStepInput } from "./steps/validate-cart-cancelation"
-import { updateCartWorkflow, useQueryGraphStep } from "@medusajs/medusa/core-flows"
+import { acquireLockStep, releaseLockStep, updateCartWorkflow, useQueryGraphStep } from "@medusajs/medusa/core-flows"
 import { cancelPaymentSessionsStep } from "./steps/cancel-payment-sessions"
 import { prepareCheckoutSessionDataWorkflow } from "./prepare-checkout-session-data"
 
@@ -30,6 +30,12 @@ export const cancelCheckoutSessionWorkflow = createWorkflow(
     validateCartCancelationStep({
       cart: carts[0],
     } as unknown as ValidateCartCancelationStepInput)
+
+    acquireLockStep({
+      key: input.cart_id,
+      timeout: 2,
+      ttl: 10,
+    })
     
     when({
       carts
@@ -58,6 +64,10 @@ export const cancelCheckoutSessionWorkflow = createWorkflow(
       input: {
         cart_id: carts[0].id,
       }
+    })
+
+    releaseLockStep({
+      key: input.cart_id,
     })
 
     return new WorkflowResponse(responseData)

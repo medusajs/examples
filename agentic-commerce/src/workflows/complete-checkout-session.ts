@@ -5,10 +5,12 @@ import {
   WorkflowResponse
 } from "@medusajs/framework/workflows-sdk"
 import { 
+  acquireLockStep,
   completeCartWorkflow, 
   createPaymentCollectionForCartWorkflow, 
   createPaymentSessionsWorkflow, 
   refreshPaymentCollectionForCartWorkflow, 
+  releaseLockStep, 
   updateCartWorkflow, 
   useQueryGraphStep
 } from "@medusajs/medusa/core-flows"
@@ -53,6 +55,11 @@ export const completeCheckoutSessionWorkflow = createWorkflow(
       options: {
         throwIfKeyNotFound: true,
       },
+    })
+    acquireLockStep({
+      key: input.cart_id,
+      timeout: 2,
+      ttl: 10,
     })
 
     when(input, (input) => !!input.payment_data.billing_address)
@@ -184,6 +191,10 @@ export const completeCheckoutSessionWorkflow = createWorkflow(
       invalidPaymentResponse
     }, (data) => {
       return data.completeCartResponse || data.invalidPaymentResponse
+    })
+
+    releaseLockStep({
+      key: input.cart_id,
     })
 
     return new WorkflowResponse(responseData)

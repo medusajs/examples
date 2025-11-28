@@ -1,8 +1,16 @@
-import { createWorkflow, transform, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
-import { completeCartWorkflow, createRemoteLinkStep, useQueryGraphStep } from "@medusajs/medusa/core-flows"
+import { createWorkflow, transform, when, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
+import { 
+  completeCartWorkflow, 
+  createRemoteLinkStep, 
+  acquireLockStep, 
+  releaseLockStep, 
+  useQueryGraphStep
+} from "@medusajs/medusa/core-flows"
 import { createTicketPurchasesStep, CreateTicketPurchasesStepInput } from "./steps/create-ticket-purchases"
 import { TICKET_BOOKING_MODULE } from "../modules/ticket-booking"
 import { Modules } from "@medusajs/framework/utils"
+import ticketPurchaseOrderLink from "../links/ticket-purchase-order"
+import { validateTicketOrderStep, ValidateTicketOrderStepInput } from "./steps/validate-ticket-order"
 
 export type CompleteCartWithTicketsWorkflowInput = {
   cart_id: string
@@ -11,7 +19,11 @@ export type CompleteCartWithTicketsWorkflowInput = {
 export const completeCartWithTicketsWorkflow = createWorkflow(
   "complete-cart-with-tickets",
   (input: CompleteCartWithTicketsWorkflowInput) => {
-    // Step 1: Complete the cart using Medusa's workflow
+    acquireLockStep({
+      key: input.cart_id,
+      timeout: 2,
+      ttl: 10,
+    })
     const order = completeCartWorkflow.runAsStep({
       input: {
         id: input.cart_id
@@ -27,7 +39,9 @@ export const completeCartWithTicketsWorkflow = createWorkflow(
         "items.variant.options.option.*",
         "items.variant.ticket_product_variant.*",
         "items.variant.ticket_product_variant.ticket_product.*",
-        "items.metadata"
+        "items.variant.ticket_product_variant.purchases.*",
+        "items.metadata",
+        "items.quantity"
       ],
       filters: {
         id: input.cart_id
@@ -37,31 +51,40 @@ export const completeCartWithTicketsWorkflow = createWorkflow(
       }
     })
 
-    // Step 2: Create ticket purchases for ticket products
-    const ticketPurchases = createTicketPurchasesStep({
-      order_id: order.id,
-      cart: carts[0]
-    } as unknown as CreateTicketPurchasesStepInput)
+    const { data: existingLinks } = useQueryGraphStep({
+      entity: ticketPurchaseOrderLink.entryPoint,
+      fields: ["ticket_purchase.id"],
+      filters: { order_id: order.id },
+    }).config({ name: "retrieve-existing-links" })
 
-    // Step 3: Link ticket purchases to the order
-    const linkData = transform({
-      order,
-      ticketPurchases
-    }, (data) => {
-      return data.ticketPurchases.map((purchase) => ({
-        [TICKET_BOOKING_MODULE]: {
-          ticket_purchase_id: purchase.id
-        },
-        [Modules.ORDER]: {
-          order_id: data.order.id
-        }
-      }))
+    when({ existingLinks }, (data) => data.existingLinks.length === 0)
+    .then(() => {
+      validateTicketOrderStep({
+        items: carts[0].items,
+        order_id: order.id
+      } as unknown as ValidateTicketOrderStepInput)
+      const ticketPurchases = createTicketPurchasesStep({
+        order_id: order.id,
+        cart: carts[0]
+      } as unknown as CreateTicketPurchasesStepInput)
+  
+      const linkData = transform({
+        order,
+        ticketPurchases
+      }, (data) => {
+        return data.ticketPurchases.map((purchase) => ({
+          [TICKET_BOOKING_MODULE]: {
+            ticket_purchase_id: purchase.id
+          },
+          [Modules.ORDER]: {
+            order_id: data.order.id
+          }
+        }))
+      })
+  
+      createRemoteLinkStep(linkData)
     })
 
-    // Step 4: Create remote links
-    createRemoteLinkStep(linkData)
-
-    // Step 5: Fetch order details
     const { data: refetchedOrder } = useQueryGraphStep({
       entity: "order",
       fields: [
@@ -84,6 +107,10 @@ export const completeCartWithTicketsWorkflow = createWorkflow(
         id: order.id
       }
     }).config({ name: "refetch-order" })
+
+    releaseLockStep({
+      key: input.cart_id,
+    })
 
     return new WorkflowResponse({
       order: refetchedOrder[0],

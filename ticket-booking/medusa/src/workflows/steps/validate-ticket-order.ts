@@ -1,26 +1,30 @@
-import { completeCartWorkflow } from "@medusajs/medusa/core-flows"
 import { MedusaError } from "@medusajs/framework/utils"
+import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
+import { cancelOrderWorkflow } from "@medusajs/medusa/core-flows"
 
-completeCartWorkflow.hooks.validate(
-  async ({ cart }, { container }) => {
-    const query = container.resolve("query")
-
-    const { data: items } = await query.graph({
-      entity: "line_item",
-      fields: ["id", "variant_id", "metadata", "quantity"],
-      filters: {
-        id: cart.items.map((item) => item.id).filter(Boolean) as string[]
+export type ValidateTicketOrderStepInput = {
+  items: {
+    id: string
+    variant_id: string
+    metadata: Record<string, unknown>
+    quantity: number
+    variant?: {
+      id: string
+      product_id: string
+      ticket_product_variant?: {
+        purchases?: {
+          seat_number: string
+          show_date: Date
+        }[]
       }
-    })
-    // Get the product variant to check if it's a ticket product variant
-    const { data: productVariants } = await query.graph({
-      entity: "product_variant",
-      fields: ["id", "product_id", "ticket_product_variant.purchases.*"],
-      filters: {
-        id: items.map((item) => item.variant_id).filter(Boolean) as string[]
-      }
-    })
+    }
+  }[]
+  order_id: string
+}
 
+export const validateTicketOrderStep = createStep(
+  "validate-ticket-order",
+  async ({ items, order_id }: ValidateTicketOrderStepInput, { container }) => {
     // Check for duplicate seats within the cart
     const seatDateCombinations = new Set<string>()
     
@@ -31,14 +35,13 @@ completeCartWorkflow.hooks.validate(
           "You can only purchase one ticket for a seat."
         )
       }
-      const productVariant = productVariants.find((variant) => variant.id === item.variant_id)
 
-      if (!productVariant || !item.metadata?.seat_number) continue
+      if (!item.variant || !item.metadata?.seat_number) continue
 
       if (!item.metadata?.show_date) {
         throw new MedusaError(
           MedusaError.Types.INVALID_DATA, 
-          `Show date is required for seat ${item.metadata?.seat_number} in product ${productVariant.product_id}`
+          `Show date is required for seat ${item.metadata?.seat_number} in product ${item.variant.product_id}`
         )
       }
 
@@ -57,7 +60,7 @@ completeCartWorkflow.hooks.validate(
       seatDateCombinations.add(seatDateKey)
 
       // Check if seat has already been purchased
-      const existingPurchase = productVariant.ticket_product_variant?.purchases.find(
+      const existingPurchase = item.variant.ticket_product_variant?.purchases?.find(
         (purchase) => purchase?.seat_number === item.metadata?.seat_number 
           && purchase?.show_date === item.metadata?.show_date
       )
@@ -69,5 +72,18 @@ completeCartWorkflow.hooks.validate(
         )
       }
     }
+
+    return new StepResponse({ validated: true }, order_id)
+  },
+  async (order_id, { container, context }) => {
+    if (!order_id) return
+
+    cancelOrderWorkflow(container).run({
+      input: {
+        order_id,
+      },
+      context,
+      container,
+    })
   }
 )

@@ -1,6 +1,18 @@
-import { createWorkflow, when, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
-import { completeCartWorkflow, useQueryGraphStep } from "@medusajs/medusa/core-flows"
-import { retrievePreorderItemIdsStep, RetrievePreorderItemIdsStepInput } from "./steps/retrieve-preorder-items"
+import { 
+  createWorkflow, 
+  when, 
+  WorkflowResponse
+} from "@medusajs/framework/workflows-sdk"
+import { 
+  acquireLockStep, 
+  completeCartWorkflow, 
+  useQueryGraphStep, 
+  releaseLockStep
+} from "@medusajs/medusa/core-flows"
+import { 
+  retrievePreorderItemIdsStep, 
+  RetrievePreorderItemIdsStepInput
+} from "./steps/retrieve-preorder-items"
 import { createPreordersStep } from "./steps/create-preorders"
 
 type WorkflowInput = {
@@ -10,9 +22,24 @@ type WorkflowInput = {
 export const completeCartPreorderWorkflow = createWorkflow(
   "complete-cart-preorder",
   (input: WorkflowInput) => {
+    acquireLockStep({
+      key: input.cart_id,
+      timeout: 2,
+      ttl: 10,
+    })
     const { id } = completeCartWorkflow.runAsStep({
       input: {
         id: input.cart_id,
+      }
+    })
+
+    const { data: preorders } = useQueryGraphStep({
+      entity: "preorder",
+      fields: [
+        "id",
+      ],
+      filters: {
+        order_id: id,
       }
     })
 
@@ -25,15 +52,16 @@ export const completeCartPreorderWorkflow = createWorkflow(
       filters: {
         cart_id: input.cart_id,
       }
-    })
+    }).config({ name: "retrieve-line-items" })
 
     const preorderItemIds = retrievePreorderItemIdsStep({
       line_items
     } as unknown as RetrievePreorderItemIdsStepInput)
 
     when({
-      preorderItemIds
-    }, (data) => data.preorderItemIds.length > 0)
+      preorders,
+      preorderItemIds,
+    }, (data) => data.preorders.length === 0 && data.preorderItemIds.length > 0)
     .then(() => {
       createPreordersStep({
         preorder_variant_ids: preorderItemIds,
@@ -58,6 +86,10 @@ export const completeCartPreorderWorkflow = createWorkflow(
       }
     }).config({ name: "retrieve-order" })
 
+    releaseLockStep({
+      key: input.cart_id,
+    })
+    
     return new WorkflowResponse({
       order: orders[0],
       

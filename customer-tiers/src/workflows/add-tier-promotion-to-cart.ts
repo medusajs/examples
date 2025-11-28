@@ -1,10 +1,9 @@
 import {
   createWorkflow,
   WorkflowResponse,
-  transform,
   when,
 } from "@medusajs/framework/workflows-sdk"
-import { updateCartPromotionsWorkflow, useQueryGraphStep } from "@medusajs/medusa/core-flows"
+import { acquireLockStep, releaseLockStep, updateCartPromotionsWorkflow, useQueryGraphStep } from "@medusajs/medusa/core-flows"
 import { PromotionActions } from "@medusajs/framework/utils"
 import { validateTierPromotionStep } from "./steps/validate-tier-promotion"
 
@@ -37,6 +36,11 @@ export const addTierPromotionToCartWorkflow = createWorkflow(
       },
     })
 
+    acquireLockStep({
+      key: input.cart_id,
+      timeout: 2,
+      ttl: 10,
+    })
 
     // Check if customer exists and has tier
     const validationResult = when({ carts }, (data) => !!data.carts[0].customer).then(() => {
@@ -78,6 +82,10 @@ export const addTierPromotionToCartWorkflow = createWorkflow(
           action: PromotionActions.ADD,
         },
       })
+    })
+
+    releaseLockStep({
+      key: input.cart_id,
     })
 
     return new WorkflowResponse(void 0)

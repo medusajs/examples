@@ -1,5 +1,5 @@
-import { useQueryGraphStep } from "@medusajs/core-flows";
-import { createWorkflow } from "@medusajs/workflows-sdk";
+import { useQueryGraphStep } from "@medusajs/medusa/core-flows";
+import { createWorkflow } from "@medusajs/framework/workflows-sdk";
 import { QuoteStatus } from "../modules/quote/models/quote";
 import { validateQuoteNotAccepted } from "./steps/validate-quote-not-accepted";
 import { updateQuotesStep } from "./steps/update-quotes";

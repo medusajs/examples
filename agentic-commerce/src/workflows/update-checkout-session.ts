@@ -5,8 +5,10 @@ import {
   WorkflowResponse
 } from "@medusajs/framework/workflows-sdk"
 import { 
+  acquireLockStep,
   addShippingMethodToCartWorkflow, 
   createCustomersWorkflow, 
+  releaseLockStep, 
   updateCartWorkflow, 
   useQueryGraphStep
 } from "@medusajs/medusa/core-flows"
@@ -93,6 +95,12 @@ export const updateCheckoutSessionWorkflow = createWorkflow(
           throwIfKeyNotFound: true,
         }
       }).config({ name: "find-variant" })
+
+      acquireLockStep({
+        key: input.cart_id,
+        timeout: 2,
+        ttl: 10,
+      })
     })
 
     // Prepare update data
@@ -146,6 +154,10 @@ export const updateCheckoutSessionWorkflow = createWorkflow(
         buyer: input.buyer,
         fulfillment_address: input.fulfillment_address,
       }
+    })
+
+    releaseLockStep({
+      key: input.cart_id,
     })
 
     return new WorkflowResponse(responseData)

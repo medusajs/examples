@@ -1,5 +1,5 @@
 import { createWorkflow, transform, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
-import { deleteLineItemsWorkflow, useQueryGraphStep } from "@medusajs/medusa/core-flows"
+import { acquireLockStep, deleteLineItemsWorkflow, releaseLockStep, useQueryGraphStep } from "@medusajs/medusa/core-flows"
 
 type RemoveBundleFromCartWorkflowInput = {
   bundle_id: string
@@ -32,6 +32,12 @@ export const removeBundleFromCartWorkflow = createWorkflow(
       }).map((item) => item!.id)
     })
 
+    acquireLockStep({
+      key: cart_id,
+      timeout: 2,
+      ttl: 10,
+    })
+
     deleteLineItemsWorkflow.runAsStep({
       input: {
         cart_id,
@@ -51,6 +57,10 @@ export const removeBundleFromCartWorkflow = createWorkflow(
       },
     }).config({ name: "retrieve-cart" })
     
+    releaseLockStep({
+      key: cart_id,
+    })
+
     return new WorkflowResponse(updatedCarts[0])
   }
 )

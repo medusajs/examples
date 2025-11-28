@@ -59,6 +59,7 @@ medusaIntegrationTestRunner({
                   }
                 ],
                 shipping_profile_id: shippingProfile.id,
+                status: "published",
               },
             ]
           }

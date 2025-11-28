@@ -19,6 +19,6 @@ export const POST = async (
 
   res.json({
     type: "order",
-    order: result.parent_order
+    order: result.order
   })
 }

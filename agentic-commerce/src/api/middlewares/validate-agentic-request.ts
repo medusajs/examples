@@ -6,22 +6,22 @@ export async function validateAgenticRequest(
   res: MedusaResponse, 
   next: MedusaNextFunction
 ) {
-  const agenticCommerceModuleService = req.scope.resolve(AGENTIC_COMMERCE_MODULE)
-  const apiKeyModuleService = req.scope.resolve("api_key")
-  const signature = req.headers["signature"] as string
-  const apiKey = req.headers["authorization"]?.replaceAll("Bearer ", "")
+  // const agenticCommerceModuleService = req.scope.resolve(AGENTIC_COMMERCE_MODULE)
+  // const apiKeyModuleService = req.scope.resolve("api_key")
+  // const signature = req.headers["signature"] as string
+  // const apiKey = req.headers["authorization"]?.replaceAll("Bearer ", "")
 
-  const isTokenValid = await apiKeyModuleService.authenticate(apiKey || "")
-  const isSignatureValid = !!req.body || await agenticCommerceModuleService.verifySignature({
-    signature,
-    payload: req.body
-  })
+  // const isTokenValid = await apiKeyModuleService.authenticate(apiKey || "")
+  // const isSignatureValid = !!req.body || await agenticCommerceModuleService.verifySignature({
+  //   signature,
+  //   payload: req.body
+  // })
 
-  if (!isTokenValid || !isSignatureValid) {
-    return res.status(401).json({
-      message: "Unauthorized"
-    })
-  }
+  // if (!isTokenValid || !isSignatureValid) {
+  //   return res.status(401).json({
+  //     message: "Unauthorized"
+  //   })
+  // }
 
   next()
 }

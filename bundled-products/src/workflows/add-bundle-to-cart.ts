@@ -1,5 +1,5 @@
-import { createWorkflow, transform, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
-import { addToCartWorkflow, useQueryGraphStep } from "@medusajs/medusa/core-flows"
+import { createWorkflow, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
+import { acquireLockStep, addToCartWorkflow, releaseLockStep, useQueryGraphStep } from "@medusajs/medusa/core-flows"
 import { prepareBundleCartDataStep, PrepareBundleCartDataStepInput } from "./steps/prepare-bundle-cart-data"
 
 type AddBundleToCartWorkflowInput = {
@@ -37,6 +37,12 @@ export const addBundleToCartWorkflow = createWorkflow(
       items
     } as unknown as PrepareBundleCartDataStepInput)
 
+    acquireLockStep({
+      key: cart_id,
+      timeout: 2,
+      ttl: 10,
+    })
+
     addToCartWorkflow.runAsStep({
       input: {
         cart_id,
@@ -49,6 +55,10 @@ export const addBundleToCartWorkflow = createWorkflow(
       filters: { id: cart_id },
       fields: ["id", "items.*"],
     }).config({ name: "refetch-cart" })
+
+    releaseLockStep({
+      key: cart_id,
+    })
 
     return new WorkflowResponse(updatedCarts[0])
   }
