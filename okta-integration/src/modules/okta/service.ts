@@ -73,7 +73,8 @@ class OktaAuthProviderService extends AbstractAuthModuleProvider {
   }
 
   /**
-   * Authenticate method initiates the OAuth flow by redirecting to Okta
+   * Authenticate method initiates the OAuth flow by returning
+   * the authorization URL to redirect the user to Okta's consent page
    */
   async authenticate(
     data: AuthenticationInput,
