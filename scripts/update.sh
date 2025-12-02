@@ -12,7 +12,7 @@ SKIP_DIRS=(
     "express-checkout-storefront",
     "sanity-integration",
     "stripe-saved-payment",
-    "react-native-store"
+    "react-native-expo"
 )
 
 # Directories that need integration tests
