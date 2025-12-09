@@ -32,6 +32,7 @@ To learn how to use an example, open its `README.md` file. You'll find the detai
 | [Okta Authentication](./okta-integration/) | Integration | Allow admin users to authenticate with Okta. |
 | [Add Gift Messages to Line Items](./order-gift-message/README.md) | Custom Feature | Customize the Next.js Starter Storefront and Medusa Admin to support gift options for line items. |
 | [Payload Integration](./payload-integration/README.md) | Integration | Integrate Payload CMS with Medusa |
+| [PayPal Integration](./paypal-integration/README.md) | Integration | Integrate PayPal with Medusa |
 | [Personalized Products](./personalized-products/README.md) | Custom Feature | Allow customers to personalize products with custom values and prices. |
 | [Phone Authentication + Twilio SMS Integration](./phone-auth/README.md) | Integration | Authenticate users with their phone number + send OTPs with Twilio. |
 | [Pre-orders](./preorder/README.md) | Custom Feature | Allow customers to pre-order products and automatically fulfill the pre-orders. |
