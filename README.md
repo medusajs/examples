@@ -29,6 +29,7 @@ To learn how to use an example, open its `README.md` file. You'll find the detai
 | [Meilisearch Integration](./meilisearch-integration/README.md) | Integration | Integrate Meilisearch into Medusa to allow searching through products. |
 | [Memcached Caching Module Provider](./memcached-caching/README.md) | Integration | Integrate Memcached as a Caching Module Provider. |
 | [Migrate from Magento](./migrate-from-magento/README.md) | Custom Feature | Migrate products and categories from Magento |
+| [Okta Authentication](./okta-integration/) | Integration | Allow admin users to authenticate with Okta. |
 | [Add Gift Messages to Line Items](./order-gift-message/README.md) | Custom Feature | Customize the Next.js Starter Storefront and Medusa Admin to support gift options for line items. |
 | [Payload Integration](./payload-integration/README.md) | Integration | Integrate Payload CMS with Medusa |
 | [Personalized Products](./personalized-products/README.md) | Custom Feature | Allow customers to personalize products with custom values and prices. |
