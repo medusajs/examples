@@ -822,19 +822,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@medusajs/js-sdk@npm:2.12.1":
-  version: 2.12.1
-  resolution: "@medusajs/js-sdk@npm:2.12.1"
+"@medusajs/js-sdk@npm:2.12.2":
+  version: 2.12.2
+  resolution: "@medusajs/js-sdk@npm:2.12.2"
   dependencies:
     fetch-event-stream: ^0.1.5
     qs: ^6.12.1
-  checksum: 1837b724007db54995769ebac15aeb9bf93b54b5b6bf5aca7f17dba53391c7daf8a47415f51c80fa69404673f167a2474ac13e88da344cee1356e76bf235dbeb
+  checksum: 9f43e1ca9bb7fcecef5421435d0df350e44b82f7f1817e482e145857114a673cd78055475cdc2b38cc564292cb12c0c608d8890d28d34f13d94c7e168f80e006
   languageName: node
   linkType: hard
 
-"@medusajs/types@npm:2.12.1":
-  version: 2.12.1
-  resolution: "@medusajs/types@npm:2.12.1"
+"@medusajs/types@npm:2.12.2":
+  version: 2.12.2
+  resolution: "@medusajs/types@npm:2.12.2"
   dependencies:
     bignumber.js: ^9.1.2
   peerDependencies:
@@ -845,19 +845,19 @@ __metadata:
       optional: true
     vite:
       optional: true
-  checksum: d8a6cc89cf9de5c0ffd0e1d3b70fb58fef9c60a5cdcee342c50b653e9a282c5b7cb17f18039727fa8632bc3badcbe41f9398a88cc502f1f48f5d01fb9b534f9c
+  checksum: 1a2ff09b656ddfc7bebc7c3422b84b8162464ad356932a95d7a3d025ab20af2b162e39e860e21b7d69159a68c85cac3f9b36a9acf9cef38a353632ac54fb3cac
   languageName: node
   linkType: hard
 
-"@medusajs/ui-preset@npm:2.12.1":
-  version: 2.12.1
-  resolution: "@medusajs/ui-preset@npm:2.12.1"
+"@medusajs/ui-preset@npm:2.12.2":
+  version: 2.12.2
+  resolution: "@medusajs/ui-preset@npm:2.12.2"
   dependencies:
     "@tailwindcss/forms": ^0.5.3
     tailwindcss-animate: ^1.0.6
   peerDependencies:
     tailwindcss: ^3.4.3
-  checksum: df3aa46d3003e57bab9c2f5f64d351dd18c3cb29e3fe487014e78c2362dc8117d3880acad60a22ce7cbccb556fe7ee346be8e3b02ae289986244e33ee0f6cd81
+  checksum: 554d2c5b76949be77384d840b3f05571d4cf64f774bb519e605719108cfdf7f11968b2ea83c83eb2c0c22b3a31e16c688867cd8349e70f303030d2676047a7d5
   languageName: node
   linkType: hard
 
@@ -898,10 +898,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/env@npm:15.3.1":
-  version: 15.3.1
-  resolution: "@next/env@npm:15.3.1"
-  checksum: eb24d59257d0d171770b09ae28cd23b6944aecf4b39da85729a09c6604a2f7aaeb973b3ca7234a086ed9da732e3d622e013b113688487add6315e62414b58501
+"@next/env@npm:15.3.8":
+  version: 15.3.8
+  resolution: "@next/env@npm:15.3.8"
+  checksum: 88ce862a2f5525198e79b3b223435fd125e15461f8a09bea0b772e378cb5e31706289e1c0128e28ae003a9e0814a733cc7fdef655090ce2cb775f5b502eaf57f
   languageName: node
   linkType: hard
 
@@ -914,58 +914,58 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-arm64@npm:15.3.1":
-  version: 15.3.1
-  resolution: "@next/swc-darwin-arm64@npm:15.3.1"
+"@next/swc-darwin-arm64@npm:15.3.5":
+  version: 15.3.5
+  resolution: "@next/swc-darwin-arm64@npm:15.3.5"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-x64@npm:15.3.1":
-  version: 15.3.1
-  resolution: "@next/swc-darwin-x64@npm:15.3.1"
+"@next/swc-darwin-x64@npm:15.3.5":
+  version: 15.3.5
+  resolution: "@next/swc-darwin-x64@npm:15.3.5"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-gnu@npm:15.3.1":
-  version: 15.3.1
-  resolution: "@next/swc-linux-arm64-gnu@npm:15.3.1"
+"@next/swc-linux-arm64-gnu@npm:15.3.5":
+  version: 15.3.5
+  resolution: "@next/swc-linux-arm64-gnu@npm:15.3.5"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-musl@npm:15.3.1":
-  version: 15.3.1
-  resolution: "@next/swc-linux-arm64-musl@npm:15.3.1"
+"@next/swc-linux-arm64-musl@npm:15.3.5":
+  version: 15.3.5
+  resolution: "@next/swc-linux-arm64-musl@npm:15.3.5"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-gnu@npm:15.3.1":
-  version: 15.3.1
-  resolution: "@next/swc-linux-x64-gnu@npm:15.3.1"
+"@next/swc-linux-x64-gnu@npm:15.3.5":
+  version: 15.3.5
+  resolution: "@next/swc-linux-x64-gnu@npm:15.3.5"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-musl@npm:15.3.1":
-  version: 15.3.1
-  resolution: "@next/swc-linux-x64-musl@npm:15.3.1"
+"@next/swc-linux-x64-musl@npm:15.3.5":
+  version: 15.3.5
+  resolution: "@next/swc-linux-x64-musl@npm:15.3.5"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@next/swc-win32-arm64-msvc@npm:15.3.1":
-  version: 15.3.1
-  resolution: "@next/swc-win32-arm64-msvc@npm:15.3.1"
+"@next/swc-win32-arm64-msvc@npm:15.3.5":
+  version: 15.3.5
+  resolution: "@next/swc-win32-arm64-msvc@npm:15.3.5"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-win32-x64-msvc@npm:15.3.1":
-  version: 15.3.1
-  resolution: "@next/swc-win32-x64-msvc@npm:15.3.1"
+"@next/swc-win32-x64-msvc@npm:15.3.5":
+  version: 15.3.5
+  resolution: "@next/swc-win32-x64-msvc@npm:15.3.5"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -6394,10 +6394,10 @@ __metadata:
   dependencies:
     "@babel/core": ^7.17.5
     "@headlessui/react": ^2.2.0
-    "@medusajs/js-sdk": 2.12.1
-    "@medusajs/types": 2.12.1
+    "@medusajs/js-sdk": 2.12.2
+    "@medusajs/types": 2.12.2
     "@medusajs/ui": latest
-    "@medusajs/ui-preset": 2.12.1
+    "@medusajs/ui-preset": 2.12.2
     "@radix-ui/react-accordion": ^1.2.1
     "@stripe/react-stripe-js": ^1.7.2
     "@stripe/stripe-js": ^1.29.0
@@ -6413,14 +6413,14 @@ __metadata:
     eslint: 8.10.0
     eslint-config-next: 15.0.3
     lodash: ^4.17.21
-    next: ^15.3.1
+    next: 15.3.8
     pg: ^8.11.3
     postcss: ^8.4.8
     prettier: ^2.8.8
     qs: ^6.12.1
-    react: 19.0.0-rc-66855b96-20241106
+    react: 19.0.3
     react-country-flag: ^3.1.0
-    react-dom: 19.0.0-rc-66855b96-20241106
+    react-dom: 19.0.3
     server-only: ^0.0.1
     tailwindcss: ^3.0.23
     tailwindcss-radix: ^2.8.0
@@ -6637,26 +6637,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:^15.3.1":
-  version: 15.3.1
-  resolution: "next@npm:15.3.1"
+"next@npm:15.3.8":
+  version: 15.3.8
+  resolution: "next@npm:15.3.8"
   dependencies:
-    "@next/env": "npm:15.3.1"
-    "@next/swc-darwin-arm64": "npm:15.3.1"
-    "@next/swc-darwin-x64": "npm:15.3.1"
-    "@next/swc-linux-arm64-gnu": "npm:15.3.1"
-    "@next/swc-linux-arm64-musl": "npm:15.3.1"
-    "@next/swc-linux-x64-gnu": "npm:15.3.1"
-    "@next/swc-linux-x64-musl": "npm:15.3.1"
-    "@next/swc-win32-arm64-msvc": "npm:15.3.1"
-    "@next/swc-win32-x64-msvc": "npm:15.3.1"
-    "@swc/counter": "npm:0.1.3"
-    "@swc/helpers": "npm:0.5.15"
-    busboy: "npm:1.6.0"
-    caniuse-lite: "npm:^1.0.30001579"
-    postcss: "npm:8.4.31"
-    sharp: "npm:^0.34.1"
-    styled-jsx: "npm:5.1.6"
+    "@next/env": 15.3.8
+    "@next/swc-darwin-arm64": 15.3.5
+    "@next/swc-darwin-x64": 15.3.5
+    "@next/swc-linux-arm64-gnu": 15.3.5
+    "@next/swc-linux-arm64-musl": 15.3.5
+    "@next/swc-linux-x64-gnu": 15.3.5
+    "@next/swc-linux-x64-musl": 15.3.5
+    "@next/swc-win32-arm64-msvc": 15.3.5
+    "@next/swc-win32-x64-msvc": 15.3.5
+    "@swc/counter": 0.1.3
+    "@swc/helpers": 0.5.15
+    busboy: 1.6.0
+    caniuse-lite: ^1.0.30001579
+    postcss: 8.4.31
+    sharp: ^0.34.1
+    styled-jsx: 5.1.6
   peerDependencies:
     "@opentelemetry/api": ^1.1.0
     "@playwright/test": ^1.41.2
@@ -6694,7 +6694,7 @@ __metadata:
       optional: true
   bin:
     next: dist/bin/next
-  checksum: c748e9f2657272b033aa559c42f3d99abe5cb7ae2e22d3a685e16f008aab1a23666b79178b33d1bf075e7663722cbbf3f726169b63e74f6d7a17d7b8a6e476fc
+  checksum: 41b03765b3d19ec8ba2743d13e7585d32995b010b7dbfeb563f75659eedb3a14907461d974c16f0f12a5e8a6021ae52200715313426c6b4743d3e0a66902ac11
   languageName: node
   linkType: hard
 
@@ -7420,14 +7420,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:19.0.0-rc-66855b96-20241106":
-  version: 19.0.0-rc-66855b96-20241106
-  resolution: "react-dom@npm:19.0.0-rc-66855b96-20241106"
+"react-dom@npm:19.0.3":
+  version: 19.0.3
+  resolution: "react-dom@npm:19.0.3"
   dependencies:
-    scheduler: "npm:0.25.0-rc-66855b96-20241106"
+    scheduler: ^0.25.0
   peerDependencies:
-    react: 19.0.0-rc-66855b96-20241106
-  checksum: 25ea89c2f5cf13bfb410aac8a95d0323925992c27c1f1419504dbf875e56f1293de05cce932c75fc4971e8077208fc24b6840eaa891b8ab9a89b7acbfde42de5
+    react: ^19.0.3
+  checksum: b5f53f84f9a044f9d77cb363fd6a0990cda5b7b89649b59c298ced63176e36df37a9289047d596aadf8fd7182df6c1d4f5b3f78839058b692d325dcee17af790
   languageName: node
   linkType: hard
 
@@ -7525,10 +7525,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:19.0.0-rc-66855b96-20241106":
-  version: 19.0.0-rc-66855b96-20241106
-  resolution: "react@npm:19.0.0-rc-66855b96-20241106"
-  checksum: 13ef936f9988035e59eb3b25266108d0d045034c67c4328fc9014afbcfc1ccc1cf197604e4929c225314ef76946b695f514440a44fdb512ed38bf3624efae0f4
+"react@npm:19.0.3":
+  version: 19.0.3
+  resolution: "react@npm:19.0.3"
+  checksum: b6a9f13dee6abc9724d2301ccfee6ca2faa55ff05bc2868fbe3a013d770c7d3f8459193d7a28d8c9f4f379146ab2d6a847a7cc902d133534d46ae7238b631d96
   languageName: node
   linkType: hard
 
@@ -7733,10 +7733,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"scheduler@npm:0.25.0-rc-66855b96-20241106":
-  version: 0.25.0-rc-66855b96-20241106
-  resolution: "scheduler@npm:0.25.0-rc-66855b96-20241106"
-  checksum: 950c3714393c370c5628e3e2e581c2e5d3cb503260e9a1e00984b0631d3e18500fb57f80a9c45a034c54852670620c3c526a35d40073cb97b6f5f43f56d8c938
+"scheduler@npm:^0.25.0":
+  version: 0.25.0
+  resolution: "scheduler@npm:0.25.0"
+  checksum: b7bb9fddbf743e521e9aaa5198a03ae823f5e104ebee0cb9ec625392bb7da0baa1c28ab29cee4b1e407a94e76acc6eee91eeb749614f91f853efda2613531566
   languageName: node
   linkType: hard
 

@@ -822,19 +822,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@medusajs/js-sdk@npm:2.12.1":
-  version: 2.12.1
-  resolution: "@medusajs/js-sdk@npm:2.12.1"
+"@medusajs/js-sdk@npm:2.12.2":
+  version: 2.12.2
+  resolution: "@medusajs/js-sdk@npm:2.12.2"
   dependencies:
     fetch-event-stream: ^0.1.5
     qs: ^6.12.1
-  checksum: 1837b724007db54995769ebac15aeb9bf93b54b5b6bf5aca7f17dba53391c7daf8a47415f51c80fa69404673f167a2474ac13e88da344cee1356e76bf235dbeb
+  checksum: 9f43e1ca9bb7fcecef5421435d0df350e44b82f7f1817e482e145857114a673cd78055475cdc2b38cc564292cb12c0c608d8890d28d34f13d94c7e168f80e006
   languageName: node
   linkType: hard
 
-"@medusajs/types@npm:2.12.1":
-  version: 2.12.1
-  resolution: "@medusajs/types@npm:2.12.1"
+"@medusajs/types@npm:2.12.2":
+  version: 2.12.2
+  resolution: "@medusajs/types@npm:2.12.2"
   dependencies:
     bignumber.js: ^9.1.2
   peerDependencies:
@@ -845,19 +845,19 @@ __metadata:
       optional: true
     vite:
       optional: true
-  checksum: d8a6cc89cf9de5c0ffd0e1d3b70fb58fef9c60a5cdcee342c50b653e9a282c5b7cb17f18039727fa8632bc3badcbe41f9398a88cc502f1f48f5d01fb9b534f9c
+  checksum: 1a2ff09b656ddfc7bebc7c3422b84b8162464ad356932a95d7a3d025ab20af2b162e39e860e21b7d69159a68c85cac3f9b36a9acf9cef38a353632ac54fb3cac
   languageName: node
   linkType: hard
 
-"@medusajs/ui-preset@npm:2.12.1":
-  version: 2.12.1
-  resolution: "@medusajs/ui-preset@npm:2.12.1"
+"@medusajs/ui-preset@npm:2.12.2":
+  version: 2.12.2
+  resolution: "@medusajs/ui-preset@npm:2.12.2"
   dependencies:
     "@tailwindcss/forms": ^0.5.3
     tailwindcss-animate: ^1.0.6
   peerDependencies:
     tailwindcss: ^3.4.3
-  checksum: df3aa46d3003e57bab9c2f5f64d351dd18c3cb29e3fe487014e78c2362dc8117d3880acad60a22ce7cbccb556fe7ee346be8e3b02ae289986244e33ee0f6cd81
+  checksum: 554d2c5b76949be77384d840b3f05571d4cf64f774bb519e605719108cfdf7f11968b2ea83c83eb2c0c22b3a31e16c688867cd8349e70f303030d2676047a7d5
   languageName: node
   linkType: hard
 
@@ -6394,10 +6394,10 @@ __metadata:
   dependencies:
     "@babel/core": ^7.17.5
     "@headlessui/react": ^2.2.0
-    "@medusajs/js-sdk": 2.12.1
-    "@medusajs/types": 2.12.1
+    "@medusajs/js-sdk": 2.12.2
+    "@medusajs/types": 2.12.2
     "@medusajs/ui": latest
-    "@medusajs/ui-preset": 2.12.1
+    "@medusajs/ui-preset": 2.12.2
     "@radix-ui/react-accordion": ^1.2.1
     "@stripe/react-stripe-js": ^1.7.2
     "@stripe/stripe-js": ^1.29.0

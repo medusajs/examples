@@ -16,26 +16,26 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
-    "@medusajs/js-sdk": "2.12.1",
+    "@medusajs/js-sdk": "2.12.2",
     "@medusajs/ui": "latest",
     "@radix-ui/react-accordion": "^1.2.1",
     "@stripe/react-stripe-js": "^1.7.2",
     "@stripe/stripe-js": "^1.29.0",
     "lodash": "^4.17.21",
-    "next": "^15.3.1",
+    "next": "15.3.8",
     "pg": "^8.11.3",
     "qs": "^6.12.1",
-    "react": "19.0.0-rc-66855b96-20241106",
+    "react": "19.0.3",
     "react-country-flag": "^3.1.0",
-    "react-dom": "19.0.0-rc-66855b96-20241106",
+    "react-dom": "19.0.3",
     "server-only": "^0.0.1",
     "tailwindcss-radix": "^2.8.0",
     "webpack": "^5"
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",
-    "@medusajs/types": "2.12.1",
-    "@medusajs/ui-preset": "2.12.1",
+    "@medusajs/types": "2.12.2",
+    "@medusajs/ui-preset": "2.12.2",
     "@types/lodash": "^4.14.195",
     "@types/node": "17.0.21",
     "@types/pg": "^8.11.0",
@@ -58,7 +58,7 @@
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
   },
   "overrides": {
-    "react": "19.0.0-rc-66855b96-20241106",
-    "react-dom": "19.0.0-rc-66855b96-20241106"
+    "react": "19.0.3",
+    "react-dom": "19.0.3"
   }
 }
