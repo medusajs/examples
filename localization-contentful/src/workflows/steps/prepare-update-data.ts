@@ -19,11 +19,20 @@ export const prepareUpdateDataStep = createStep(
 
     switch (entry.sys.contentType.sys.id) {
       case "product":
+        // Extract Medusa option IDs from productOptions field
+        // We need to fetch the option entries to get their medusaId values
+        const optionLinks = entry.fields.productOptions?.[defaultLocale!] || []
+        const optionEntryIds = optionLinks.map(
+          (optionLink: { sys: { id: string } }) => optionLink.sys.id
+        )
+        const optionIds = await contentfulModuleService.getOptionMedusaIds(optionEntryIds)
+        
         data = {
           id: entry.fields.medusaId[defaultLocale!],
           title: entry.fields.title[defaultLocale!],
           subtitle: entry.fields.subtitle?.[defaultLocale!] || undefined,
           handle: entry.fields.handle[defaultLocale!],
+          option_ids: optionIds,
         }
         break
       case "productVariant":
