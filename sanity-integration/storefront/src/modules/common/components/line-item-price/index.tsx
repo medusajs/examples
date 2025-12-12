@@ -1,4 +1,4 @@
-import { getPercentageDiff } from "@lib/util/get-precentage-diff"
+import { getPercentageDiff } from "@lib/util/get-percentage-diff"
 import { convertToLocale } from "@lib/util/money"
 import { HttpTypes } from "@medusajs/types"
 import { clx } from "@medusajs/ui"
@@ -21,8 +21,8 @@ const LineItemPrice = ({
     0
   )
 
-  const originalPrice = original_total
-  const currentPrice = total - adjustmentsSum
+  const originalPrice = original_total || 0
+  const currentPrice = (total || 0) - adjustmentsSum
   const hasReducedPrice = currentPrice < originalPrice
 
   return (

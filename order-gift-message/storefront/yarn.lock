@@ -832,7 +832,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@medusajs/types@npm:2.12.2":
+"@medusajs/types@npm:latest":
   version: 2.12.2
   resolution: "@medusajs/types@npm:2.12.2"
   dependencies:
@@ -849,7 +849,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@medusajs/ui-preset@npm:2.12.2":
+"@medusajs/ui-preset@npm:latest":
   version: 2.12.2
   resolution: "@medusajs/ui-preset@npm:2.12.2"
   dependencies:
@@ -3447,23 +3447,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stripe/react-stripe-js@npm:^1.7.2":
-  version: 1.16.5
-  resolution: "@stripe/react-stripe-js@npm:1.16.5"
+"@stripe/react-stripe-js@npm:^5.3.0":
+  version: 5.4.1
+  resolution: "@stripe/react-stripe-js@npm:5.4.1"
   dependencies:
-    prop-types: "npm:^15.7.2"
+    prop-types: ^15.7.2
   peerDependencies:
-    "@stripe/stripe-js": ^1.44.1
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: fc43248af6fd1f9825463eeb23183b586635048e544c7fa076ee59e85439e7864afaca4adee2a62a9d1cf9a72ce7eaf405dbeffec9ff34e6e0464be0cc92c6a8
+    "@stripe/stripe-js": ">=8.0.0 <9.0.0"
+    react: ">=16.8.0 <20.0.0"
+    react-dom: ">=16.8.0 <20.0.0"
+  checksum: 5e012eb21b99f5f97dfc693a6890cc523af88faf5b30eac21341748b0116526dfdafe96facdc92ef2c2da7079bcc6c5c108bb8f1ed4ed43720c8c07a0dd28c86
   languageName: node
   linkType: hard
 
-"@stripe/stripe-js@npm:^1.29.0":
-  version: 1.54.2
-  resolution: "@stripe/stripe-js@npm:1.54.2"
-  checksum: d5c4a71383c33da3f3badd2ac03073a90250fc0e04b2ecd571f73f34db2266c9fdfc64947410845d58dce074547424bd133f8f24bf86de69dfeb73d140c0bdc8
+"@stripe/stripe-js@npm:^8.2.0":
+  version: 8.5.3
+  resolution: "@stripe/stripe-js@npm:8.5.3"
+  checksum: e084d2b280005148f4e8cdf8b57e6686c2055c0e191f60c5b3c5b861e7a6790527ba50f786ded9b538bdefdddadcf3daedc209010c92e33eadaccb0a9145221b
   languageName: node
   linkType: hard
 
@@ -3595,12 +3595,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:types-react-dom@19.0.0-rc.1":
-  version: 19.0.0-rc.1
-  resolution: "types-react-dom@npm:19.0.0-rc.1"
-  dependencies:
-    "@types/react": "npm:*"
-  checksum: 76a67a2bd3318ce07546647358da68480b8217463cb9e85803fd1b8d899371c64e6601fd49aea35e7a40f997a95a08786b01ef61437f805650842f8a367f4d17
+"@types/react-dom@npm:19.0.3":
+  version: 19.0.3
+  resolution: "@types/react-dom@npm:19.0.3"
+  peerDependencies:
+    "@types/react": ^19.0.0
+  checksum: a253931fc3a41a74ef99a7380fa3fa02b94ddd1addba9fc0aea39c90ce3dfb22d60fbac292669de224b1ffb23836cde3cc78c2425f0c77593435b6368a9fd2ed
   languageName: node
   linkType: hard
 
@@ -3625,12 +3625,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:types-react@19.0.0-rc.1":
-  version: 19.0.0-rc.1
-  resolution: "types-react@npm:19.0.0-rc.1"
+"@types/react@npm:19.0.3":
+  version: 19.0.3
+  resolution: "@types/react@npm:19.0.3"
   dependencies:
-    csstype: "npm:^3.0.2"
-  checksum: 1754f9075cc4a3cdaf64dbe494252c81ab637297d94932cb3ed02fea4066addcdca7acbf25cca0f19fe0a69ecb5d37eac7403bebc0ceb587e3276e61b17b69e9
+    csstype: ^3.0.2
+  checksum: a6c2bcd032522f5c041601a0df1c56288ad66c7973fa672b6c375334dd93295a4d1bfebf9c3498bafb86525f1fd8f4d58175267ed41ef5534b64ba28bd274bb6
   languageName: node
   linkType: hard
 
@@ -6395,17 +6395,17 @@ __metadata:
     "@babel/core": ^7.17.5
     "@headlessui/react": ^2.2.0
     "@medusajs/js-sdk": 2.12.2
-    "@medusajs/types": 2.12.2
+    "@medusajs/types": latest
     "@medusajs/ui": latest
-    "@medusajs/ui-preset": 2.12.2
+    "@medusajs/ui-preset": latest
     "@radix-ui/react-accordion": ^1.2.1
-    "@stripe/react-stripe-js": ^1.7.2
-    "@stripe/stripe-js": ^1.29.0
+    "@stripe/react-stripe-js": ^5.3.0
+    "@stripe/stripe-js": ^8.2.0
     "@types/lodash": ^4.14.195
     "@types/node": 17.0.21
     "@types/pg": ^8.11.0
-    "@types/react": ^18.3.12
-    "@types/react-dom": ^18.3.1
+    "@types/react": 19.0.3
+    "@types/react-dom": 19.0.3
     "@types/react-instantsearch-dom": ^6.12.3
     ansi-colors: ^4.1.3
     autoprefixer: ^10.4.2

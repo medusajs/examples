@@ -14,13 +14,13 @@ export const listProducts = async ({
   regionId,
 }: {
   pageParam?: number
-  queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams
+  queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductListParams
   countryCode?: string
   regionId?: string
 }): Promise<{
   response: { products: HttpTypes.StoreProduct[]; count: number }
   nextPage: number | null
-  queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams
+  queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductListParams
 }> => {
   if (!countryCode && !regionId) {
     throw new Error("Country code or region ID is required")

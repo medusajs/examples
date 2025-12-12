@@ -7,7 +7,7 @@ import { Button } from "@medusajs/ui"
 import Divider from "@modules/common/components/divider"
 import OptionSelect from "@modules/products/components/product-actions/option-select"
 import { isEqual } from "lodash"
-import { useParams } from "next/navigation"
+import { useParams, useRouter, usePathname, useSearchParams } from "next/navigation"
 import { useEffect, useMemo, useRef, useState } from "react"
 import ProductPrice from "../product-price"
 import MobileActions from "./mobile-actions"
@@ -34,6 +34,9 @@ export default function ProductActions({
   const [options, setOptions] = useState<Record<string, string | undefined>>({})
   const [isAdding, setIsAdding] = useState(false)
   const countryCode = useParams().countryCode as string
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
 
   // If there is only 1 variant, preselect the options
   useEffect(() => {
@@ -53,6 +56,15 @@ export default function ProductActions({
       return isEqual(variantOptions, options)
     })
   }, [product.variants, options])
+
+  // Sync variant selection with URL
+  useEffect(() => {
+    if (selectedVariant) {
+      const params = new URLSearchParams(searchParams.toString())
+      params.set("v_id", selectedVariant.id)
+      router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+    }
+  }, [selectedVariant, pathname, router, searchParams])
 
   // update the options when a variant is selected
   const setOptionValue = (optionId: string, value: string) => {

@@ -33,6 +33,11 @@ export const paymentInfoMap: Record<
   // Add more payment providers here
 }
 
+// Checks if the payment provider is Stripe-like (including Medusa Payments which uses Stripe)
+export const isStripeLike = (providerId?: string) => {
+  return providerId?.startsWith("pp_stripe_") || providerId === "stripe"
+}
+
 // This only checks if it is native stripe for card payments, it ignores the other stripe-based providers
 export const isStripe = (providerId?: string) => {
   return providerId?.startsWith("pp_stripe_")
