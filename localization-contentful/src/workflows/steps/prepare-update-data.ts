@@ -25,14 +25,15 @@ export const prepareUpdateDataStep = createStep(
         const optionEntryIds = optionLinks.map(
           (optionLink: { sys: { id: string } }) => optionLink.sys.id
         )
-        const optionIds = await contentfulModuleService.getOptionMedusaIds(optionEntryIds)
+        const options = await contentfulModuleService.getOptions(optionEntryIds)
+        const optionsMedusaIds = options.map(option => option.fields.medusaId[defaultLocale!])
         
         data = {
           id: entry.fields.medusaId[defaultLocale!],
           title: entry.fields.title[defaultLocale!],
           subtitle: entry.fields.subtitle?.[defaultLocale!] || undefined,
           handle: entry.fields.handle[defaultLocale!],
-          option_ids: optionIds,
+          option_ids: optionsMedusaIds,
         }
         break
       case "productVariant":

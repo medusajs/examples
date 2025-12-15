@@ -1,6 +1,5 @@
 import { createWorkflow, transform, when, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
 import { retrievePayloadItemsStep } from "./steps/retrieve-payload-items"
-import { updatePayloadItemsStep } from "./steps/update-payload-items"
 import { deletePayloadItemsStep } from "./steps/delete-payload-items"
 
 type WorkflowInput = {

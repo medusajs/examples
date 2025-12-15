@@ -1,9 +1,8 @@
 import { createWorkflow, transform, when, WorkflowResponse } from "@medusajs/framework/workflows-sdk";
-import { updateProductsWorkflow, useQueryGraphStep } from "@medusajs/medusa/core-flows";
+import { useQueryGraphStep } from "@medusajs/medusa/core-flows";
 import { retrievePayloadItemsStep } from "./steps/retrieve-payload-items";
-import { createPayloadItemsStep } from "./steps/create-payload-items";
 import { updatePayloadItemsStep } from "./steps/update-payload-items";
-import { PayloadCollectionItem, PayloadUpsertData } from "../modules/payload/types";
+import { PayloadUpsertData } from "../modules/payload/types";
 import { createPayloadProductOptionsWorkflow } from "./create-payload-product-options";
 
 type WorkflowInput = {

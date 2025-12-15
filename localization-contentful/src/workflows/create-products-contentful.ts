@@ -2,6 +2,7 @@ import { createWorkflow, WorkflowResponse, transform, when } from "@medusajs/fra
 import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
 import { createProductsContentfulStep } from "./steps/create-products-contentful"
 import { createProductOptionsContentfulStep } from "./steps/create-product-options-contentful"
+import { getOptionsContentfulStep } from "./steps/get-options-contentful"
 import { ProductDTO, ProductOptionDTO } from "@medusajs/framework/types"
 
 type WorkflowInput = {
@@ -54,11 +55,32 @@ export const createProductsContentfulWorkflow = createWorkflow(
       }
     )
 
-    // Sync options first if any exist (this ensures options are available before products reference them)
-    when({ uniqueOptions }, ({ uniqueOptions }) => uniqueOptions.length > 0)
+    // Get existing options from Contentful
+    const optionIds = transform(
+      { uniqueOptions },
+      (data) => data.uniqueOptions.map((option) => option.id)
+    )
+
+    const existingOptions = getOptionsContentfulStep({
+      option_ids: optionIds,
+    })
+
+    // Filter out existing options and only create new ones
+    const newOptions = transform(
+      { uniqueOptions, existingOptions },
+      (data) => {
+        const existingIdsSet = new Set(data.existingOptions.map(option => option.sys.id))
+        return data.uniqueOptions.filter(
+          (option) => !existingIdsSet.has(option.id)
+        )
+      }
+    )
+
+    // Only create options that don't already exist in Contentful
+    when({ newOptions }, (data) => data.newOptions.length > 0)
       .then(() => {
         createProductOptionsContentfulStep({
-          options: uniqueOptions,
+          options: newOptions,
         })
       })
     

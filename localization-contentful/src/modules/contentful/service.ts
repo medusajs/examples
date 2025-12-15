@@ -99,27 +99,23 @@ export default class ContentfulModuleService {
     return this.options.default_locale
   }
 
-  async getOptionMedusaIds(optionEntryIds: string[]): Promise<string[]> {
-    const medusaIds: string[] = []
+  async getOptions(optionIds: string[]): Promise<EntryProps[]> {
+    const options: EntryProps[] = []
     
-    for (const entryId of optionEntryIds) {
+    for (const optionId of optionIds) {
       try {
-        const optionEntry = await this.managementClient.entry.get({
+        const option = await this.managementClient.entry.get({
           environmentId: this.options.environment,
-          entryId,
+          entryId: optionId,
         })
-        
-        const medusaId = optionEntry.fields.medusaId?.[this.options.default_locale!]
-        if (medusaId) {
-          medusaIds.push(medusaId)
-        }
+        options.push(option)
       } catch (error) {
-        // Option entry might not exist, skip it
+        // Option entry doesn't exist, skip it
         continue
       }
     }
     
-    return medusaIds
+    return options
   }
 
   async createProduct(
