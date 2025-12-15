@@ -6,7 +6,6 @@ export type CreateOptionsInStrapiInput = {
   options: {
     id: string
     title: string
-    strapiProductId: number
   }[]
 }
 
@@ -19,11 +18,9 @@ export const createOptionsInStrapiStep = createStep(
 
     try {
       for (const option of options) {
-        // Create option in Strapi
         const strapiOption = await strapiService.create(Collection.PRODUCT_OPTIONS, {
           medusaId: option.id,
           title: option.title,
-          product: option.strapiProductId,
         })
 
         results.push(strapiOption.data)

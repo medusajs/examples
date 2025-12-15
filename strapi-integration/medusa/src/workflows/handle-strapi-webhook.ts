@@ -59,12 +59,29 @@ export const handleStrapiWebhookWorkflow = createWorkflow(
 
     when(input, (input) => input.entry.model === "product-option")
       .then(() => {
-        const options = updateProductOptionsWorkflow.runAsStep({
+        updateProductOptionsWorkflow.runAsStep({
           input: preparedData.data as any,
         })
 
+        // Since options can belong to multiple products (manyToMany), 
+        // we need to find all products that use this option
+        const { data: products } = useQueryGraphStep({
+          entity: "product",
+          fields: ["id"],
+          filters: {
+            options: {
+              id: (preparedData.data.selector as Record<string, string>).id,
+            },
+          },
+        }).config({ name: "get-products-from-option" })
+
+        // Clear cache for all products that use this option
+        const productIds = transform({ products }, (data) => {
+          return data.products.map((p) => p.id) as string[]
+        })
+
         clearProductCacheStep({ 
-          productId: options[0].product_id!
+          productId: productIds
         }).config({ name: "clear-product-cache-option" })
       })
 

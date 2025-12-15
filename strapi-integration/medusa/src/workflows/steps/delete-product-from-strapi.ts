@@ -12,7 +12,7 @@ export const deleteProductFromStrapiStep = createStep(
     const strapiService: StrapiModuleService = container.resolve(STRAPI_MODULE)
 
     // Find the Strapi product
-    const strapiProduct = await strapiService.findByMedusaId(Collection.PRODUCTS, id)
+    const [strapiProduct] = await strapiService.findByMedusaId(Collection.PRODUCTS, id)
 
     // Delete product from Strapi
     await strapiService.delete(Collection.PRODUCTS, strapiProduct.documentId)

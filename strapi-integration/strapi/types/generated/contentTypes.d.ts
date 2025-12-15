@@ -496,7 +496,7 @@ export interface ApiProductOptionProductOption
     medusaId: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
-    product: Schema.Attribute.Relation<'manyToOne', 'api::product.product'>;
+    products: Schema.Attribute.Relation<'manyToMany', 'api::product.product'>;
     publishedAt: Schema.Attribute.DateTime;
     title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
@@ -578,7 +578,7 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
     options: Schema.Attribute.Relation<
-      'oneToMany',
+      'manyToMany',
       'api::product-option.product-option'
     >;
     publishedAt: Schema.Attribute.DateTime;

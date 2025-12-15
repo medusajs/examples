@@ -50,31 +50,12 @@ export const updateVariantInStrapiWorkflow = createWorkflow(
     })
 
     const updateResult = when({ variants }, (data) => !!data.variants[0].metadata?.strapi_id).then(() => {
-      const {
-        variantImages,
-        variantThumbnail,
-      } = transform({ variants }, (data) => {
-        return {
-          variantImages: data.variants[0].images?.map((image) => {
-            return {
-              entity_id: data.variants[0].id,
-                url: image.url,
-              }
-            }) || [],
-          variantThumbnail: [{
-            entity_id: data.variants[0].id,
-            // @ts-ignore
-            url: data.variants[0].thumbnail,
-          }].filter((image) => image.url !== null),
-        }
-      })
-
       const variantData = transform({ 
         variants, 
       }, (data) => {
         return {
           ...data.variants[0],
-          optionValueIds: data.variants[0].options.flatMap((option) => {
+          optionValues: data.variants[0].options.flatMap((option) => {
             // find the strapi option value id for the option value
             return data.variants[0].product?.options.flatMap(
               (productOption) => productOption.values.find(

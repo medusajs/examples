@@ -9,6 +9,7 @@ export type UpdateProductInStrapiInput = {
     subtitle?: string
     description?: string
     handle?: string
+    optionIds?: number[]
   }
 }
 
@@ -18,15 +19,17 @@ export const updateProductInStrapiStep = createStep(
     const strapiService: StrapiModuleService = container.resolve(STRAPI_MODULE)
 
     // Fetch current Strapi product data for compensation
-    const originalProduct = await strapiService.findByMedusaId(Collection.PRODUCTS, product.id)
+    const [originalProduct] = await strapiService.findByMedusaId(Collection.PRODUCTS, product.id)
 
     // Update product in Strapi
-    const updated = await strapiService.update(Collection.PRODUCTS, originalProduct.documentId, {
-      title: product.title,
-      subtitle: product.subtitle,
-      description: product.description,
-      handle: product.handle,
-    })
+    const updateData: Record<string, any> = {}
+    if (product.title !== undefined) updateData.title = product.title
+    if (product.subtitle !== undefined) updateData.subtitle = product.subtitle
+    if (product.description !== undefined) updateData.description = product.description
+    if (product.handle !== undefined) updateData.handle = product.handle
+    if (product.optionIds !== undefined) updateData.options = product.optionIds
+
+    const updated = await strapiService.update(Collection.PRODUCTS, originalProduct.documentId, updateData)
 
     return new StepResponse(
       updated.data,
@@ -45,6 +48,7 @@ export const updateProductInStrapiStep = createStep(
       subtitle: compensationData.subtitle,
       description: compensationData.description,
       handle: compensationData.handle,
+      options: compensationData.options?.map((opt) => opt.id) || [],
     })
   }
 )
