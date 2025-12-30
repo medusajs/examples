@@ -35,5 +35,5 @@ export async function POST(
       }
     })
 
-  return res.sendStatus(201)
+  return res.sendStatus(200)
 }

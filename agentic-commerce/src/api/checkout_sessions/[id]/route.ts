@@ -100,7 +100,7 @@ export const GET = async (
         }
       })
 
-    res.set(responseHeaders).status(201).json(result)
+    res.set(responseHeaders).status(200).json(result)
   } catch (error) {
     const medusaError = error as MedusaError
     const statusCode = medusaError.type === MedusaError.Types.NOT_FOUND ? 404 : 500
