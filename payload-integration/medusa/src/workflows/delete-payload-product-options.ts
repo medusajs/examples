@@ -1,6 +1,6 @@
 import { createWorkflow, transform, when, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
-import { updatePayloadItemsStep } from "./steps/update-payload-items";
-import { retrievePayloadItemsStep } from "./steps/retrieve-payload-items";
+import { retrievePayloadItemsStep } from "./steps/retrieve-payload-items"
+import { deletePayloadItemsStep } from "./steps/delete-payload-items"
 
 type WorkflowInput = {
   option_ids: string[]
@@ -9,49 +9,68 @@ type WorkflowInput = {
 export const deletePayloadProductOptionsWorkflow = createWorkflow(
   "delete-payload-product-options",
   ({ option_ids }: WorkflowInput) => {
-    const retrieveData = transform({
+    // Retrieve the options to get their Payload IDs
+    const retrieveOptionsData = transform({
       option_ids
     }, (data) => {
       return {
-        collection: "products",
+        collection: "product-options",
         where: {
-          "options.medusa_id": {
+          medusa_id: {
             in: data.option_ids.join(",")
           }
         }
       }
     })
 
-    const { items: payloadProducts } = retrievePayloadItemsStep(retrieveData)
+    const { items: payloadOptions } = retrievePayloadItemsStep(retrieveOptionsData)
 
-    const updateData = transform({
-      payloadProducts,
-      option_ids
+    // Step 2: Delete OptionValues (after products are updated, if any)
+    const deleteValuesData = transform({
+      payloadOptions,
     }, (data) => {
-      const items = data.payloadProducts.map((payloadProducts) => ({
-        id: payloadProducts.id,
-        options: payloadProducts.options.filter((o: any) => !data.option_ids.includes(o.medusa_id)),
-        variants: payloadProducts.variants.map((variant: any) => ({
-          ...variant,
-          option_values: variant.option_values.filter((ov: any) => !data.option_ids.includes(ov.medusa_option_id))
-        }))
-      }))
-      
+      if (!data.payloadOptions || data.payloadOptions.length === 0) {
+        return null
+      }
+      const valueIds: string[] = []
+      data.payloadOptions.forEach((option) => {
+        option.values.forEach((value) => {
+          valueIds.push(value.id)
+        })
+      })
       return {
-        collection: "products",
-        items,
+        collection: "option-values",
+        where: {
+          id: {
+            in: valueIds.join(",")
+          }
+        }
       }
     })
 
-    const result = when({ updateData }, (data) => data.updateData.items.length > 0)
+    const deleteValuesResult = when({ deleteValuesData }, (data) => data.deleteValuesData !== null)
       .then(() => {
-        return updatePayloadItemsStep(updateData)
+        return deletePayloadItemsStep(deleteValuesData).config({ name: "delete-payload-option-values" })
       })
 
-    const items = transform({ result }, (data) => data.result?.items || [])
-
-    return new WorkflowResponse({
-      items
+    // Step 3: Delete ProductOptions (after values are deleted, if any)
+    // This step always runs, ensuring sequential execution
+    const deleteOptionsData = transform({
+      payloadOptions,
+      deleteValuesResult
+    }, (data) => {
+      return {
+        collection: "product-options",
+        where: {
+          id: {
+            in: data.payloadOptions.map((opt: any) => opt.id).join(",")
+          }
+        }
+      }
     })
+
+    deletePayloadItemsStep(deleteOptionsData)
+
+    return new WorkflowResponse(void 0)
   }
 )

@@ -283,7 +283,7 @@ export default async function syncContentModelsLoader({
           id: "product",
           name: "Product",
           type: "Link",
-          required: true,
+          required: false,
           localized: false,
           validations: [
             {

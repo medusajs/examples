@@ -1,7 +1,8 @@
 import { createWorkflow, transform, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
-import { CreateProductWorkflowInputDTO, UpsertProductDTO } from "@medusajs/framework/types"
-import { createProductsWorkflow, updateProductsWorkflow, useQueryGraphStep } from "@medusajs/medusa/core-flows"
+import { CreateProductWorkflowInputDTO, CreateProductOptionDTO, UpsertProductDTO } from "@medusajs/framework/types"
+import { createProductsWorkflow, createProductOptionsWorkflow, updateProductsWorkflow, useQueryGraphStep } from "@medusajs/medusa/core-flows"
 import { getMagentoProductsStep } from "./steps/get-magento-products"
+import { MagentoAttribute } from "../modules/magento/types"
 
 type MigrateProductsFromMagentoWorkflowInput = {
   currentPage: number
@@ -77,6 +78,69 @@ export const migrateProductsFromMagentoWorkflow = createWorkflow(
       }
     }).config({ name: "get-existing-products" })
 
+    const attributeExternalIds = transform({
+      attributes
+    }, (data) => {
+      return data.attributes.map((attr) => attr.attribute_id.toString())
+    })
+
+    const { data: existingOptions } = useQueryGraphStep({
+      entity: "product_option",
+      fields: ["id", "title", "metadata", "values.id", "values.value"],
+      filters: {
+        metadata: {
+          external_id: attributeExternalIds
+        }
+      }
+    }).config({ name: "get-existing-options" })
+
+    const { optionsToCreate } = transform({
+      attributes,
+      existingOptions
+    }, (data) => {
+      const optionsToCreate = new Map<string, CreateProductOptionDTO & { metadata?: Record<string, unknown> }>()
+
+      data.attributes.forEach((attr: MagentoAttribute) => {
+        const existingOption = data.existingOptions.find(
+          (option) => option.metadata?.external_id === attr.attribute_id.toString()
+        )
+
+        // If option already exists, skip it
+        if (existingOption) {
+          return
+        }
+
+        const optionData: CreateProductOptionDTO & { metadata?: Record<string, unknown> } = {
+          title: attr.default_frontend_label,
+          values: attr.options.map((opt) => opt.label),
+          metadata: {
+            external_id: attr.attribute_id.toString()
+          }
+        }
+
+        optionsToCreate.set(attr.attribute_id.toString(), optionData)
+      })
+
+      return {
+        optionsToCreate: Array.from(optionsToCreate.values())
+      }
+    })
+
+    // Create missing options if any
+    const newOptions = createProductOptionsWorkflow.runAsStep({
+      input: {
+        product_options: optionsToCreate
+      }
+    })
+
+    // Merge existing and newly created options
+    const allOptions = transform({
+      existingOptions,
+      newOptions
+    }, (data) => {
+      return [...(data.existingOptions || []), ...(data.newOptions || [])]
+    })
+
     const { 
       productsToCreate,
       productsToUpdate
@@ -86,7 +150,8 @@ export const migrateProductsFromMagentoWorkflow = createWorkflow(
       stores,
       categories,
       shippingProfiles,
-      existingProducts
+      existingProducts,
+      allOptions
     }, (data) => {
       const productsToCreate = new Map<string, CreateProductWorkflowInputDTO>()
       const productsToUpdate = new Map<string, UpsertProductDTO>()
@@ -115,15 +180,38 @@ export const migrateProductsFromMagentoWorkflow = createWorkflow(
           return category?.id
         }).filter(Boolean)
 
-        productData.options = magentoProduct.extension_attributes.configurable_product_options?.map((option) => {
-          const attribute = data.attributes.find((attr) => attr.attribute_id === parseInt(option.attribute_id))
-          return {
-            title: option.label,
-            values: attribute?.options.filter((opt) => {
-              return option.values.find((v) => v.value_index === parseInt(opt.value))
-            }).map((opt) => opt.label) || []
-          }
-        }) || []
+        productData.options = magentoProduct.extension_attributes.configurable_product_options
+          ?.map((option) => {
+            const attribute = data.attributes.find((attr) => attr.attribute_id === parseInt(option.attribute_id))
+            const existingOption = data.allOptions.find(
+              (opt) => opt.metadata?.external_id === option.attribute_id
+            )
+
+            if (!existingOption || !attribute) {
+              return null
+            }
+
+            // Map option values to their IDs
+            const valueIds = option.values
+              .map((v) => {
+                const attributeOption = attribute.options.find((opt) => parseInt(opt.value) === v.value_index)
+                if (!attributeOption) {
+                  return null
+                }
+
+                const optionValue = existingOption.values.find(
+                  (val) => val.value === attributeOption.label
+                )
+                return optionValue?.id
+              })
+              .filter((id): id is string => Boolean(id))
+
+            return {
+              id: existingOption.id,
+              value_ids: valueIds
+            }
+          })
+          .filter((opt): opt is { id: string; value_ids: string[] } => opt !== null) || []
 
         productData.variants = magentoProduct.children?.map((child) => {
           const childOptions: Record<string, string> = {}

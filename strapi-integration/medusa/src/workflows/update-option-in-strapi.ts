@@ -11,6 +11,8 @@ import { createOptionValuesInStrapiStep } from "./steps/create-option-values-in-
 import { updateProductOptionValuesMetadataStep } from "./steps/update-product-option-values-metadata"
 import { updateOptionValueInStrapiStep } from "./steps/update-option-value-in-strapi"
 import { deleteOptionValueFromStrapiStep } from "./steps/delete-option-value-from-strapi"
+import { retrieveFromStrapiStep } from "./steps/retrieve-from-strapi"
+import { Collection } from "../modules/strapi/service"
 
 export type UpdateOptionInStrapiWorkflowInput = {
   id: string
@@ -19,13 +21,12 @@ export type UpdateOptionInStrapiWorkflowInput = {
 export const updateOptionInStrapiWorkflow = createWorkflow(
   "update-option-in-strapi",
   (input: UpdateOptionInStrapiWorkflowInput) => {
-    // Fetch the option with all necessary fields including metadata
+    // Fetch the option with all necessary fields
     const { data: options } = useQueryGraphStep({
       entity: "product_option",
       fields: [
         "id",
         "title",
-        "product.strapi_product.*",
         "values.*"
       ],
       filters: {
@@ -36,13 +37,21 @@ export const updateOptionInStrapiWorkflow = createWorkflow(
       }
     })
 
-    const strapiOptionId = transform({ options }, (data) => {
-      return (data.options[0].product as any)?.strapi_product?.options?.find(
-        (option) => option.medusaId === data.options[0].id
-      )?.documentId as number
+    const existingStrapiOptions = retrieveFromStrapiStep({
+      collection: Collection.PRODUCT_OPTIONS,
+      ids: [input.id],
+      populate: ["values"],
     })
 
-    const updateResult = when({ strapiOptionId }, (data) => !!data.strapiOptionId).then(() => {
+    const createResult = when({ existingStrapiOptions }, (data) => !data.existingStrapiOptions.length).then(() => {
+      return createOptionsInStrapiWorkflow.runAsStep({
+        input: {
+          ids: [input.id],
+        }
+      })
+    })
+
+    const updateResult = when({ existingStrapiOptions }, (data) => !!data.existingStrapiOptions.length).then(() => {
       return updateOptionInStrapiStep({
         option: options[0],
       })
@@ -104,16 +113,22 @@ export const updateOptionInStrapiWorkflow = createWorkflow(
         })
       })
 
-    const optionValuesToDelete = transform({ options, updateResult }, (data) => {
-      if (!data.updateResult) {
+    const optionValuesToDelete = transform({ options, existingStrapiOption: existingStrapiOptions, updateResult }, (data) => {
+      if (
+        !data.updateResult || 
+        !data.existingStrapiOption || 
+        !data.existingStrapiOption[0] || 
+        !data.existingStrapiOption[0].values
+      ) {
         return []
       }
-      return (data.options[0].product as any)?.strapi_product?.options?.find(
-        (option) => option.medusaId === data.options[0].id
-      )?.values.filter((value) => !data.options[0].values.some((v) => v.id === value.medusaId))
-        .map((value) => {
-          return value.medusaId
-        })
+
+      const currentMedusaValueIds = new Set(data.options[0].values.map((value) => value.id))
+      const strapiValues = data.existingStrapiOption[0].values || []
+      
+      return strapiValues
+        .filter((strapiValue) => !currentMedusaValueIds.has(strapiValue.medusaId))
+        .map((strapiValue) => strapiValue.medusaId)
     })
 
     when({ updateResult, optionValuesToDelete }, (data) => !!data.updateResult && !!data.optionValuesToDelete.length)
@@ -122,14 +137,6 @@ export const updateOptionInStrapiWorkflow = createWorkflow(
           ids: optionValuesToDelete
         })
       })
-
-    const createResult = when({ strapiOptionId }, (data) => !data.strapiOptionId).then(() => {
-      return createOptionsInStrapiWorkflow.runAsStep({
-        input: {
-          ids: [input.id],
-        }
-      })
-    })
 
     const result = transform({
       updateResult,

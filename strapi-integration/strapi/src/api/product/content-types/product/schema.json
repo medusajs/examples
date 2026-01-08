@@ -55,9 +55,9 @@
     },
     "options": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "manyToMany",
       "target": "api::product-option.product-option",
-      "mappedBy": "product"
+      "inversedBy": "products"
     }
   }
 }

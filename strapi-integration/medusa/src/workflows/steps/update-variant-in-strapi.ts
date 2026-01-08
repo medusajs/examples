@@ -7,7 +7,7 @@ export type UpdateVariantInStrapiInput = {
     id: string
     title?: string
     sku?: string
-    optionValueIds?: number[]
+    optionValues?: number[]
   }
 }
 
@@ -16,7 +16,7 @@ export const updateVariantInStrapiStep = createStep(
   async ({ variant }: UpdateVariantInStrapiInput, { container }) => {
     const strapiService: StrapiModuleService = container.resolve(STRAPI_MODULE)
 
-    const originalVariant = await strapiService.findByMedusaId(
+    const [originalVariant] = await strapiService.findByMedusaId(
       Collection.PRODUCT_VARIANTS, 
       variant.id, 
       ["option_values"]
@@ -26,7 +26,7 @@ export const updateVariantInStrapiStep = createStep(
     const updated = await strapiService.update(Collection.PRODUCT_VARIANTS, originalVariant.documentId, {
       title: variant.title,
       sku: variant.sku,
-      ...(variant.optionValueIds && { optionValueIds: variant.optionValueIds }),
+      ...(variant.optionValues && { option_values: variant.optionValues }),
     })
 
     return new StepResponse(

@@ -5,6 +5,8 @@ import { buildConfig } from 'payload'
 import { Users } from './collections/Users'
 import { Products } from './collections/Products'
 import { Media } from './collections/Media'
+import { ProductOptions } from './collections/ProductOptions'
+import { OptionValues } from './collections/OptionValues'
 
 export default buildConfig({
   // If you'd like to use Rich Text, pass your editor here
@@ -14,7 +16,9 @@ export default buildConfig({
   collections: [
     Users,
     Products,
-    Media
+    Media,
+    ProductOptions,
+    OptionValues
   ],
 
   // Your Payload secret - should be a complex and secure string, unguessable

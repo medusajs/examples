@@ -171,20 +171,20 @@ export default class StrapiModuleService {
 
   async findByMedusaId(
     collection: Collection, 
-    medusaId: string, 
+    medusaId: string | string[], 
     populate?: string[]
   ) {
     try {
       const result = await this.client_.collection(collection).find({
         filters: {
           medusaId: {
-            $eq: medusaId,
+            $in: Array.isArray(medusaId) ? medusaId : [medusaId],
           },
         },
         populate,
       })
 
-      return result.data[0]
+      return result.data
     }
     catch (error) {
       throw new MedusaError(

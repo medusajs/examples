@@ -99,6 +99,25 @@ export default class ContentfulModuleService {
     return this.options.default_locale
   }
 
+  async getOptions(optionIds: string[]): Promise<EntryProps[]> {
+    const options: EntryProps[] = []
+    
+    for (const optionId of optionIds) {
+      try {
+        const option = await this.managementClient.entry.get({
+          environmentId: this.options.environment,
+          entryId: optionId,
+        })
+        options.push(option)
+      } catch (error) {
+        // Option entry doesn't exist, skip it
+        continue
+      }
+    }
+    
+    return options
+  }
+
   async createProduct(
     product: ProductDTO
   ) {
@@ -156,9 +175,35 @@ export default class ContentfulModuleService {
       }
     )
 
-    // Create options if they exist
+    // Reference existing options (options are now global and created separately)
+    // We just link to them if they exist
+    const optionLinks: {
+      sys: {
+        type: "Link",
+        linkType: "Entry",
+        id: string
+      }
+    }[] = []
+    
     if (product.options?.length) {
-      await this.createProductOption(product.options, productEntry)
+      for (const option of product.options) {
+        try {
+          // Check if option exists in Contentful
+          await this.managementClient.entry.get({
+            environmentId: this.options.environment,
+            entryId: option.id,
+          })
+          optionLinks.push({
+            sys: {
+              type: "Link",
+              linkType: "Entry",
+              id: option.id
+            }
+          })
+        } catch (e) {
+          // Option doesn't exist yet, skip it (should be created separately)
+        }
+      }
     }
 
     // Create variants if they exist
@@ -185,13 +230,7 @@ export default class ContentfulModuleService {
             }))
           },
           productOptions: {
-            [this.options.default_locale!]: product.options?.map(option => ({
-              sys: {
-                type: "Link",
-                linkType: "Entry",
-                id: option.id
-              }
-            }))
+            [this.options.default_locale!]: optionLinks
           }
         }
       }
@@ -236,30 +275,8 @@ export default class ContentfulModuleService {
         })
       }
 
-      // Delete the product options entries and values
-      for (const option of productEntry.fields.productOptions[this.options.default_locale!]) {
-        for (const value of option.fields.values[this.options.default_locale!]) {
-          await this.managementClient.entry.unpublish({
-            environmentId: this.options.environment,
-            entryId: value.sys.id,
-        })
-
-        await this.managementClient.entry.delete({
-          environmentId: this.options.environment,
-            entryId: value.sys.id,
-          })
-        }
-
-        await this.managementClient.entry.unpublish({
-          environmentId: this.options.environment,
-          entryId: option.sys.id,
-        })
-
-        await this.managementClient.entry.delete({
-          environmentId: this.options.environment,
-          entryId: option.sys.id,
-        })
-      }
+      // Note: Product options are now global and should not be deleted when deleting a product
+      // They may be used by other products
     } catch (error) {
       throw new MedusaError(
         MedusaError.Types.INVALID_DATA,
@@ -268,11 +285,64 @@ export default class ContentfulModuleService {
     }
   }
 
-  private async createProductOption(
-    options: ProductOptionDTO[],
-    productEntry: EntryProps
-  ) {
-    for (const option of options) {
+  async deleteProductOption(optionId: string) {
+    try {
+      // Get the option entry
+      const optionEntry = await this.managementClient.entry.get({
+        environmentId: this.options.environment,
+        entryId: optionId,
+      })
+
+      if (!optionEntry) {
+        return
+      }
+
+      // Delete option values first
+      const values = optionEntry.fields.values?.[this.options.default_locale!] || []
+      for (const value of values) {
+        try {
+          await this.managementClient.entry.unpublish({
+            environmentId: this.options.environment,
+            entryId: value.sys.id,
+          })
+
+          await this.managementClient.entry.delete({
+            environmentId: this.options.environment,
+            entryId: value.sys.id,
+          })
+        } catch (error) {
+          // Value might not exist or already deleted, continue
+        }
+      }
+
+      // Delete the option entry
+      await this.managementClient.entry.unpublish({
+        environmentId: this.options.environment,
+        entryId: optionId,
+      })
+
+      await this.managementClient.entry.delete({
+        environmentId: this.options.environment,
+        entryId: optionId,
+      })
+    } catch (error) {
+      throw new MedusaError(
+        MedusaError.Types.INVALID_DATA,
+        `Failed to delete product option from Contentful: ${error.message}`
+      )
+    }
+  }
+
+  async createOrUpdateProductOption(option: ProductOptionDTO): Promise<EntryProps> {
+    // Check if option already exists
+    let optionEntry: EntryProps
+    try {
+      optionEntry = await this.managementClient.entry.get({
+        environmentId: this.options.environment,
+        entryId: option.id,
+      })
+      
+      // Update existing option
       const valueIds: {
         sys: {
           type: "Link",
@@ -280,7 +350,98 @@ export default class ContentfulModuleService {
           id: string
         }
       }[] = []
+      
       for (const value of option.values) {
+        // Create or get value entry
+        let valueEntry: EntryProps
+        try {
+          valueEntry = await this.managementClient.entry.get({
+            environmentId: this.options.environment,
+            entryId: value.id,
+          })
+          
+          // Update existing value
+          await this.managementClient.entry.update(
+            {
+              entryId: value.id,
+            },
+            {
+              sys: valueEntry.sys,
+              fields: {
+                ...valueEntry.fields,
+                value: {
+                  [this.options.default_locale!]: value.value
+                },
+                medusaId: {
+                  [this.options.default_locale!]: value.id
+                },
+              }
+            }
+          )
+        } catch (e) {
+          // Create new value
+          await this.managementClient.entry.createWithId(
+            {
+              contentTypeId: "productOptionValue",
+              entryId: value.id,
+            },
+            {
+              fields: {
+                value: {
+                  [this.options.default_locale!]: value.value
+                },
+                medusaId: {
+                  [this.options.default_locale!]: value.id
+                },
+              }
+            }
+          )
+        }
+        
+        valueIds.push({
+          sys: {
+            type: "Link",
+            linkType: "Entry",
+            id: value.id
+          }
+        })
+      }
+      
+      // Update option entry (without product link since it's global)
+      await this.managementClient.entry.update(
+        {
+          entryId: option.id,
+        },
+        {
+          sys: optionEntry.sys,
+          fields: {
+            ...optionEntry.fields,
+            medusaId: {
+              [this.options.default_locale!]: option.id
+            },
+            title: {
+              [this.options.default_locale!]: option.title
+            },
+            values: {
+              [this.options.default_locale!]: valueIds
+            }
+          }
+        }
+      )
+      
+      return optionEntry
+    } catch (e) {
+      // Create new option
+      const valueIds: {
+        sys: {
+          type: "Link",
+          linkType: "Entry",
+          id: string
+        }
+      }[] = []
+      
+      for (const value of option.values) {
+        // Create value entry
         await this.managementClient.entry.createWithId(
           {
             contentTypeId: "productOptionValue",
@@ -297,6 +458,7 @@ export default class ContentfulModuleService {
             }
           }
         )
+        
         valueIds.push({
           sys: {
             type: "Link",
@@ -305,7 +467,9 @@ export default class ContentfulModuleService {
           }
         })
       }
-      await this.managementClient.entry.createWithId(
+      
+      // Create option entry (without product link since it's global)
+      optionEntry = await this.managementClient.entry.createWithId(
         {
           contentTypeId: "productOption",
           entryId: option.id,
@@ -318,21 +482,14 @@ export default class ContentfulModuleService {
             title: {
               [this.options.default_locale!]: option.title
             },
-            product: {
-              [this.options.default_locale!]: {
-                sys: {
-                  type: "Link",
-                  linkType: "Entry",
-                  id: productEntry.sys.id
-                }
-              }
-            },
             values: {
               [this.options.default_locale!]: valueIds
             }
           }
         }
       )
+      
+      return optionEntry
     }
   }
 
