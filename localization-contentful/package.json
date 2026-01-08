@@ -23,15 +23,15 @@
   },
   "dependencies": {
     "@contentful/node-apps-toolkit": "^3.13.0",
-    "@medusajs/admin-sdk": "2.12.3",
-    "@medusajs/cli": "2.12.3",
-    "@medusajs/framework": "2.12.3",
-    "@medusajs/medusa": "2.12.3",
+    "@medusajs/admin-sdk": "2.12.4",
+    "@medusajs/cli": "2.12.4",
+    "@medusajs/framework": "2.12.4",
+    "@medusajs/medusa": "2.12.4",
     "contentful": "^11.5.13",
     "contentful-management": "^11.52.1"
   },
   "devDependencies": {
-    "@medusajs/test-utils": "2.12.3",
+    "@medusajs/test-utils": "2.12.4",
     "@swc/core": "1.5.7",
     "@swc/jest": "^0.2.36",
     "@types/jest": "^29.5.13",
