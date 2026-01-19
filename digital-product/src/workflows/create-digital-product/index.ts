@@ -31,13 +31,18 @@ type CreateDigitalProductWorkflowInput = {
 const createDigitalProductWorkflow = createWorkflow(
   "create-digital-product",
   (input: CreateDigitalProductWorkflowInput) => {
-    const { medias, ...digitalProductData } = input.digital_product
-
     const product = createProductsWorkflow.runAsStep({
       input: {
         products: [input.product]
       }
     })
+
+    const digitalProductData = transform(
+      input,
+      (data) => ({
+        name: data.digital_product.name
+      })
+    )
 
     const { digital_product } = createDigitalProductStep(
       digitalProductData
@@ -46,10 +51,10 @@ const createDigitalProductWorkflow = createWorkflow(
     const { digital_product_medias } = createDigitalProductMediasStep(
       transform({
         digital_product,
-        medias
+        input
       },
       (data) => ({
-        medias: data.medias.map((media) => ({
+        medias: data.input.digital_product.medias.map((media) => ({
           ...media,
           digital_product_id: data.digital_product.id
         }))
