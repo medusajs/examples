@@ -71,12 +71,20 @@ const createDigitalProductWorkflow = createWorkflow(
       }
     }])
 
-    return new WorkflowResponse({
-      digital_product: {
-        ...digital_product,
-        medias: digital_product_medias
-      }
-    })
+    const returnData = transform(
+      {
+        digital_product,
+        digital_product_medias
+      },
+      (data) => ({
+        digital_product: {
+          ...data.digital_product,
+          medias: data.digital_product_medias
+        }
+      })
+    )
+
+    return new WorkflowResponse(returnData)
   }
 )
 

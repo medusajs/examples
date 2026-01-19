@@ -22,7 +22,6 @@ const createDigitalProductMediasStep = createStep(
   async ({ 
     medias
   }: CreateDigitalProductMediasStepInput, { container }) => {
-    console.log("medias to create", medias)
     const digitalProductModuleService: DigitalProductModuleService = 
       container.resolve(DIGITAL_PRODUCT_MODULE)
 
