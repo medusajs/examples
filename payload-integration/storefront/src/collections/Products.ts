@@ -105,44 +105,12 @@ export const Products: CollectionConfig = {
     },
     {
       name: "options",
-      type: "array",
-      fields: [
-        {
-          name: "title",
-          type: "text",
-          label: "Option Title",
-          required: true,
-        },
-        {
-          name: "medusa_id",
-          type: "text",
-          label: "Medusa Option ID",
-          required: true,
+      type: "relationship",
+      relationTo: "product-options" as any,
+      hasMany: true,
+      required: false,
           admin: {
-            description: 'The unique identifier for the option from Medusa',
-            hidden: true, // Hide this field in the admin UI
-          },
-          access: {
-            update: ({ req }) => !!req.query.is_from_medusa,
-          }
-        }
-      ],
-      validate: (value: any, { req, previousValue }) => {
-        if (req.query.is_from_medusa) {
-          return true; // Skip validation if the request is from Medusa
-        }
-        
-        if (!Array.isArray(value)) {
-          return 'Options must be an array';
-        }
-
-        const optionsChanged = value.length !== previousValue?.length || value.some((option) => {
-          return !option.medusa_id || !previousValue?.some(
-            (prevOption) => (prevOption as any).medusa_id === option.medusa_id
-          );
-        })
-
-        return !optionsChanged || "Options cannot be changed in number"; // Prevent update if the number of options is changed
+        description: 'Product options (e.g., Size, Color)',
       },
     },
     {
@@ -170,41 +138,13 @@ export const Products: CollectionConfig = {
         },
         {
           name: "option_values",
-          type: "array",
-          fields: [
-            {
-              name: "medusa_id",
-              type: "text",
-              label: "Medusa Option Value ID",
-              required: true,
+          type: "relationship",
+          relationTo: "option-values" as any,
+          hasMany: true,
+          required: false,
               admin: {
-                description: 'The unique identifier for the option value from Medusa',
-                hidden: true, // Hide this field in the admin UI
-              },
-              access: {
-                update: ({ req }) => !!req.query.is_from_medusa,
-              }
-            },
-            {
-              name: "medusa_option_id",
-              type: "text",
-              label: "Medusa Option ID",
-              required: true,
-              admin: {
-                description: 'The unique identifier for the option from Medusa',
-                hidden: true, // Hide this field in the admin UI
-              },
-              access: {
-                update: ({ req }) => !!req.query.is_from_medusa,
-              }
-            },
-            {
-              name: "value",
-              type: "text",
-              label: "Value",
-              required: true,
-            }
-          ]
+            description: 'Option values for this variant',
+          },
         }
       ],
       validate: (value: any, { req, previousValue }) => {

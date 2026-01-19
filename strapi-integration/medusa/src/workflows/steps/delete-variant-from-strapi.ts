@@ -12,7 +12,7 @@ export const deleteVariantFromStrapiStep = createStep(
     const strapiService: StrapiModuleService = container.resolve(STRAPI_MODULE)
 
     // Find the Strapi variant
-    const strapiVariant = await strapiService.findByMedusaId(
+    const [strapiVariant] = await strapiService.findByMedusaId(
       Collection.PRODUCT_VARIANTS, 
       id, 
       ["option_values"]
