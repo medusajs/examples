@@ -66,7 +66,7 @@ export const POST = async (
         medias: req.validatedBody.medias.map((media) => ({
           fileId: media.file_id,
           mimeType: media.mime_type,
-          ...media
+          type: media.type
         })) as Omit<CreateDigitalProductMediaInput, "digital_product_id">[]
       },
       product: {
