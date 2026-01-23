@@ -14,8 +14,8 @@ export const GET = async (
 ) => {
   const { 
     fields, 
-    limit = 20, 
-    offset = 0,
+    limit = Number(req.query.limit) || 20,
+    offset = Number(req.query.offset) || 0,
   } = req.validatedQuery || {}
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
 
