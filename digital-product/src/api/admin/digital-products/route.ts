@@ -12,11 +12,6 @@ export const GET = async (
   req: AuthenticatedMedusaRequest,
   res: MedusaResponse
 ) => {
-  const { 
-    fields, 
-    limit = 20, 
-    offset = 0,
-  } = req.validatedQuery || {}
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
 
   const { 
@@ -24,16 +19,7 @@ export const GET = async (
     metadata: { count, take, skip } = {},
   } = await query.graph({
     entity: "digital_product",
-    fields: [
-      "*",
-      "medias.*",
-      "product_variant.*",
-      ...(fields || []),
-    ],
-    pagination: {
-      skip: offset,
-      take: limit,
-    },
+    ...req.queryConfig,
   })
 
   res.json({
