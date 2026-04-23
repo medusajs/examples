@@ -5,7 +5,7 @@ import { customAddToCartWorkflow } from "../../../../../workflows/custom-add-to-
 export const PostAddCustomLineItemSchema = z.object({
   variant_id: z.string(),
   quantity: z.number().optional(),
-  metadata: z.record(z.unknown()).optional(),
+  metadata: z.record(z.string(), z.unknown()).optional(),
 });
 
 type PostAddCustomLineItemSchemaType = z.infer<typeof PostAddCustomLineItemSchema>;

@@ -1,9 +1,10 @@
-import { 
-  AuthenticatedMedusaRequest, 
+import {
+  AuthenticatedMedusaRequest,
   MedusaResponse
 } from "@medusajs/framework"
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
 import { z } from "@medusajs/framework/zod"
+import type { CreateProductWorkflowInputDTO } from "@medusajs/types"
 import createDigitalProductWorkflow from "../../../workflows/create-digital-product"
 import { CreateDigitalProductMediaInput } from "../../../workflows/create-digital-product/steps/create-digital-product-medias"
 import { createDigitalProductsSchema } from "../../validation-schemas"
@@ -56,7 +57,7 @@ export const POST = async (
         })) as Omit<CreateDigitalProductMediaInput, "digital_product_id">[]
       },
       product: {
-        ...req.validatedBody.product,
+        ...(req.validatedBody.product as unknown as CreateProductWorkflowInputDTO),
         shipping_profile_id: shippingProfile.id,
       }
     }

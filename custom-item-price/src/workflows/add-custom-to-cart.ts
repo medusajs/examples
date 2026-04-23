@@ -8,7 +8,7 @@ type AddCustomToCartWorkflowInput = {
   item: {
     variant_id: string
     quantity: number
-    metadata?: Record<string, unknown>
+    metadata?: Record<string, unknown> | null
   }
 }
 

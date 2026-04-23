@@ -1377,18 +1377,18 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@medusajs/js-sdk@2.12.0":
-  version "2.12.0"
-  resolved "https://registry.yarnpkg.com/@medusajs/js-sdk/-/js-sdk-2.12.0.tgz#40bd46f39192075c22f1222ca1c1e2e02bb38d81"
-  integrity sha512-HfE48GCD3pAs9ZKRiwl0B8gaEfwnBU5cc6YwZbxx4V/5WtqSQzVzrvsohOJosQo9VWE/h6i/tacsmRAxHvHnjg==
+"@medusajs/js-sdk@preview":
+  version "2.14.0-preview-20260422092810"
+  resolved "https://registry.yarnpkg.com/@medusajs/js-sdk/-/js-sdk-2.14.0-preview-20260422092810.tgz#a7d6dbca64c28a4f2f7493de1ae815761a668b98"
+  integrity sha512-lSnDYm4H3rONj1D8dHARrTfIfKT2eaEuFXWC0fUSeRlD9zq9r8jo8pr/NWdE+HaAytbQEXULt6kR3WR7K3KZBA==
   dependencies:
     fetch-event-stream "^0.1.5"
     qs "^6.12.1"
 
-"@medusajs/types@2.12.0":
-  version "2.12.0"
-  resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-2.12.0.tgz#5114b9fa0c81cbdd2e126d779747c926c9e11726"
-  integrity sha512-cOVAox0OrmXUjhan9m+lt6ViFYW/LbjhCNqpuWyTmKbKQcwaPyw9JL6Q7savOoTXwi6XZXZxfCWPits1ciQVcw==
+"@medusajs/types@preview":
+  version "2.14.0-preview-20260422092810"
+  resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-2.14.0-preview-20260422092810.tgz#054fa6e37c5b4c8d322fc7055527ea9922de7163"
+  integrity sha512-eh/yrT117No7NZZ6ILc3wHjwIyeMs/UMrocXQvlE0cJh569DkN86vv4fV13/6AW5IR3vKaZmZ39TyeiySPqcLw==
   dependencies:
     bignumber.js "^9.1.2"
 

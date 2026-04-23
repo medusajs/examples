@@ -167,7 +167,7 @@ export const migrateProductsFromMagentoWorkflow = createWorkflow(
         })
 
         if (productData.id) {
-          productsToUpdate.set(existingProduct.id, productData)
+          productsToUpdate.set(existingProduct.id, productData as UpsertProductDTO)
         } else {
           productsToCreate.set(productData.external_id!, productData)
         }

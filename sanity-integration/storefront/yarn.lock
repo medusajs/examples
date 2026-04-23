@@ -1906,25 +1906,25 @@
   resolved "https://registry.yarnpkg.com/@medusajs/icons/-/icons-2.12.2.tgz#fed3f1fbd8f43fa99e96920270698bdcbdb705eb"
   integrity sha512-xFy/nIyYG8WmwJteUp+tE9cuB/qTBs4Vv5TIba7PqoJYD5EsoEHTmv4pfkz5TJO5OezAjxElwvifZB9bNvUsDw==
 
-"@medusajs/js-sdk@2.13.1":
-  version "2.13.1"
-  resolved "https://registry.yarnpkg.com/@medusajs/js-sdk/-/js-sdk-2.13.1.tgz#e2a1a0d72ae40b4e3ab10dcd2dad0b20ed33140c"
-  integrity sha512-FbUJF3nHX/yvR9YiC/DP4eIh5bPoksphkHsoe4hzqNc/qs9MVslDJt2FYivW86kbiEwsvEHToXikDKISEkArvw==
+"@medusajs/js-sdk@^2.14.0-preview-20260422092810":
+  version "2.14.0-preview-20260422092810"
+  resolved "https://registry.yarnpkg.com/@medusajs/js-sdk/-/js-sdk-2.14.0-preview-20260422092810.tgz#a7d6dbca64c28a4f2f7493de1ae815761a668b98"
+  integrity sha512-lSnDYm4H3rONj1D8dHARrTfIfKT2eaEuFXWC0fUSeRlD9zq9r8jo8pr/NWdE+HaAytbQEXULt6kR3WR7K3KZBA==
   dependencies:
     fetch-event-stream "^0.1.5"
     qs "^6.12.1"
 
-"@medusajs/types@2.13.1":
-  version "2.13.1"
-  resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-2.13.1.tgz#44dbd734b2fc8f3f84656f1dbca6140810c3ef9b"
-  integrity sha512-Yw5AwVnwV+OdaOSTUhuwo14uKmqUp4qeuUzzo7HxxtrGCUcxGq2WkrjPY3z2fDTWKrSPIFqFaAJ0hMuUMt1ocw==
+"@medusajs/types@^2.14.0-preview-20260422092810":
+  version "2.14.0-preview-20260422092810"
+  resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-2.14.0-preview-20260422092810.tgz#054fa6e37c5b4c8d322fc7055527ea9922de7163"
+  integrity sha512-eh/yrT117No7NZZ6ILc3wHjwIyeMs/UMrocXQvlE0cJh569DkN86vv4fV13/6AW5IR3vKaZmZ39TyeiySPqcLw==
   dependencies:
     bignumber.js "^9.1.2"
 
-"@medusajs/ui-preset@2.13.1":
-  version "2.13.1"
-  resolved "https://registry.yarnpkg.com/@medusajs/ui-preset/-/ui-preset-2.13.1.tgz#4135f6fcd61818a6383c5d9f2f62131c43d36ac8"
-  integrity sha512-BkhNEPrc4PnT+HdF1Tafc7nwlm53becP/KpJMVsM4VdD80HGD0AQ9+5lO6Xnob2KvMXgnJO8JyjrgZ6Ljq5Ayg==
+"@medusajs/ui-preset@^2.14.0-preview-20260422092810":
+  version "2.14.0-preview-20260422092810"
+  resolved "https://registry.yarnpkg.com/@medusajs/ui-preset/-/ui-preset-2.14.0-preview-20260422092810.tgz#60cdaa9960bcd40fb54dfc9c28e97b45ae8c278f"
+  integrity sha512-oSheytv6EebA0dpmgzCxpIZSf6LatE7tHCyiNgsQyQEDOaTcYeQlT5Mt5ePFZ8PIlGltTJckUCCYOW6UHd2qDg==
   dependencies:
     "@tailwindcss/forms" "^0.5.3"
     tailwindcss-animate "^1.0.6"

@@ -822,19 +822,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@medusajs/js-sdk@npm:2.13.1":
-  version: 2.13.1
-  resolution: "@medusajs/js-sdk@npm:2.13.1"
+"@medusajs/js-sdk@npm:preview":
+  version: 2.14.0-preview-20260422092810
+  resolution: "@medusajs/js-sdk@npm:2.14.0-preview-20260422092810"
   dependencies:
     fetch-event-stream: ^0.1.5
     qs: ^6.12.1
-  checksum: a5407b3c03879d1644d996c593d2b8115ff611389c44b7db22ff968208ba073b8d464a4a456ef5de64d737d809bbd16df3a111337350db8e5a1a33eb03e1ccbc
+  checksum: 94df11636986591585a63f8aa72f714acc536e0423831cc8dd9ae43b85837d2d9c4ba932cf7a9a8b585fbc1734fe6a3a2d4b8f0be5c88670617895bbad4a37da
   languageName: node
   linkType: hard
 
-"@medusajs/types@npm:2.13.1":
-  version: 2.13.1
-  resolution: "@medusajs/types@npm:2.13.1"
+"@medusajs/types@npm:preview":
+  version: 2.14.0-preview-20260422092810
+  resolution: "@medusajs/types@npm:2.14.0-preview-20260422092810"
   dependencies:
     bignumber.js: ^9.1.2
   peerDependencies:
@@ -845,19 +845,19 @@ __metadata:
       optional: true
     vite:
       optional: true
-  checksum: cbd1ee8233edb37e7b53100f6de82fbafbfb6a266b6a830cba11e4d03a7dcb00918996ce7f95b399a376afa62a3a5a394dfab41b5fad7dc2801a5996d7440a1b
+  checksum: 648e951c28c53236a847f23e31daf80052939dda9ae8655fe328dc7f1b7c40e969d7a5e5cfe3da5a1fc2f278f5a3ad761b684e2c4c413fd95b9262d0d00c8898
   languageName: node
   linkType: hard
 
-"@medusajs/ui-preset@npm:2.13.1":
-  version: 2.13.1
-  resolution: "@medusajs/ui-preset@npm:2.13.1"
+"@medusajs/ui-preset@npm:preview":
+  version: 2.14.0-preview-20260422092810
+  resolution: "@medusajs/ui-preset@npm:2.14.0-preview-20260422092810"
   dependencies:
     "@tailwindcss/forms": ^0.5.3
     tailwindcss-animate: ^1.0.6
   peerDependencies:
     tailwindcss: ^3.4.3
-  checksum: 43a26499e008c3ba27d925a3a9371ec79a90654bea25af1972a47bc1a6427708e124b257f5eb9cdfa2a687e517da191177041c89c6003df895c0aa2313c3baf8
+  checksum: 98c2bd53beac4ed2ae34ed05bc4e90267f048e3acac6f2c37c3dd7697b785000d39f9d6a24faf0d9b2d0861347242de24db0e350ffeaa034891cd09081656aab
   languageName: node
   linkType: hard
 
@@ -6394,10 +6394,10 @@ __metadata:
   dependencies:
     "@babel/core": ^7.17.5
     "@headlessui/react": ^2.2.0
-    "@medusajs/js-sdk": 2.13.1
-    "@medusajs/types": 2.13.1
+    "@medusajs/js-sdk": preview
+    "@medusajs/types": preview
     "@medusajs/ui": latest
-    "@medusajs/ui-preset": 2.13.1
+    "@medusajs/ui-preset": preview
     "@radix-ui/react-accordion": ^1.2.1
     "@stripe/react-stripe-js": ^5.3.0
     "@stripe/stripe-js": ^8.2.0

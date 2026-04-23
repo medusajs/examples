@@ -4,7 +4,7 @@ import { z } from "@medusajs/framework/zod"
 
 export const GetComplementaryProductsSchema = z.object({
   exclude_product_id: z.string(),
-}).merge(createFindParams())
+}).extend(createFindParams().shape)
 
 export const GET = async (
   req: MedusaRequest,
