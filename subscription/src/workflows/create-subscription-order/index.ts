@@ -39,7 +39,7 @@ const createSubscriptionOrderWorkflow = createWorkflow(
         "cart.payment_collection.*",
         "cart.payment_collection.payment_sessions.*",
         "cart.customer.*",
-        "cart.customer.account_holder.*",
+        "cart.customer.account_holders.*",
       ],
       filters: {
         id: input.subscription.id

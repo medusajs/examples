@@ -4,7 +4,7 @@ import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 
 export interface GetPaymentMethodStepInput {
   customer?: CustomerDTO & {
-    account_holder: AccountHolderDTO
+    account_holders: AccountHolderDTO[]
   }
 }
 
@@ -21,7 +21,12 @@ export const getPaymentMethodStep = createStep(
   async ({ customer }: GetPaymentMethodStepInput, { container }) => {
     const paymentModuleService = container.resolve(Modules.PAYMENT)
 
-    if (!customer?.account_holder) {
+    const providerId = "pp_stripe_stripe"
+    const accountHolder = customer?.account_holders?.find(
+      (ah) => ah.provider_id === providerId
+    )
+
+    if (!accountHolder) {
       throw new MedusaError(
         MedusaError.Types.INVALID_DATA,
         "No account holder found for the customer while retrieving payment method"
@@ -31,9 +36,9 @@ export const getPaymentMethodStep = createStep(
     const paymentMethods = await paymentModuleService.listPaymentMethods(
       {
         // you can change to other payment provider
-        provider_id: "pp_stripe_stripe",
+        provider_id: providerId,
         context: {
-          account_holder: customer.account_holder,
+          account_holder: accountHolder,
         },
       },
     )
@@ -49,7 +54,7 @@ export const getPaymentMethodStep = createStep(
 
     return new StepResponse(
       paymentMethodToUse,
-      customer.account_holder
+      accountHolder
     )
   }
 )
