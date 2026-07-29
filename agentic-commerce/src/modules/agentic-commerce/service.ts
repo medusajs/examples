@@ -1,15 +1,19 @@
 import crypto from "crypto"
 
 export type AgenticCommerceWebhookEvent = {
-  type: "order.created" | "order.updated"
+  type: "order_create" | "order_update"
   data: {
     type: "order"
+    id: string
     checkout_session_id: string
     permalink_url: string
-    status: "created" | "manual_review" | "confirmed" | "canceled" | "shipping" | "fulfilled"
-    refunds: {
-      type: "store_credit" | "original_payment"
-      amount: number
+    status: "created" | "manual_review" | "confirmed" | "processing" | "shipped" | "completed" | "canceled"
+    adjustments: {
+      id: string
+      type: "refund"
+      occurred_at: string
+      status: "completed"
+      amount?: number
     }[]
   }
 }
@@ -57,18 +61,25 @@ export default class AgenticCommerceService {
     }
   }
 
-  async getSignature(data: any) {
-    return Buffer.from(crypto.createHmac('sha256', this.options.signatureKey)
-      .update(JSON.stringify(data), 'utf8').digest()).toString('base64')
+  getWebhookSignature(
+    rawBody: string,
+    timestamp = Math.floor(Date.now() / 1000)
+  ) {
+    const digest = crypto
+      .createHmac("sha256", this.options.signatureKey)
+      .update(`${timestamp}.${rawBody}`, "utf8")
+      .digest("hex")
+
+    return `t=${timestamp},v1=${digest}`
   }
 
   async sendWebhookEvent({
     type,
     data
   }: AgenticCommerceWebhookEvent) {
-    // Create signature
-    const signature = this.getSignature(data)
+    const rawBody = JSON.stringify({ type, data })
+    const signature = this.getWebhookSignature(rawBody)
     // TODO send order webhook event
-    console.log(`Sent order webhook event ${type} with signature ${signature} and data ${JSON.stringify(data)}`)
+    console.log(`Prepared order webhook event ${type} with Merchant-Signature ${signature}`)
   }
 }
