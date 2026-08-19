@@ -61,6 +61,11 @@ export default class AgenticCommerceService {
     }
   }
 
+  async getSignature(data: any) {
+    return Buffer.from(crypto.createHmac('sha256', this.options.signatureKey)
+      .update(JSON.stringify(data), 'utf8').digest()).toString('base64')
+  }
+
   getWebhookSignature(
     rawBody: string,
     timestamp = Math.floor(Date.now() / 1000)

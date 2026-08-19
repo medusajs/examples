@@ -2,6 +2,21 @@ import crypto from "crypto"
 import AgenticCommerceService from "../service"
 
 describe("AgenticCommerceService", () => {
+  it("preserves the base64 signature used for inbound requests", async () => {
+    const service = new AgenticCommerceService({}, {
+      signatureKey: "test_secret",
+    })
+    const payload = { id: "checkout_123" }
+    const expectedSignature = crypto
+      .createHmac("sha256", "test_secret")
+      .update(JSON.stringify(payload), "utf8")
+      .digest("base64")
+
+    await expect(service.getSignature(payload)).resolves.toBe(
+      expectedSignature
+    )
+  })
+
   it("creates an ACP 2026-04-17 Merchant-Signature header", () => {
     const service = new AgenticCommerceService({}, {
       signatureKey: "test_secret",

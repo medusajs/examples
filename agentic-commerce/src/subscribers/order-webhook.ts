@@ -68,7 +68,7 @@ export function buildOrderWebhookEvent(
         type: "refund",
         occurred_at: new Date(transaction.created_at).toISOString(),
         status: "completed",
-        amount: Math.abs(transaction.amount),
+        amount: Math.abs(transaction.amount) * 100,
       })) || [],
     }
   }

@@ -88,7 +88,7 @@ describe("buildOrderWebhookEvent", () => {
         transactions: [{
           id: "txn_refund_123",
           reference: "refund",
-          amount: -1500,
+          amount: -15,
           created_at: "2026-07-29T12:00:00Z",
         }],
       },
