@@ -21,7 +21,7 @@ export default async function productCreateHandler({
           logger.info("Migrating products from Magento...")
   
           let currentPage = 0
-          const pageSize = 100
+          const pageSize = 10
           let totalCount = 0
   
           do {

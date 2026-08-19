@@ -16,16 +16,16 @@ export const createOptionsInStrapiWorkflow = createWorkflow(
   "create-options-in-strapi",
   (input: CreateOptionsInStrapiWorkflowInput) => {
     // Fetch the option with all necessary fields
-    // including metadata and product metadata
+    // including metadata
     const { data: options } = useQueryGraphStep({
       entity: "product_option",
       fields: [
         "id",
         "title",
-        "product_id",
         "metadata",
-        "product.metadata",
-        "values.*"
+        "values.id",
+        "values.value",
+        "values.metadata",
       ],
       filters: {
         id: input.ids,
@@ -40,7 +40,6 @@ export const createOptionsInStrapiWorkflow = createWorkflow(
       return data.options.map((option) => ({
         id: option.id,
         title: option.title,
-        strapiProductId: Number(option.product?.metadata?.strapi_id),
       }))
     })
 

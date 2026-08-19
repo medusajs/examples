@@ -17,6 +17,9 @@ import {
 } from "@medusajs/medusa/core-flows"
 import { createOptionsInStrapiWorkflow } from "./create-options-in-strapi"
 import { createVariantsInStrapiWorkflow } from "./create-variants-in-strapi"
+import { updateProductInStrapiStep } from "./steps/update-product-in-strapi"
+import { retrieveFromStrapiStep } from "./steps/retrieve-from-strapi"
+import { Collection } from "../modules/strapi/service"
 
 export type CreateProductInStrapiWorkflowInput = {
   id: string
@@ -118,10 +121,37 @@ export const createProductInStrapiWorkflow = createWorkflow(
       products
     }, (data) => data.products[0].options.map((option) => option.id))
 
-    createOptionsInStrapiWorkflow.runAsStep({
-      input: {
-        ids: optionIds,
-      }
+    const existingStrapiOptions = retrieveFromStrapiStep({
+      collection: Collection.PRODUCT_OPTIONS,
+      ids: optionIds,
+    })
+
+    const optionsToCreate = transform({ existingStrapiOptions, optionIds }, (data) => {
+      const existingMedusaIds = new Set(data.existingStrapiOptions.map((option) => option.medusaId))
+      return data.optionIds.filter((id: string) => !existingMedusaIds.has(id))
+    })
+
+    const newStrapiOptions = when({ optionsToCreate }, (data) => data.optionsToCreate.length > 0).then(() => {
+      return createOptionsInStrapiWorkflow.runAsStep({
+        input: {
+          ids: optionsToCreate,
+        }
+      })
+    })
+
+    const strapiOptionIds = transform({ existingStrapiOptions, newStrapiOptions }, (data): number[] => {
+      const existingIds = (data.existingStrapiOptions || []).map((option) => option.id).filter(Boolean) as number[]
+      const newIds = data.newStrapiOptions ? (data.newStrapiOptions.strapi_options || []).map((option) => option.id).filter(Boolean) as number[] : []
+      return [...existingIds, ...newIds]
+    })
+
+    when({ strapiOptionIds }, (data) => data.strapiOptionIds.length > 0).then(() => {
+      return updateProductInStrapiStep({
+        product: {
+          id: input.id,
+          optionIds: strapiOptionIds,
+        },
+      })
     })
 
     releaseLockStep({

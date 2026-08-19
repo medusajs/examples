@@ -11,20 +11,15 @@ export const deleteOptionValueFromStrapiStep = createStep(
   async ({ ids }: DeleteOptionValueFromStrapiInput, { container }) => {
     const strapiService: StrapiModuleService = container.resolve(STRAPI_MODULE)
 
-    const originalData: Record<string, any>[] = []
+    const originalData = await strapiService.findByMedusaId(
+      Collection.PRODUCT_OPTION_VALUES, 
+      ids,
+      ["option"]
+    )
 
-    for (const id of ids) {
-      // Find the Strapi option value
-      const strapiOptionValue = await strapiService.findByMedusaId(
-        Collection.PRODUCT_OPTION_VALUES, 
-        id,
-        ["option"]
-      )
-
-      originalData.push(strapiOptionValue)
-
+    for (const data of originalData) {
       // Delete option value from Strapi
-      await strapiService.delete(Collection.PRODUCT_OPTION_VALUES, strapiOptionValue.documentId)
+      await strapiService.delete(Collection.PRODUCT_OPTION_VALUES, data.documentId)
     }
 
     return new StepResponse(

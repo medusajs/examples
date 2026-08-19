@@ -25,9 +25,9 @@
       "type": "string",
       "default": "en"
     },
-    "product": {
+    "products": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "api::product.product",
       "inversedBy": "options"
     },

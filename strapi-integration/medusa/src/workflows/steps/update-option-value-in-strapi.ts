@@ -14,22 +14,23 @@ export const updateOptionValueInStrapiStep = createStep(
   async ({ optionValues }: UpdateOptionValueInStrapiInput, { container }) => {
     const strapiService: StrapiModuleService = container.resolve(STRAPI_MODULE)
 
-    const originalData: Record<string, any>[] = []
     const updatedData: Record<string, any>[] = []
+
+    const originalData = await strapiService.findByMedusaId(
+      Collection.PRODUCT_OPTION_VALUES, 
+      optionValues.map((optionValue) => optionValue.id),
+    )
+    const originalDataMap = new Map(originalData.map((data) => [data.medusaId, data]))
 
     try {
       for (const optionValue of optionValues) {
-        // Find the Strapi option value
-        const strapiOptionValue = await strapiService.findByMedusaId(
-          Collection.PRODUCT_OPTION_VALUES, 
-          optionValue.id,
-        )
-
-        // Store original data for compensation
-        originalData.push(strapiOptionValue)
+        const originalData = originalDataMap.get(optionValue.id)
+        if (!originalData) {
+          continue
+        }
 
         // Update option value in Strapi
-        const updated = await strapiService.update(Collection.PRODUCT_OPTION_VALUES, strapiOptionValue.documentId, {
+        const updated = await strapiService.update(Collection.PRODUCT_OPTION_VALUES, originalData.documentId, {
           value: optionValue.value,
         })
 
@@ -39,7 +40,7 @@ export const updateOptionValueInStrapiStep = createStep(
       // If error occurs, pass original data created so far to compensation
       return StepResponse.permanentFailure(
         strapiService.formatStrapiError(error, 'Failed to update option values in Strapi'),
-        originalData
+        originalData.filter((data) => updatedData.some((updated) => updated.medusaId === data.medusaId))
       )
     }
 

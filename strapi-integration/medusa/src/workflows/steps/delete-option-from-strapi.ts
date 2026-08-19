@@ -12,7 +12,7 @@ export const deleteOptionFromStrapiStep = createStep(
     const strapiService: StrapiModuleService = container.resolve(STRAPI_MODULE)
 
     // Find the Strapi option
-    const strapiOption = await strapiService.findByMedusaId(Collection.PRODUCT_OPTIONS, id)
+    const [strapiOption] = await strapiService.findByMedusaId(Collection.PRODUCT_OPTIONS, id)
 
     // Delete option from Strapi
     await strapiService.delete(Collection.PRODUCT_OPTIONS, strapiOption.documentId)
@@ -32,7 +32,6 @@ export const deleteOptionFromStrapiStep = createStep(
     await strapiService.create(Collection.PRODUCT_OPTIONS, {
       medusaId: compensationData.medusaId,
       title: compensationData.title,
-      product: compensationData.product,
       locale: compensationData.locale,
     })
   }

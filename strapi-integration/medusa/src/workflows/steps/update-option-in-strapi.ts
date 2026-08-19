@@ -15,7 +15,7 @@ export const updateOptionInStrapiStep = createStep(
     const strapiService: StrapiModuleService = container.resolve(STRAPI_MODULE)
 
     // Find the Strapi option
-    const originalData = await strapiService.findByMedusaId(Collection.PRODUCT_OPTIONS, option.id)
+    const [originalData] = await strapiService.findByMedusaId(Collection.PRODUCT_OPTIONS, option.id)
 
     // Update option in Strapi
     const updated = await strapiService.update(Collection.PRODUCT_OPTIONS, originalData.documentId, {
